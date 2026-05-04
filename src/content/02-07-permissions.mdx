@@ -1,0 +1,124 @@
+---
+title:
+  de: "Permissions & sichere Defaults"
+  en: "Permissions & Safe Defaults"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+  - https://blakecrosley.com/guides/claude-code
+---
+
+# <I18n de="Permissions" en="Permissions" />
+
+<De>
+## Das Permissions-Modell
+
+Claude Code fragt **bei jedem ungewohnten Tool-Call** nach Freigabe. Die wichtigsten Tools:
+
+| Tool | Was passiert | Standard-Verhalten |
+|---|---|---|
+| **Read** | Datei lesen | meist auto-allow im Repo |
+| **Edit / Write** | Datei ändern / erstellen | Bestätigung erforderlich |
+| **Bash** | Shell-Command ausführen | Bestätigung pro Command |
+| **WebFetch / WebSearch** | Internet | Bestätigung |
+| **MCP-Tools** | externe APIs | per Server konfigurierbar |
+
+## Konfiguration
+
+`.claude/settings.json` (per Repo) oder `~/.claude/settings.json` (global):
+
+<CommandBox lang="json">
+{`{
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(npm test)",
+      "Bash(pytest *)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(curl * | sh)"
+    ]
+  }
+}`}
+</CommandBox>
+
+## Modi
+
+- **Default** — fragt bei kritischen Operationen
+- **Auto-edit** (`--auto-edit`) — Edits ohne Rückfrage, Shell weiterhin bestätigt
+- **YOLO** (`--dangerously-skip-permissions`) — alles ohne Rückfrage; **nur in Sandbox/Container**
+
+<NoteCard variant="warning" title="Sicherheits-Faustregel">
+YOLO-Mode **niemals** auf produktiven Repos oder mit persönlichen Secrets. Wenn ihr ihn nutzt: in Container/Devcontainer mit klar abgegrenztem Volume.
+</NoteCard>
+
+## Empfohlene Team-Settings
+
+- **Lese-Tools** auto-allow im Repo
+- **Tests / Linter** auto-allow (ungefährlich, hoher Frequenz)
+- **Git-Commands** auto-allow für `status`, `diff`, `log`; **immer bestätigen** für `push`, `reset --hard`
+- **Curl / Wget / sudo** explizit deny
+</De>
+
+<En>
+## The permissions model
+
+Claude Code asks for approval on **every unfamiliar tool call**. Key tools:
+
+| Tool | What happens | Default |
+|---|---|---|
+| **Read** | Read a file | usually auto-allowed in repo |
+| **Edit / Write** | Change / create file | confirmation required |
+| **Bash** | Execute shell command | per-command confirmation |
+| **WebFetch / WebSearch** | Internet | confirmation |
+| **MCP tools** | External APIs | configurable per server |
+
+## Configuration
+
+`.claude/settings.json` (per repo) or `~/.claude/settings.json` (global):
+
+<CommandBox lang="json">
+{`{
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(npm test)",
+      "Bash(pytest *)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(curl * | sh)"
+    ]
+  }
+}`}
+</CommandBox>
+
+## Modes
+
+- **Default** — asks on critical ops
+- **Auto-edit** (`--auto-edit`) — edits without prompt, shell still confirmed
+- **YOLO** (`--dangerously-skip-permissions`) — no prompts; **only in sandbox/container**
+
+<NoteCard variant="warning" title="Safety rule of thumb">
+**Never** use YOLO mode on production repos or with personal secrets. If you do: container/devcontainer with a clearly bounded volume.
+</NoteCard>
+
+## Recommended team settings
+
+- **Read tools** auto-allow in repo
+- **Tests / linters** auto-allow (low risk, high frequency)
+- **Git commands** auto-allow for `status`, `diff`, `log`; **always confirm** for `push`, `reset --hard`
+- **Curl / wget / sudo** explicitly deny
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Live: einmal ohne Settings starten und sehen wie oft Claude nachfragt. Dann mit settings.json die Häufigsten allowlisten — Friction sofort weg. Devcontainer-Pattern erwähnen für YOLO-Mode-Bedarf."
+  en="Live: start once without settings and see how often Claude asks. Then add settings.json with the most common allowlist — friction drops immediately. Mention devcontainer pattern for YOLO-mode use cases."
+/>
+</SpeakerNotes>

@@ -1,0 +1,108 @@
+---
+title:
+  de: "Kontext-Management"
+  en: "Context Management"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+  - https://www.augmentcode.com/guides/claude-code-spec-driven-development
+---
+
+# <I18n de="Kontext kuratieren" en="Curate Your Context" />
+
+<De>
+## Das Kontext-Paradox
+
+> Mehr Kontext ≠ besseres Ergebnis. Zu viel Kontext **verwässert Aufmerksamkeit** und treibt Kosten.
+
+## Drei Kontext-Schichten
+
+| Schicht | Quelle | Wann geladen |
+|---|---|---|
+| **System-Prompt** | `~/.claude/CLAUDE.md` + `./CLAUDE.md` | Session-Start, nach jeder Compaction |
+| **Working Memory** | `Read`-Calls, vorherige Tool-Outputs | im Verlauf der Session |
+| **On-Demand** | Subagent-Calls, MCP-Reads, Skill-Loads | bei Bedarf, eigener Context |
+
+## Faustregeln
+
+- **`/clear` zwischen unverwandten Tasks** — verhindert Context-Pollution
+- **`/compact` statt `/clear`** wenn Verlauf wichtig bleibt
+- **Subagents** für Recherche, die Hauptsession nicht braucht
+- **Lazy-loaded Architektur-Doku** — Detail in `docs/`, in CLAUDE.md nur Pointer
+
+## Anti-Pattern: „Read everything first"
+
+```
+User:  Refactor das gesamte auth-Modul
+Claude: [liest 47 Files, 180k Tokens]
+        [versucht zu refactoren]
+        [bricht ab — Plan zu groß]
+```
+
+**Besser:**
+
+```
+User:   [Plan Mode] Schau dir auth/ an, schlage 3-Schritt-Refactor-Sequenz vor
+Claude: [liest 12 Schlüsseldateien]
+        [Plan: Schritt 1 isoliert auth/session, Schritt 2 ...]
+
+User:   Mach Schritt 1
+Claude: [liest exakt was es braucht, schreibt, testet]
+```
+
+<NoteCard variant="warning">
+**Bei zwei fehlgeschlagenen Korrekturen:** `/clear`, neue bessere Prompt schreiben. Weiter im verworrenen Context führt selten zum Ziel.
+</NoteCard>
+</De>
+
+<En>
+## The context paradox
+
+> More context ≠ better result. Too much context **dilutes attention** and drives cost.
+
+## Three context layers
+
+| Layer | Source | When loaded |
+|---|---|---|
+| **System prompt** | `~/.claude/CLAUDE.md` + `./CLAUDE.md` | Session start, after every compaction |
+| **Working memory** | `Read` calls, previous tool outputs | During the session |
+| **On-demand** | Subagent calls, MCP reads, skill loads | As needed, separate context |
+
+## Rules of thumb
+
+- **`/clear` between unrelated tasks** — prevents context pollution
+- **`/compact` instead of `/clear`** if history matters
+- **Subagents** for research the main session doesn't need
+- **Lazy-loaded architecture docs** — detail in `docs/`, only pointers in CLAUDE.md
+
+## Anti-pattern: "Read everything first"
+
+```
+User:  Refactor the entire auth module
+Claude: [reads 47 files, 180k tokens]
+        [tries to refactor]
+        [bails — plan too big]
+```
+
+**Better:**
+
+```
+User:   [plan mode] Look at auth/, propose a 3-step refactor sequence
+Claude: [reads 12 key files]
+        [Plan: step 1 isolates auth/session, step 2 ...]
+
+User:   Do step 1
+Claude: [reads exactly what it needs, writes, tests]
+```
+
+<NoteCard variant="warning">
+**After two failed corrections:** `/clear`, write a better prompt. Continuing in the muddled context rarely succeeds.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Kontext-Management ist UNDER-rated. Viele Teams scheitern hier. Live: /cost vor und nach /compact zeigen — TN sehen Token-Differenz. Compaction dauert 3-12 Min bei großen Sessions — also Pause-Moment einplanen."
+  en="Context management is under-rated. Many teams fail here. Live: show /cost before and after /compact — participants see token delta. Compaction takes 3-12 min on big sessions — plan the pause."
+/>
+</SpeakerNotes>

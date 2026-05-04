@@ -1,0 +1,120 @@
+---
+title:
+  de: "CLAUDE.md — das Projektgedächtnis"
+  en: "CLAUDE.md — the Project Memory"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+  - https://dev.to/lizechengnet/how-to-structure-claude-code-for-production-mcp-servers-subagents-and-claudemd-2026-guide-4gjn
+---
+
+# <I18n de="CLAUDE.md" en="CLAUDE.md" />
+
+<De>
+## Was ist CLAUDE.md?
+
+- Eine Markdown-Datei im **Projekt-Root** (oder unter `~/.claude/CLAUDE.md` global / org-wide)
+- Wird beim **Session-Start automatisch in den System-Prompt geladen** und nach jeder Compaction neu eingespielt
+- Funktioniert als **Projektgedächtnis** — Codebasis-Übersicht, Konventionen, Domänenwissen, Befehle
+
+## Was reingehört
+
+```markdown
+# Projektname
+
+## Was ist das?
+Ein-Satz-Beschreibung.
+
+## Tech Stack
+- Frontend: React 19 + Vite + Tailwind v4
+- Backend: FastAPI + Postgres
+- Deploy: Railway
+
+## Projektstruktur (Top-Level)
+backend/  → FastAPI App, Tests
+frontend/ → React UI, hooks, components
+docs/     → Architektur-Detail (lazy)
+
+## Befehle
+- Tests: `pytest tests/ -v`
+- Build: `npm run build`
+- Deploy: `git push origin main`
+
+## Konventionen
+- Conventional Commits (feat/fix/chore/refactor/docs/test)
+- Niemals API-Keys committen — nutze .env
+
+## Bekannte Limitierungen
+- YouTube-Skills funktionieren nicht auf Railway (Datacenter-IPs)
+- ...
+```
+
+## Was NICHT reingehört
+
+- ❌ API-Keys, Secrets, Credentials
+- ❌ Lange Code-Listings (Claude liest die Files direkt)
+- ❌ Ausführliche Doku, die im Repo woanders liegt — verlinken statt einbetten
+- ❌ Persönliche Vorlieben („verwende immer 4 Spaces") — gehört in `~/.claude/CLAUDE.md`
+
+<NoteCard variant="tip">
+**Ziel:** unter ~200 Zeilen. Größere CLAUDE.md → Detail in `docs/`-Verzeichnis auslagern und „Lies on-demand"-Hinweise setzen.
+</NoteCard>
+</De>
+
+<En>
+## What is CLAUDE.md?
+
+- A markdown file in the **project root** (or `~/.claude/CLAUDE.md` global / org-wide)
+- Loaded into the **system prompt automatically** at session start and re-loaded after compaction
+- Functions as **project memory** — codebase overview, conventions, domain knowledge, commands
+
+## What goes in
+
+```markdown
+# Project name
+
+## What is it?
+One-sentence description.
+
+## Tech stack
+- Frontend: React 19 + Vite + Tailwind v4
+- Backend: FastAPI + Postgres
+- Deploy: Railway
+
+## Project layout (top-level)
+backend/  → FastAPI app, tests
+frontend/ → React UI, hooks, components
+docs/     → architecture details (lazy)
+
+## Commands
+- Tests: `pytest tests/ -v`
+- Build: `npm run build`
+- Deploy: `git push origin main`
+
+## Conventions
+- Conventional commits (feat/fix/chore/refactor/docs/test)
+- Never commit API keys — use .env
+
+## Known limitations
+- YouTube skills don't work on Railway (datacenter IPs)
+- ...
+```
+
+## What does NOT go in
+
+- ❌ API keys, secrets, credentials
+- ❌ Long code listings (Claude reads files directly)
+- ❌ Verbose docs that live elsewhere in the repo — link, don't embed
+- ❌ Personal prefs ("always use 4 spaces") — goes in `~/.claude/CLAUDE.md`
+
+<NoteCard variant="tip">
+**Target:** under ~200 lines. Larger CLAUDE.md → split detail into `docs/` and add "read on-demand" pointers.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Live-Demo: BIK-eigenes honcho-chat-demo CLAUDE.md aufrufen — zeigt eine reale, gewachsene CLAUDE.md mit allen Mustern. Punkt 'Bekannte Limitierungen' explizit erklären — Claude vermeidet damit bekannte Sackgassen. Wichtig: CLAUDE.md ist Living Document — Claude darf sie selbst editieren."
+  en="Live demo: open BIK's own honcho-chat-demo CLAUDE.md — shows a real, grown CLAUDE.md with all patterns. Explain 'known limitations' explicitly — Claude avoids known dead-ends. Key: CLAUDE.md is a living document — Claude is allowed to edit it itself."
+/>
+</SpeakerNotes>

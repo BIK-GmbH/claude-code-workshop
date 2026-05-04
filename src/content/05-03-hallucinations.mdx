@@ -1,0 +1,77 @@
+---
+title:
+  de: "Halluzinationen erkennen"
+  en: "Detecting Hallucinations"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="Halluzinationen" en="Hallucinations" />
+
+<De>
+## Was halluziniert Claude typisch?
+
+| Bereich | Beispiel |
+|---|---|
+| **API-Endpoints** | `await fetch('/api/v2/users/me/profile')` — existiert nicht |
+| **Funktions-Signaturen** | `bcrypt.compareSync(plain, hash, callback)` — falsche Arity |
+| **Imports** | `import { Validator } from 'zod/v5'` — Version existiert nicht |
+| **Library-Features** | „Verwende `useSyncedStore` aus React 19" — gibt es nicht |
+| **Konfigurations-Schlüssel** | „Setze `vite.optimizeDeps.includeFlat: true`" — kein solcher Schlüssel |
+| **Fehler-Messages** | Erfundene Stack-Traces, die plausibel aussehen |
+
+## Wie erkennt man sie?
+
+1. **Tests laufen lassen** — der einzige zuverlässige Filter
+2. **TypeScript / Linter** — fängt Imports, Funktions-Signaturen
+3. **Skeptische Re-Read** — wenn ein API-Aufruf „zu hilfreich" aussieht: prüfen
+4. **Doku-Cross-Check** — bei kritischen Libraries (auth, crypto) immer offizielle Doku
+
+## Gegenmaßnahmen
+
+- **Spec-Bound** — Spec referenziert konkrete Files/Funktionen, die existieren
+- **MCP-Server** für offizielle Doku (z.B. `context7` für Library-Doku-MCP)
+- **„Verifizier-Schritt"** im Skill: nach Implementierung muss Test grün sein
+- **Restrictive Imports**: Code-Owner-Files für kritische Module, manuelle Review-Pflicht
+
+<NoteCard variant="warning">
+**Goldene Regel:** Wenn der Output **„genau das ist was ich wollte" ohne Iteration** war — DOPPELT prüfen. Halluzinationen sind oft schöner als Realität.
+</NoteCard>
+</De>
+
+<En>
+## What does Claude typically hallucinate?
+
+| Area | Example |
+|---|---|
+| **API endpoints** | `await fetch('/api/v2/users/me/profile')` — doesn't exist |
+| **Function signatures** | `bcrypt.compareSync(plain, hash, callback)` — wrong arity |
+| **Imports** | `import { Validator } from 'zod/v5'` — version doesn't exist |
+| **Library features** | "Use `useSyncedStore` from React 19" — not a thing |
+| **Config keys** | "Set `vite.optimizeDeps.includeFlat: true`" — no such key |
+| **Error messages** | Invented stack traces that look plausible |
+
+## How do you spot them?
+
+1. **Run the tests** — the only reliable filter
+2. **TypeScript / linter** — catches imports, function signatures
+3. **Sceptical re-read** — if an API call looks "too helpful": check
+4. **Doc cross-check** — for critical libs (auth, crypto) always official docs
+
+## Countermeasures
+
+- **Spec-bound** — spec references concrete existing files/functions
+- **MCP server** for official docs (e.g. `context7` for library-docs MCP)
+- **"Verify step"** in the skill: after implementation a test must be green
+- **Restrictive imports**: code-owner files for critical modules, mandatory manual review
+
+<NoteCard variant="warning">
+**Golden rule:** If the output was **"exactly what I wanted, no iteration"** — DOUBLE-check. Hallucinations are often prettier than reality.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Live: bewusst Halluzination provozieren — alte Library-Version + neue Frage. Claude erfindet plausible Antwort. Dann mit MCP-Doku oder Read-File die Realität zeigen. TN realisieren wie schnell man drauf reinfallen kann."
+  en="Live: intentionally provoke a hallucination — old library version + new question. Claude invents a plausible answer. Then with MCP docs or read-file show reality. Participants realise how easily one falls for it."
+/>
+</SpeakerNotes>

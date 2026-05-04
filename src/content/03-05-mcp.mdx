@@ -1,0 +1,128 @@
+---
+title:
+  de: "MCP-Server"
+  en: "MCP Servers"
+researchedOn: 2026-05-04
+sources:
+  - https://alexop.dev/posts/understanding-claude-code-full-stack/
+  - https://dev.to/lizechengnet/how-to-structure-claude-code-for-production-mcp-servers-subagents-and-claudemd-2026-guide-4gjn
+---
+
+# <I18n de="MCP — Model Context Protocol" en="MCP — Model Context Protocol" />
+
+<De>
+## Was ist MCP?
+
+- **Offener Standard von Anthropic** für Tool-Integration in LLMs
+- Ein **MCP-Server** stellt Tools/Resources/Prompts bereit
+- Claude Code (oder jede MCP-fähige LLM-App) **konsumiert** diese
+- Eliminiert Custom-Integrationen pro Tool
+
+## Beispiele
+
+| MCP-Server | Was er bietet |
+|---|---|
+| **github** | Issues, PRs, Code-Search, Repo-Metadata |
+| **postgres** | Schema-Inspektion, Read-Only-Queries |
+| **slack** | Channels lesen, Posts schreiben |
+| **notion** | Pages lesen, Datenbanken abfragen |
+| **filesystem** | Definierter Disk-Bereich (Sandbox) |
+| **firecrawl / playwright** | Browser-Automation, Web-Scraping |
+| **supabase** | DB + Auth + Storage |
+
+## Konfiguration
+
+`.claude/settings.json`:
+
+<CommandBox lang="json">
+{`{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "$\{GITHUB_TOKEN\}" }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres",
+               "postgres://localhost/myapp"]
+    }
+  }
+}`}
+</CommandBox>
+
+## Status prüfen
+
+<CommandBox lang="bash">
+{`/mcp                       # angeschlossene Server + verfügbare Tools
+
+# Im CLI starten:
+claude --mcp-debug          # zeigt jeden MCP-Call live`}
+</CommandBox>
+
+<NoteCard variant="warning">
+MCP-Server haben oft **breiten Zugriff** (DB, GitHub-Token, Slack). `allowed-tools` pro Skill/Subagent sauber konfigurieren — nicht alles erben lassen.
+</NoteCard>
+</De>
+
+<En>
+## What is MCP?
+
+- **Open standard from Anthropic** for tool integration in LLMs
+- An **MCP server** exposes tools/resources/prompts
+- Claude Code (or any MCP-capable LLM app) **consumes** them
+- Eliminates per-tool custom integrations
+
+## Examples
+
+| MCP server | What it offers |
+|---|---|
+| **github** | Issues, PRs, code search, repo metadata |
+| **postgres** | Schema inspection, read-only queries |
+| **slack** | Read channels, write posts |
+| **notion** | Read pages, query databases |
+| **filesystem** | Sandboxed disk area |
+| **firecrawl / playwright** | Browser automation, web scraping |
+| **supabase** | DB + auth + storage |
+
+## Configuration
+
+`.claude/settings.json`:
+
+<CommandBox lang="json">
+{`{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "$\{GITHUB_TOKEN\}" }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres",
+               "postgres://localhost/myapp"]
+    }
+  }
+}`}
+</CommandBox>
+
+## Inspect status
+
+<CommandBox lang="bash">
+{`/mcp                       # connected servers + available tools
+
+# In CLI:
+claude --mcp-debug          # shows every MCP call live`}
+</CommandBox>
+
+<NoteCard variant="warning">
+MCP servers often have **broad access** (DB, GitHub token, Slack). Configure `allowed-tools` per skill/subagent — don't inherit everything.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="MCP-Server-Liste explodiert in 2026 — modelcontextprotocol.io hat verzeichnis. Empfehlung: NICHT mehr als 3-4 aktiv haben, sonst Tool-Choice-Overhead. GitHub-MCP ist meist erste Wahl. Postgres-MCP super mächtig, aber Read-Only-Connection-String setzen damit Claude nicht versehentlich DELETE rausfeuert."
+  en="MCP server list is exploding in 2026 — modelcontextprotocol.io has a registry. Tip: don't have more than 3-4 active, else tool-choice overhead. GitHub MCP is usually first pick. Postgres MCP super powerful — set a read-only connection string so Claude can't accidentally fire DELETE."
+/>
+</SpeakerNotes>

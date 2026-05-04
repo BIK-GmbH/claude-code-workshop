@@ -1,0 +1,75 @@
+---
+title:
+  de: "Live-Coding mit Trainer-Begleitung"
+  en: "Live Coding with Trainer Support"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="Live-Coding" en="Live Coding" />
+
+<De>
+## Wie ich euch begleite
+
+- **Rotation** zwischen Tischen / Breakout-Räumen
+- Bei Bedarf: kurzer **1:1-Pair** an eurem Bildschirm
+- **Plenums-Stop** wenn 3+ TN das gleiche Problem haben — kurze Demo + zurück zur Arbeit
+
+## Wenn ihr stuck seid — Diagnose-Fragen
+
+1. **Habt ihr eine Spec?** Wenn nein: zurück zu Phase 1.
+2. **Habt ihr einen Plan?** Wenn nein: Plan Mode + Spec rein.
+3. **Wie sieht der letzte Test-Run aus?** Klare Fehlermeldung?
+4. **Wie viele Files hat Claude im Kontext?** Wenn > 30 → `/clear`, neu mit gezieltem `Read`.
+5. **Habt ihr `/cost` gecheckt?** Wenn > 5$ in einem Sub-Task → falsche Strategie.
+
+## Häufige Probleme & Fixes
+
+| Symptom | Vermutete Ursache | Fix |
+|---|---|---|
+| Claude liest 50 Files, plant nicht | zu vager Auftrag | konkretere Spec + Plan Mode |
+| Tests grün, Verhalten falsch | Test prüft falsche Acceptance | Test-Acceptance gegen Spec abgleichen |
+| Diff explodiert | „Diff Drift" | „halt dich an den Plan, frag bei Erweiterung" |
+| Endlos-Loop am gleichen Bug | Context verschmutzt | `/clear`, sauberer Re-Start mit besserer Spec |
+| API existiert nicht | Halluzination | Tests + TypeScript + offizielle Doku via MCP |
+
+<NoteCard variant="hint">
+**Push:** Wenn ihr nach 90 Min in der Implementierung noch keinen grünen Test habt — Pause, ich schaue rein. Oft 5 Min Diagnose statt 60 Min Selbst-Frust.
+</NoteCard>
+</De>
+
+<En>
+## How I support you
+
+- **Rotation** between tables / breakout rooms
+- On demand: short **1:1 pair** at your screen
+- **Plenary stop** if 3+ participants hit the same issue — quick demo + back to work
+
+## When you're stuck — diagnostic questions
+
+1. **Do you have a spec?** If no: back to phase 1.
+2. **Do you have a plan?** If no: plan mode + paste spec.
+3. **What does the last test run look like?** Clear error message?
+4. **How many files does Claude have in context?** If > 30 → `/clear`, restart with targeted `Read`.
+5. **Have you checked `/cost`?** If > $5 on one sub-task → wrong strategy.
+
+## Common problems & fixes
+
+| Symptom | Suspected cause | Fix |
+|---|---|---|
+| Claude reads 50 files, doesn't plan | task too vague | concrete spec + plan mode |
+| Tests green, behaviour wrong | test asserts wrong acceptance | reconcile test against spec |
+| Diff explodes | "diff drift" | "stick to the plan, ask before expanding" |
+| Endless loop on same bug | context polluted | `/clear`, clean restart with better spec |
+| API doesn't exist | hallucination | tests + TypeScript + official docs via MCP |
+
+<NoteCard variant="hint">
+**Push:** if after 90 min of implementation you still have no green test — break, I'll look. Often 5 min of diagnosis instead of 60 min of self-frustration.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Disziplin als Trainer: NIE selbst die Hand auf der Tastatur halten. Immer am Bildschirm der TN, lasst sie tippen. Wir wollen Selbstständigkeit nach dem Workshop, nicht Zuschauen."
+  en="Trainer discipline: NEVER touch the keyboard yourself. Always at the participant's screen, let them type. We want independence after the workshop, not spectating."
+/>
+</SpeakerNotes>

@@ -1,0 +1,127 @@
+---
+title:
+  de: "SKILL.md & Trigger"
+  en: "SKILL.md & Triggers"
+researchedOn: 2026-05-04
+sources:
+  - https://blakecrosley.com/guides/claude-code
+---
+
+# <I18n de="Anatomie eines Skills" en="Anatomy of a Skill" />
+
+<De>
+## Verzeichnis-Struktur
+
+```
+.claude/skills/
+└── pr-review/
+    ├── SKILL.md           # Pflicht: Definition
+    ├── checklist.md       # optional: Helper-Doku
+    └── scripts/
+        └── extract-diff.sh
+```
+
+## SKILL.md-Aufbau
+
+<CommandBox lang="markdown">
+{`---
+name: pr-review
+description: |
+  Review a GitHub pull request systematically. Use when the user
+  shares a PR URL or types "review PR #123".
+allowed-tools:
+  - Bash(gh pr view *)
+  - Bash(gh pr diff *)
+  - Read
+  - Write
+---
+
+# PR Review Skill
+
+## Step 1: Fetch the PR
+\`\`\`bash
+gh pr view $ARGUMENTS --json title,body,files,commits
+\`\`\`
+
+## Step 2: Read the diff
+Apply the checklist in checklist.md (security, correctness, simplicity, tests).
+
+## Step 3: Comment
+Post structured review via \`gh pr review\`.`}
+</CommandBox>
+
+## Frontmatter-Felder
+
+| Feld | Pflicht | Was es macht |
+|---|---|---|
+| `name` | ✓ | Skill-ID, auch Slash-Command-Name |
+| `description` | ✓ | Trigger-Text — sollte typische User-Anfragen enthalten |
+| `allowed-tools` | optional | Whitelist Tools, sonst geerbt |
+| `model` | optional | erzwingt z.B. `opus-4-7` für diesen Skill |
+
+<NoteCard variant="tip" title="Goldene Regel für Trigger">
+Im `description` nicht nur sagen WAS der Skill tut, sondern auch HOW USERS ASK. Beispiele in Anführungszeichen, mehrere Sprachen wenn ihr DE+EN unterstützt.
+</NoteCard>
+</De>
+
+<En>
+## Folder structure
+
+```
+.claude/skills/
+└── pr-review/
+    ├── SKILL.md           # required: definition
+    ├── checklist.md       # optional: helper doc
+    └── scripts/
+        └── extract-diff.sh
+```
+
+## SKILL.md anatomy
+
+<CommandBox lang="markdown">
+{`---
+name: pr-review
+description: |
+  Review a GitHub pull request systematically. Use when the user
+  shares a PR URL or types "review PR #123".
+allowed-tools:
+  - Bash(gh pr view *)
+  - Bash(gh pr diff *)
+  - Read
+  - Write
+---
+
+# PR Review Skill
+
+## Step 1: Fetch the PR
+\`\`\`bash
+gh pr view $ARGUMENTS --json title,body,files,commits
+\`\`\`
+
+## Step 2: Read the diff
+Apply the checklist in checklist.md (security, correctness, simplicity, tests).
+
+## Step 3: Comment
+Post a structured review via \`gh pr review\`.`}
+</CommandBox>
+
+## Frontmatter fields
+
+| Field | Required | What it does |
+|---|---|---|
+| `name` | ✓ | Skill ID, also slash-command name |
+| `description` | ✓ | Trigger text — should contain typical user phrasings |
+| `allowed-tools` | optional | Tool whitelist, else inherited |
+| `model` | optional | Force a model, e.g. `opus-4-7` |
+
+<NoteCard variant="tip" title="Golden rule for triggers">
+In `description` don't just say WHAT the skill does, also HOW USERS ASK. Quote examples, multiple languages if you support DE+EN.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="$ARGUMENTS hervorheben — das ist die User-Eingabe nach `/pr-review 42`. allowed-tools ist Sicherheits-Hebel: nur die nötigen Tools, nicht alles erben. Live: Skill installieren via cp ins .claude/skills, dann /skills aufrufen, Trigger sollte sichtbar sein."
+  en="Highlight $ARGUMENTS — that's the user input after `/pr-review 42`. allowed-tools is a security lever: only needed tools, not inherit everything. Live: install skill via cp into .claude/skills, then run /skills, trigger should be visible."
+/>
+</SpeakerNotes>

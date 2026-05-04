@@ -1,0 +1,116 @@
+---
+title:
+  de: "Test-First mit Claude Code"
+  en: "Test-First with Claude Code"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+  - https://www.datacamp.com/tutorial/claude-code-best-practices
+---
+
+# <I18n de="Test-First Workflow" en="Test-First Workflow" />
+
+<De>
+## Warum Test-First mit KI besonders wirksam ist
+
+- Tests sind **maschinenlesbare Acceptance Criteria** — Claude kann gegen sie iterieren
+- KI-Code, der Tests besteht, ist objektiv besser als KI-Code, der „aussieht wie"
+- Test-Failures geben Claude **konkrete Fix-Hinweise** — Iteration konvergiert schneller
+
+## Der Loop
+
+```
+1. User schreibt Test (oder lässt Claude einen Skeleton schreiben)
+2. Test failt rot
+3. Claude implementiert minimal, bis Test grün
+4. User refactored / fügt Edge-Case-Test hinzu
+5. Goto 2
+```
+
+## Anti-Pattern vs. Pattern
+
+| Anti-Pattern | Pattern |
+|---|---|
+| „Schreibe Login mit Tests" | „Hier ist der Test. Schreibe Login bis er grün ist." |
+| Tests nach Code („retro-fit") | Tests vor Code (Acceptance) |
+| Snapshot-Tests als Hauptsicherung | Behavior-Tests, Snapshots nur sekundär |
+| Mock alles | Echte DB / echte HTTP wo möglich (Integration > Unit) |
+
+## Beispiel-Prompt
+
+<CommandBox lang="text">
+{`Hier ist der Test:
+
+  test('email login: 3 wrong attempts → 60s lockout', async () => {
+    for (let i = 0; i < 3; i++) {
+      await login('user@x', 'wrong');
+    }
+    await expect(login('user@x', 'correct')).rejects.toThrow('locked');
+    await sleep(61_000);
+    await expect(login('user@x', 'correct')).resolves.toBeTruthy();
+  });
+
+Implementiere den Login so, dass dieser Test besteht.
+Beachte unsere CLAUDE.md-Regel: keine eigene Crypto, bcrypt nutzen.`}
+</CommandBox>
+
+<NoteCard variant="tip">
+**Pre-Commit Hook:** Test-Suite **vor jedem Commit** laufen lassen. Verhindert, dass Claude Code stillschweigend grün-gestrichene Tests einbaut.
+</NoteCard>
+</De>
+
+<En>
+## Why test-first works especially well with AI
+
+- Tests are **machine-readable acceptance criteria** — Claude can iterate against them
+- AI code that passes tests is objectively better than AI code that "looks like"
+- Test failures give Claude **concrete fix hints** — iteration converges faster
+
+## The loop
+
+```
+1. User writes test (or has Claude scaffold one)
+2. Test fails red
+3. Claude implements minimally until green
+4. User refactors / adds edge-case tests
+5. Goto 2
+```
+
+## Anti-pattern vs. pattern
+
+| Anti-pattern | Pattern |
+|---|---|
+| "Write login with tests" | "Here's the test. Write login till it's green." |
+| Tests after code (retro-fit) | Tests before code (acceptance) |
+| Snapshot tests as primary safety | Behaviour tests, snapshots secondary |
+| Mock everything | Real DB / real HTTP where possible (integration > unit) |
+
+## Example prompt
+
+<CommandBox lang="text">
+{`Here's the test:
+
+  test('email login: 3 wrong attempts → 60s lockout', async () => {
+    for (let i = 0; i < 3; i++) {
+      await login('user@x', 'wrong');
+    }
+    await expect(login('user@x', 'correct')).rejects.toThrow('locked');
+    await sleep(61_000);
+    await expect(login('user@x', 'correct')).resolves.toBeTruthy();
+  });
+
+Implement login so this test passes.
+Respect our CLAUDE.md rule: no own crypto, use bcrypt.`}
+</CommandBox>
+
+<NoteCard variant="tip">
+**Pre-commit hook:** run the test suite **before every commit**. Prevents Claude Code silently disabling tests.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Live-Demo: gleicher Login-Test einmal mit 'schreib mir Login mit Tests' (TN sehen vague Output) und einmal mit 'hier ist der Test, mach grün' (TN sehen fokussierten Output). Dramatic Difference. Sicherheits-Hinweis: Claude darf NICHT Tests verändern um sie grün zu kriegen — pre-commit hook empfehlen, der git diff auf test-files prüft."
+  en="Live demo: same login test once with 'write me login with tests' (vague output) and once with 'here's the test, make it green' (focused output). Dramatic diff. Safety: Claude must NOT alter tests to make them green — recommend a pre-commit hook that inspects git diff on test files."
+/>
+</SpeakerNotes>

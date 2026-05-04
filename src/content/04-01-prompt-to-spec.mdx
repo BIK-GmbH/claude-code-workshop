@@ -1,0 +1,93 @@
+---
+title:
+  de: "Vom Prompt zur Spec"
+  en: "From Prompt to Spec"
+researchedOn: 2026-05-04
+sources:
+  - https://addyosmani.com/blog/good-spec/
+  - https://www.augmentcode.com/guides/claude-code-spec-driven-development
+  - https://heeki.medium.com/using-spec-driven-development-with-claude-code-4a1ebe5d9f29
+---
+
+# <I18n de="Spec-Driven Development" en="Spec-Driven Development" />
+
+<De>
+## Das Kernproblem
+
+> Bei einem unklaren Auftrag liefert Claude mit hoher Geschwindigkeit unscharfen Code. Das ist schlimmer als langsamer, präziser Code.
+
+## Drei Ebenen
+
+```
+Vibe-Prompt         →  „Bau mir einen Login"
+Spec-Driven         →  Goals + Constraints + Acceptance Criteria + Anti-Goals
+Spec → Plan → Code  →  Spezifikation → Implementierungsplan → Code
+```
+
+## Was ist eine gute Spec?
+
+| Element | Beispiel |
+|---|---|
+| **Goal** | „User können sich mit Email + Password einloggen" |
+| **Why** | „Existing OAuth too slow + brittle on mobile" |
+| **Constraints** | „Bcrypt, kein eigenes Crypto", „Bestandsuser müssen migrierbar sein" |
+| **Acceptance** | „Test: 3 wrong → lockout 60s. Test: forgot-password sendet Mail innerhalb 30s" |
+| **Anti-Goals** | „Kein Magic-Link in dieser Iteration", „Kein 2FA jetzt" |
+| **Files involved** | „auth/, api/users.py, frontend/login.tsx" |
+
+## Workflow
+
+1. **Spec schreiben** — Markdown in `docs/specs/<feature>.md`
+2. **Plan generieren** — Claude liest Spec, gibt Implementierungsplan mit Schritten + Risiken
+3. **Plan reviewen** — Mensch checkt: stimmt die Reihenfolge, sind Risiken adressiert?
+4. **Implementieren** — Claude exit Plan Mode, schreibt Code
+5. **Verifizieren** — Tests, manueller Check, Diff-Review
+
+<NoteCard variant="tip">
+**Spec ist Living Doc:** wenn sich beim Implementieren herausstellt, dass die Spec falsch war → Spec updaten, nicht stillschweigend abweichen.
+</NoteCard>
+</De>
+
+<En>
+## The core problem
+
+> Given an unclear request, Claude delivers unclear code at high speed. That's worse than slow, precise code.
+
+## Three levels
+
+```
+Vibe prompt         →  "Build me a login"
+Spec-driven         →  Goals + constraints + acceptance + anti-goals
+Spec → plan → code  →  Spec → implementation plan → code
+```
+
+## What is a good spec?
+
+| Element | Example |
+|---|---|
+| **Goal** | "Users can sign in with email + password" |
+| **Why** | "Existing OAuth too slow + brittle on mobile" |
+| **Constraints** | "Bcrypt, no own crypto", "Existing users must be migratable" |
+| **Acceptance** | "Test: 3 wrong → lockout 60s. Test: forgot-password sends mail within 30s" |
+| **Anti-goals** | "No magic links this iteration", "No 2FA now" |
+| **Files involved** | "auth/, api/users.py, frontend/login.tsx" |
+
+## Workflow
+
+1. **Write spec** — markdown in `docs/specs/<feature>.md`
+2. **Generate plan** — Claude reads spec, returns implementation plan with steps + risks
+3. **Review plan** — human checks: is the order right, are risks addressed?
+4. **Implement** — Claude exits plan mode, writes code
+5. **Verify** — tests, manual check, diff review
+
+<NoteCard variant="tip">
+**Spec is a living doc:** if during implementation the spec turns out wrong → update the spec, don't quietly deviate.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Wichtigster Lernpunkt im ganzen Workshop. Live: schlechter Prompt → schlechter Code zeigen, dann gleicher Use-Case mit Spec → fundamental anderer Output. Anti-Goals sind Premium — schließen aus, was die KI sonst zusätzlich bauen würde."
+  en="Most important learning point in the whole workshop. Live: bad prompt → bad code, then same use case with spec → fundamentally different output. Anti-goals are premium — they exclude what the AI would otherwise add on top."
+/>
+</SpeakerNotes>

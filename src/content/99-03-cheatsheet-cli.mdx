@@ -1,0 +1,134 @@
+---
+title:
+  de: "Cheat-Sheet: CLI"
+  en: "Cheat Sheet: CLI"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="CLI Cheat-Sheet" en="CLI Cheat Sheet" />
+
+<De>
+## Sessions starten / verwalten
+
+<CommandBox lang="bash">
+{`claude                       # interaktive Session starten
+claude --plan                # direkt im Plan Mode starten
+claude --auto-edit           # Edits ohne Rückfrage
+claude --continue            # vorherige Session fortsetzen
+claude --resume <session-id> # spezifische Session laden
+claude --logout              # Auth zurücksetzen`}
+</CommandBox>
+
+## In der Session
+
+<CommandBox lang="bash">
+{`/help                        # Hilfe
+/clear                       # Context leeren
+/compact                     # Verlauf komprimieren
+/cost                        # Kosten dieser Session
+/usage                       # Detail-Verbrauch
+/model                       # Modell wechseln
+/permissions                 # Berechtigungen anschauen
+/skills                      # installierte Skills
+/agents                      # verfügbare Subagents
+/mcp                         # MCP-Server-Status
+/init                        # CLAUDE.md generieren
+/review                      # Pull Request reviewen
+/<skill-name>                # eigenen Skill starten`}
+</CommandBox>
+
+## Tasten
+
+| Taste | Aktion |
+|---|---|
+| **Shift+Tab** | Plan Mode toggle |
+| **Esc** | aktuelle Generation abbrechen |
+| **Ctrl+C** | Session beenden |
+| **Up/Down** | Prompt-History |
+| **Ctrl+R** | Reverse-Search History |
+
+## Environment Variables
+
+<CommandBox lang="bash">
+{`ANTHROPIC_API_KEY=sk-ant-...           # API-Key
+ANTHROPIC_MODEL=claude-sonnet-4-6      # Modell überschreiben
+CLAUDE_CODE_USE_BEDROCK=1              # AWS Bedrock
+CLAUDE_CODE_USE_VERTEX=1               # Google Vertex
+DISABLE_TELEMETRY=1                    # Anthropic-Telemetrie aus
+NO_COLOR=1                             # für CI/Logs`}
+</CommandBox>
+
+## CI / Headless
+
+<CommandBox lang="bash">
+{`# Einmaliger Lauf, kein interaktives Prompt
+claude -p "review the diff and fix critical bugs only" --output-format=text
+
+# In GitHub Actions:
+- name: Code review
+  run: claude -p "review PR #$\{\{ github.event.number \}\}" --no-stream`}
+</CommandBox>
+</De>
+
+<En>
+## Start / manage sessions
+
+<CommandBox lang="bash">
+{`claude                       # start interactive session
+claude --plan                # start directly in plan mode
+claude --auto-edit           # edits without prompt
+claude --continue            # resume last session
+claude --resume <session-id> # load specific session
+claude --logout              # reset auth`}
+</CommandBox>
+
+## Inside the session
+
+<CommandBox lang="bash">
+{`/help                        # help
+/clear                       # clear context
+/compact                     # compress history
+/cost                        # cost of this session
+/usage                       # detailed usage
+/model                       # switch model
+/permissions                 # view permissions
+/skills                      # installed skills
+/agents                      # available subagents
+/mcp                         # MCP server status
+/init                        # generate CLAUDE.md
+/review                      # review pull request
+/<skill-name>                # run a skill`}
+</CommandBox>
+
+## Keys
+
+| Key | Action |
+|---|---|
+| **Shift+Tab** | Plan mode toggle |
+| **Esc** | Cancel current generation |
+| **Ctrl+C** | Quit session |
+| **Up/Down** | Prompt history |
+| **Ctrl+R** | Reverse-search history |
+
+## Environment variables
+
+<CommandBox lang="bash">
+{`ANTHROPIC_API_KEY=sk-ant-...           # API key
+ANTHROPIC_MODEL=claude-sonnet-4-6      # override model
+CLAUDE_CODE_USE_BEDROCK=1              # AWS Bedrock
+CLAUDE_CODE_USE_VERTEX=1               # Google Vertex
+DISABLE_TELEMETRY=1                    # turn off Anthropic telemetry
+NO_COLOR=1                             # for CI / logs`}
+</CommandBox>
+
+## CI / headless
+
+<CommandBox lang="bash">
+{`# Single run, no interactive prompts
+claude -p "review the diff and fix critical bugs only" --output-format=text
+
+# In GitHub Actions:
+- name: Code review
+  run: claude -p "review PR #$\{\{ github.event.number \}\}" --no-stream`}
+</CommandBox>
+</En>

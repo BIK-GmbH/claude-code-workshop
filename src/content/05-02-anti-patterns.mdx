@@ -1,0 +1,97 @@
+---
+title:
+  de: "Typische Anti-Patterns"
+  en: "Typical Anti-Patterns"
+researchedOn: 2026-05-04
+sources:
+  - https://addyosmani.com/blog/good-spec/
+---
+
+# <I18n de="Anti-Patterns" en="Anti-Patterns" />
+
+<De>
+## Die häufigsten 8
+
+### 1. Mega-Prompt
+„Bau mir das gesamte CRM" — Claude liefert Stub-Wrapper, nichts läuft.
+**Fix:** Spec-Driven, Plan-First, kleine Schritte.
+
+### 2. Context-Overload
+Alles ins CLAUDE.md gestopft, 800 Zeilen.
+**Fix:** Detail in `docs/`, CLAUDE.md unter 200 Zeilen, Lazy-Pointer.
+
+### 3. Test-Disable
+Claude darf Tests verändern, um sie grün zu kriegen.
+**Fix:** Pre-commit-Hook prüft Diff auf `test_*.py`-Änderungen.
+
+### 4. Endlos-Loop
+Claude läuft 30 Min, gleicher Bug, 5 Versuche.
+**Fix:** Nach 2 fehlgeschlagenen Korrekturen: `/clear`, neue Spec.
+
+### 5. Diff-Drift
+Plan sagt 4 Files, Diff zeigt 17 Files.
+**Fix:** „Halt dich an den Plan. Wenn du zusätzliche Files brauchst, frag erst."
+
+### 6. Halluzinierte Imports
+Claude importiert Module, die nicht existieren.
+**Fix:** Tests, die Imports validieren. Linter im pre-commit.
+
+### 7. Silent Mock
+Claude mockt eine Abhängigkeit, weil sie Setup-Aufwand hat.
+**Fix:** „Keine Mocks bei DB/HTTP. Wenn echte Verbindung fehlt, brich ab und sag warum."
+
+### 8. „Tut mir leid, das funktioniert"
+Claude beruhigt mit „Ich habe es gefixt", aber Test ist nie gelaufen.
+**Fix:** „Du musst den Test laufen und Output zeigen, bevor du fertig sagst."
+
+<NoteCard variant="warning" title="Meta-Anti-Pattern">
+**Reviewer-Fatigue.** Wenn ihr nach 3 Stunden Pair-Programming mit KI nicht mehr aufmerksam reviewen könnt — Pause oder Stop für heute.
+</NoteCard>
+</De>
+
+<En>
+## The most common 8
+
+### 1. Mega-prompt
+"Build me the whole CRM" — Claude delivers stub wrappers, nothing runs.
+**Fix:** spec-driven, plan-first, small steps.
+
+### 2. Context overload
+Everything stuffed into CLAUDE.md, 800 lines.
+**Fix:** detail in `docs/`, CLAUDE.md under 200 lines, lazy pointers.
+
+### 3. Test disable
+Claude is allowed to alter tests to make them green.
+**Fix:** pre-commit hook checks diff against `test_*.py` changes.
+
+### 4. Endless loop
+Claude runs 30 min, same bug, 5 attempts.
+**Fix:** after 2 failed fixes: `/clear`, new spec.
+
+### 5. Diff drift
+Plan says 4 files, diff shows 17.
+**Fix:** "Stick to the plan. If you need extra files, ask first."
+
+### 6. Hallucinated imports
+Claude imports modules that don't exist.
+**Fix:** tests that validate imports. Linter in pre-commit.
+
+### 7. Silent mock
+Claude mocks a dependency because it's setup-heavy.
+**Fix:** "No mocks for DB/HTTP. If real connection missing, abort and say why."
+
+### 8. "Sorry, that works"
+Claude reassures with "I fixed it" but the test never ran.
+**Fix:** "You must run the test and show the output before saying done."
+
+<NoteCard variant="warning" title="Meta anti-pattern">
+**Reviewer fatigue.** If after 3 hours of AI pairing you can no longer review attentively — break or stop for the day.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Jeder dieser Anti-Patterns ist mir persönlich schon passiert. TN-Erfahrungen abfragen — die meisten kennen Anti-Pattern 1, 4 und 8 sehr gut. Anti-Pattern 7 (Silent Mock) ist das gefährlichste in CI/CD-Kontext."
+  en="Every one of these has happened to me personally. Ask participants — most know anti-patterns 1, 4 and 8 well. Anti-pattern 7 (silent mock) is the most dangerous in CI/CD contexts."
+/>
+</SpeakerNotes>

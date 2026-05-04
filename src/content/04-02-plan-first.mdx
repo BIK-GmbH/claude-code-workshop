@@ -1,0 +1,146 @@
+---
+title:
+  de: "Plan-First-Ansatz"
+  en: "Plan-First Approach"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+  - https://www.datacamp.com/tutorial/claude-code-best-practices
+---
+
+# <I18n de="Plan-First" en="Plan-First" />
+
+<De>
+## Die Spec → Plan → Code Pipeline
+
+```
+┌─────────┐      ┌──────────┐      ┌─────────┐
+│  SPEC   │  →   │   PLAN   │  →   │  CODE   │
+│ (human) │      │ (claude) │      │ (claude)│
+└─────────┘      └────┬─────┘      └────┬────┘
+                      │                  │
+                  Mensch                 │
+                  prüft                  │
+                  Plan                   ▼
+                                    Mensch reviewt
+                                    Diff
+```
+
+## Was ein guter Plan enthält
+
+1. **Schritte in Reihenfolge** — atomar, in 5–15 Min umsetzbar pro Schritt
+2. **Files to create / modify** — explizite Liste
+3. **Risiken** — was kann brechen?
+4. **Tests** — was beweist, dass der Schritt fertig ist?
+5. **Rollback** — wie zurückrollen, wenn was schief geht?
+
+## Beispiel-Plan-Output
+
+<CommandBox lang="markdown">
+{`## Plan: Email-Login implementieren
+
+### Schritte
+1. DB-Migration: users-Tabelle Spalte password_hash hinzufügen
+   Files: migrations/0042_password_hash.sql
+   Test: pytest tests/test_migrations.py::test_0042
+
+2. Backend: bcrypt-Hash beim Signup
+   Files: api/auth/signup.py, api/users/model.py
+   Test: pytest tests/test_signup.py
+
+3. Backend: Login-Endpoint mit bcrypt-Compare
+   Files: api/auth/login.py
+   Test: pytest tests/test_login.py (success + 3 wrong → lockout)
+
+...
+
+### Risiken
+- Bestandsuser haben kein password_hash → Migration füllt mit NULL,
+  Login-Endpoint muss NULL als "force-reset" behandeln
+- Lockout-State persistieren — nicht nur in-memory!
+
+### Rollback
+- Migration ist additiv — alte Pfade funktionieren weiter`}
+</CommandBox>
+
+## Iterieren statt nur akzeptieren
+
+- Plan ist **Diskussionsgrundlage**, nicht Marching Order
+- Typische Verbesserungen: Reihenfolge ändern, Tests hinzufügen, Risiken eskalieren
+- 2–3 Iterationen sind normal
+
+<NoteCard variant="tip">
+**Plan committen** — wenn der Plan gut ist, leg ihn in `docs/plans/<feature>.md` ab. Bei Context-Switch oder Bug-Hunt ist er wieder da.
+</NoteCard>
+</De>
+
+<En>
+## The spec → plan → code pipeline
+
+```
+┌─────────┐      ┌──────────┐      ┌─────────┐
+│  SPEC   │  →   │   PLAN   │  →   │  CODE   │
+│ (human) │      │ (claude) │      │ (claude)│
+└─────────┘      └────┬─────┘      └────┬────┘
+                      │                  │
+                  Human                  │
+                  reviews                │
+                  plan                   ▼
+                                    Human reviews
+                                    diff
+```
+
+## What a good plan contains
+
+1. **Steps in order** — atomic, 5–15 min each
+2. **Files to create / modify** — explicit list
+3. **Risks** — what can break?
+4. **Tests** — what proves the step is done?
+5. **Rollback** — how to revert if it goes wrong?
+
+## Example plan output
+
+<CommandBox lang="markdown">
+{`## Plan: implement email login
+
+### Steps
+1. DB migration: add password_hash column to users
+   Files: migrations/0042_password_hash.sql
+   Test: pytest tests/test_migrations.py::test_0042
+
+2. Backend: bcrypt hash on signup
+   Files: api/auth/signup.py, api/users/model.py
+   Test: pytest tests/test_signup.py
+
+3. Backend: login endpoint with bcrypt compare
+   Files: api/auth/login.py
+   Test: pytest tests/test_login.py (success + 3 wrong → lockout)
+
+...
+
+### Risks
+- Existing users have no password_hash → migration fills with NULL,
+  login endpoint must treat NULL as "force reset"
+- Lockout state must persist — not just in-memory!
+
+### Rollback
+- Migration is additive — old paths keep working`}
+</CommandBox>
+
+## Iterate, don't just accept
+
+- The plan is a **discussion basis**, not marching orders
+- Typical improvements: reorder steps, add tests, escalate risks
+- 2–3 iterations are normal
+
+<NoteCard variant="tip">
+**Commit the plan** — once good, drop it into `docs/plans/<feature>.md`. Survives context switches and bug hunts.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Demo: realistisches Feature live planen lassen, dann Plan iterieren. TN sehen wie Plan-Mode-Output sich verbessert wenn man konkret pusht ('Test fehlt für Lockout-Recovery'). Wichtig: Plan-Akzeptanz ist Mensch-Verantwortung — nie blind durchwinken."
+  en="Demo: have it plan a realistic feature live, then iterate the plan. Participants see how plan-mode output improves when pushed concretely ('test missing for lockout recovery'). Key: plan acceptance is human responsibility — never rubber-stamp."
+/>
+</SpeakerNotes>

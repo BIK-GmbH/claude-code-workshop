@@ -1,0 +1,130 @@
+---
+title:
+  de: "CLAUDE.md-Vorlage"
+  en: "CLAUDE.md Template"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="CLAUDE.md-Vorlage" en="CLAUDE.md Template" />
+
+<De>
+## Minimale Projekt-CLAUDE.md
+
+<CommandBox lang="markdown" caption="copy & adapt">
+{`# <Projektname>
+
+## Was ist das?
+Ein-Satz-Beschreibung des Produkts/Repos und seiner Zielgruppe.
+
+## Tech Stack
+| Schicht | Technologie |
+|---------|-------------|
+| Frontend | React 19 + Vite + Tailwind v4 |
+| Backend  | FastAPI + Postgres |
+| Deploy   | Railway / Vercel / Fly.io |
+
+## Projekt-Layout
+backend/   FastAPI App, Tests, Models
+frontend/  React UI, hooks, components
+docs/      Architektur-Detail (lazy)
+.claude/   Skills, Agents, Settings
+
+## Befehle
+- Dev:   \`make dev\`
+- Tests: \`pytest -v\` / \`npm test\`
+- Build: \`npm run build\`
+- Deploy: \`git push origin main\`
+
+## Konventionen
+- Conventional Commits (feat/fix/chore/refactor/docs/test)
+- Pre-commit Hook: tests + linter
+- Niemals API-Keys committen — \`.env\` ist gitignored
+- Pull Requests max. 400 LoC; größere → splitten
+
+## Bekannte Limitierungen
+- (eure spezifischen)
+
+## Architektur-Detail
+Lies on-demand:
+- \`docs/architecture/auth.md\` — Auth-Flow
+- \`docs/architecture/billing.md\` — Stripe-Integration
+- \`docs/specs/\` — aktive Specs
+- \`docs/plans/\` — aktive Pläne`}
+</CommandBox>
+
+## Persönliche `~/.claude/CLAUDE.md`
+
+<CommandBox lang="markdown" caption="user-global">
+{`# Persönliche Präferenzen
+
+- Antworten auf Deutsch.
+- Code-Beispiele in TypeScript bevorzugt, falls Sprache nicht spezifisch.
+- Vor Diff: kurze 1-Satz-Zusammenfassung was geändert wird.
+- Kein "schließlich", "jedoch", "darüber hinaus" — direkter Stil.
+
+## Tooling-Setup
+- Editor: VS Code mit Vim-Bindings
+- Shell: zsh + starship`}
+</CommandBox>
+</De>
+
+<En>
+## Minimal project CLAUDE.md
+
+<CommandBox lang="markdown" caption="copy & adapt">
+{`# <Project name>
+
+## What is it?
+One-sentence description of the product/repo and its audience.
+
+## Tech stack
+| Layer    | Tech |
+|----------|------|
+| Frontend | React 19 + Vite + Tailwind v4 |
+| Backend  | FastAPI + Postgres |
+| Deploy   | Railway / Vercel / Fly.io |
+
+## Project layout
+backend/   FastAPI app, tests, models
+frontend/  React UI, hooks, components
+docs/      architecture detail (lazy)
+.claude/   skills, agents, settings
+
+## Commands
+- Dev:   \`make dev\`
+- Tests: \`pytest -v\` / \`npm test\`
+- Build: \`npm run build\`
+- Deploy: \`git push origin main\`
+
+## Conventions
+- Conventional commits (feat/fix/chore/refactor/docs/test)
+- Pre-commit hook: tests + linter
+- Never commit API keys — \`.env\` is gitignored
+- PRs max 400 LoC; larger → split
+
+## Known limitations
+- (your specific ones)
+
+## Architecture detail
+Read on-demand:
+- \`docs/architecture/auth.md\` — auth flow
+- \`docs/architecture/billing.md\` — Stripe integration
+- \`docs/specs/\` — active specs
+- \`docs/plans/\` — active plans`}
+</CommandBox>
+
+## Personal `~/.claude/CLAUDE.md`
+
+<CommandBox lang="markdown" caption="user-global">
+{`# Personal prefs
+
+- Answer in English.
+- Code examples in TypeScript by default if language unspecified.
+- Before diff: one-sentence summary of what changes.
+- No "however", "furthermore", "in conclusion" — direct style.
+
+## Tooling setup
+- Editor: VS Code with Vim bindings
+- Shell: zsh + starship`}
+</CommandBox>
+</En>

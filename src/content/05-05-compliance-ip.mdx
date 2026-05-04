@@ -1,0 +1,85 @@
+---
+title:
+  de: "Compliance & IP-Fragen"
+  en: "Compliance & IP"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="Compliance & IP" en="Compliance & IP" />
+
+<De>
+## Drei Compliance-Themen
+
+### 1. DSGVO / Datenresidenz
+
+- **Wo werden Prompts verarbeitet?** Anthropic-Default: USA. EU-Region verfügbar (AWS Bedrock + Anthropic-Vertrag).
+- **Werden Prompts zum Training genutzt?** Default für API: nein. Default für Pro/Max: nein. **Bedrock/Vertex: nie.**
+- **Personenbezogene Daten** (Kundennamen, Emails, IDs in Code-Beispielen) — **vorher anonymisieren** oder DPA + EU-Region nutzen.
+
+### 2. Code-IP & Lizenzen
+
+- **Wem gehört der KI-generierte Code?** Aktuelle US/EU-Rechtslage 2026: dem User, der ihn erzeugt. Vertrag mit Auftraggeber prüfen.
+- **Lizenz-Kontamination:** Trainingsdaten enthielten GPL-Code. **Anthropic Output-Indemnity** schützt Enterprise-User für ungewollte Verbatim-Kopien — Pro/API-Nutzer **nicht** automatisch.
+- **Mitigation:** Lizenz-Scanner (z.B. `licensecheck`, `oss-review-toolkit`) im CI, Snippets > 50 Zeilen manuell prüfen.
+
+### 3. Audit-Trail
+
+- **Was wurde mit KI gemacht?** Wenn Auftraggeber das fragt — könnt ihr antworten?
+- **Lösung:** Conventional Commits mit `Co-Authored-By: Claude <noreply@anthropic.com>`-Trailer
+- Plus: Spec + Plan in `docs/specs/` und `docs/plans/` committen → vollständige Provenance
+
+## Compliance-Checkliste
+
+- [ ] DPA mit Anthropic / Bedrock / Vertex unterschrieben?
+- [ ] EU-Region konfiguriert (falls EU-Daten)?
+- [ ] Personenbezogene Daten in Prompts ausgeschlossen / anonymisiert?
+- [ ] Lizenz-Scanner im CI aktiv?
+- [ ] Audit-Trail in Commits + Specs/Plans?
+- [ ] Internes „Was tun bei DSGVO-Anfrage zu KI-Code"-Playbook vorhanden?
+
+<NoteCard variant="hint">
+**EU AI Act:** Aktuelle Klassifizierung von KI-Coding-Tools (2026): „limited risk". Reine Auto-Completion → keine Pflicht. Agentische Code-Generierung in regulierten Industrien (Medizin, Finanzen) → strengere Auditing-Pflicht erwartet.
+</NoteCard>
+</De>
+
+<En>
+## Three compliance topics
+
+### 1. GDPR / data residency
+
+- **Where are prompts processed?** Anthropic default: US. EU region available (AWS Bedrock + Anthropic contract).
+- **Are prompts used for training?** Default for API: no. Default for Pro/Max: no. **Bedrock/Vertex: never.**
+- **Personal data** (customer names, emails, IDs in code examples) — **anonymise first** or use DPA + EU region.
+
+### 2. Code IP & licences
+
+- **Who owns AI-generated code?** Current US/EU legal status 2026: the user who generated it. Check your client contract.
+- **Licence contamination:** training data contained GPL code. **Anthropic output indemnity** protects enterprise users for unintended verbatim copies — Pro/API users **not** automatically.
+- **Mitigation:** licence scanner (e.g. `licensecheck`, `oss-review-toolkit`) in CI, manually review snippets > 50 lines.
+
+### 3. Audit trail
+
+- **What was done with AI?** When the client asks — can you answer?
+- **Solution:** conventional commits with `Co-Authored-By: Claude <noreply@anthropic.com>` trailer
+- Plus: commit spec + plan in `docs/specs/` and `docs/plans/` → full provenance
+
+## Compliance checklist
+
+- [ ] DPA signed with Anthropic / Bedrock / Vertex?
+- [ ] EU region configured (if EU data)?
+- [ ] Personal data excluded / anonymised in prompts?
+- [ ] Licence scanner in CI active?
+- [ ] Audit trail in commits + specs/plans?
+- [ ] Internal "what to do on a GDPR request about AI code" playbook?
+
+<NoteCard variant="hint">
+**EU AI Act:** current classification of AI coding tools (2026): "limited risk". Pure autocomplete → no obligation. Agentic code generation in regulated industries (medical, finance) → stricter auditing duty expected.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Zwei Geschwindigkeiten: bei Startups schnell durch (Mitigations reichen), bei Enterprise/Banken/Pharma 30 Min Tiefe — DPA-Status, Output-Indemnity, EU-AI-Act-Roadmap. BIK kann hier konkret beraten."
+  en="Two speeds: with startups go fast (mitigations enough), with enterprise/banks/pharma 30 min depth — DPA status, output indemnity, EU AI Act roadmap. BIK can advise concretely here."
+/>
+</SpeakerNotes>

@@ -1,0 +1,114 @@
+---
+title:
+  de: "Was sind Skills?"
+  en: "What Are Skills?"
+researchedOn: 2026-05-04
+sources:
+  - https://alexop.dev/posts/understanding-claude-code-full-stack/
+  - https://blakecrosley.com/guides/claude-code
+---
+
+# <I18n de="Skills" en="Skills" />
+
+<De>
+## Definition
+
+Ein **Skill** ist ein wiederverwendbares Stück „Wissen + Werkzeug" für Claude Code:
+
+- Ein **Verzeichnis** mit einer `SKILL.md` + optionalen Helper-Files
+- Frontmatter beschreibt **wann** der Skill greift (Trigger-Keywords)
+- Body beschreibt **wie** Claude vorgehen soll
+- Optional: Scripts, Templates, Beispiele
+
+## Wo liegen Skills?
+
+| Scope | Pfad | Wer hat Zugriff |
+|---|---|---|
+| Projekt | `.claude/skills/<name>/SKILL.md` | nur dieses Repo |
+| User | `~/.claude/skills/<name>/SKILL.md` | alle Repos dieses Users |
+| Plugin | über Plugin-Manager installiert | nach Install verfügbar |
+
+## Wann greift ein Skill?
+
+- **Auto-Invoke:** Frontmatter `description` matcht User-Anfrage → Claude lädt Skill automatisch
+- **Manuell:** `/<skill-name>` als Slash Command
+- **Über andere Skill:** ein Skill kann andere referenzieren
+
+## Beispiel — `daily-standup`
+
+<CommandBox lang="markdown">
+{`---
+name: daily-standup
+description: Generate a daily standup summary from recent git activity.
+  Use when the user asks "what did I do yesterday" or "create my standup".
+---
+
+# Daily Standup
+
+1. Run \`git log --author=$(git config user.email) --since=yesterday\`
+2. Group commits by file area
+3. Render as markdown:
+   - **Yesterday:** <bullets>
+   - **Today:** <to-do from open tasks>
+   - **Blockers:** <none/list>`}
+</CommandBox>
+
+<NoteCard variant="tip">
+**2026-Update:** Skills haben Slash Commands ersetzt als empfohlene Mechanik. Beides funktioniert noch, aber neu starten: Skills.
+</NoteCard>
+</De>
+
+<En>
+## Definition
+
+A **skill** is a reusable piece of "knowledge + tooling" for Claude Code:
+
+- A **folder** with a `SKILL.md` + optional helper files
+- Frontmatter describes **when** the skill triggers (keywords)
+- Body describes **how** Claude should proceed
+- Optional: scripts, templates, examples
+
+## Where do skills live?
+
+| Scope | Path | Who has access |
+|---|---|---|
+| Project | `.claude/skills/<name>/SKILL.md` | this repo only |
+| User | `~/.claude/skills/<name>/SKILL.md` | all repos for this user |
+| Plugin | installed via plugin manager | available after install |
+
+## When does a skill trigger?
+
+- **Auto-invoke:** frontmatter `description` matches user query → Claude loads skill automatically
+- **Manual:** `/<skill-name>` as slash command
+- **From other skills:** a skill can reference others
+
+## Example — `daily-standup`
+
+<CommandBox lang="markdown">
+{`---
+name: daily-standup
+description: Generate a daily standup summary from recent git activity.
+  Use when the user asks "what did I do yesterday" or "create my standup".
+---
+
+# Daily Standup
+
+1. Run \`git log --author=$(git config user.email) --since=yesterday\`
+2. Group commits by file area
+3. Render as markdown:
+   - **Yesterday:** <bullets>
+   - **Today:** <to-do from open tasks>
+   - **Blockers:** <none/list>`}
+</CommandBox>
+
+<NoteCard variant="tip">
+**2026 update:** Skills replaced slash commands as the recommended mechanic. Both still work, but go forward with skills.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Wichtige Unterscheidung: Skills sind 'leichtgewichtige Routinen' — der Skill SAGT Claude was zu tun ist, das Modell tut es. Subagents (kommt in 03.04) sind 'eigenständige Workers' mit eigenem Context-Fenster. Skills = was, Subagents = wer."
+  en="Important distinction: skills are 'lightweight routines' — the skill TELLS Claude what to do, the model does it. Subagents (coming up in 03.04) are 'independent workers' with their own context window. Skills = what, subagents = who."
+/>
+</SpeakerNotes>

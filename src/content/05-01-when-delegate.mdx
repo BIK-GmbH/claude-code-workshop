@@ -1,0 +1,93 @@
+---
+title:
+  de: "Wann delegieren, wann selbst schreiben"
+  en: "When to Delegate, When to Write Yourself"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+---
+
+# <I18n de="Delegations-Entscheidung" en="Delegation Decision" />
+
+<De>
+## Die zentrale Frage
+
+> Bei jeder Aufgabe: **Bin ich der schnellere oder der bessere Pfad — oder ist es Claude?**
+
+## Heuristik
+
+| Aufgabe | Delegieren? |
+|---|---|
+| Boilerplate (Models, Types, CRUD-Endpoints) | **ja, immer** |
+| Tests schreiben aus Spec | **ja, mit Test-First Loop** |
+| Documentation update / Refactor | **ja**, Mensch reviewt |
+| Migrations + DB-Schema | **ja, aber Plan Mode + manueller Test** |
+| Kritische Sicherheits-Logik (Auth, Crypto, Permissions) | **eher selbst**, KI als Reviewer |
+| Architektur-Entscheidung | **selbst**, KI als Sparringspartner |
+| Domain-Edge-Case mit Spezialwissen | **selbst**, KI hilft beim Code-Skeleton |
+| Performance-Optimierung mit Profiling | **gemeinsam** — KI für Hypothesen, Mensch für Validierung |
+
+## Anti-Pattern: Polarisierung
+
+- ❌ „KI macht alles" — bricht bei Edge-Cases, hinterlässt unverständliche Codebasen
+- ❌ „KI macht nichts" — verschenkte Geschwindigkeit bei Routine
+- ✓ **Bewusste Auswahl pro Task**
+
+## Selbst-Check vor Delegation
+
+1. Habe ich eine **klare Spec** im Kopf?
+2. Kann ich die **Acceptance Criteria** als Test ausdrücken?
+3. Habe ich **Bandwidth** für gründlichen Review?
+4. Sind die **Tools für Verifikation** vorhanden (CI, Testumgebung)?
+
+Wenn **alle 4 Ja** → delegieren. Sonst Spec/Tests/CI zuerst aufbauen.
+
+<NoteCard variant="tip">
+**Faustregel:** Wenn es länger dauert, die Spec zu schreiben als den Code, schreibe den Code selbst.
+</NoteCard>
+</De>
+
+<En>
+## The central question
+
+> For every task: **Am I the faster or better path — or is Claude?**
+
+## Heuristic
+
+| Task | Delegate? |
+|---|---|
+| Boilerplate (models, types, CRUD endpoints) | **yes, always** |
+| Writing tests from a spec | **yes, with test-first loop** |
+| Documentation update / refactor | **yes**, human reviews |
+| Migrations + DB schema | **yes, but plan mode + manual test** |
+| Critical security logic (auth, crypto, permissions) | **rather self**, AI as reviewer |
+| Architecture decision | **self**, AI as sparring partner |
+| Domain edge case with specialist knowledge | **self**, AI helps with code skeleton |
+| Performance optimisation with profiling | **together** — AI for hypotheses, human for validation |
+
+## Anti-pattern: polarisation
+
+- ❌ "AI does everything" — breaks on edge cases, leaves unintelligible codebases
+- ❌ "AI does nothing" — squandered speed on routine
+- ✓ **Deliberate per-task choice**
+
+## Self-check before delegating
+
+1. Do I have a **clear spec** in my head?
+2. Can I express the **acceptance criteria** as tests?
+3. Do I have **bandwidth** for a thorough review?
+4. Are the **verification tools** in place (CI, test env)?
+
+If **all 4 yes** → delegate. Otherwise build spec/tests/CI first.
+
+<NoteCard variant="tip">
+**Rule of thumb:** if writing the spec takes longer than writing the code, write the code yourself.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="TN nach eigenen Beispielen fragen wo Delegation schief ging — meist sind es 1+2 (keine Spec, keine Tests). Das untermauert die Test-First/Spec-First-Botschaft aus Modul 4. Wichtig: KEINE Schuld auf Claude — schlechte Inputs = schlechte Outputs."
+  en="Ask participants for own examples where delegation went wrong — usually 1+2 (no spec, no tests). Reinforces the test-first/spec-first message from Module 4. Key: NO blame on Claude — bad inputs = bad outputs."
+/>
+</SpeakerNotes>

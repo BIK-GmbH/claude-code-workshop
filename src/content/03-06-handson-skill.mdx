@@ -1,0 +1,105 @@
+---
+title:
+  de: "Hands-on: Skill bauen"
+  en: "Hands-on: Build a Skill"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="Hands-on" en="Hands-on" />
+
+<ExerciseCard
+  duration="45 min"
+  title={{ de: "Baut euren ersten produktiven Skill", en: "Build your first productive skill" }}
+  goal=""
+>
+
+<De>
+
+**Wählt einen Skill aus eurem Alltag.** Vorschläge falls ihr keine Idee habt:
+
+| Skill | Was er macht |
+|---|---|
+| `release-notes` | Commits seit letztem Tag → Markdown-Changelog |
+| `find-todo` | TODO/FIXME im Repo → strukturierte Liste mit Datei + Zeile |
+| `pr-template` | Aus Diff → PR-Beschreibung mit Summary, Changes, Test Plan |
+| `dep-audit` | Neue Dependency → Lizenz + Maintainer + Last-Release prüfen |
+| `daily-standup` | Eure Commits seit gestern → Standup-Format |
+
+**Schritt 1 (10 min):** SKILL.md skizzieren
+
+<CommandBox lang="bash">
+{`mkdir -p .claude/skills/<name>
+$EDITOR .claude/skills/<name>/SKILL.md`}
+</CommandBox>
+
+Frontmatter mit `name`, `description` (mit 2–3 Beispiel-Triggern), optional `allowed-tools`.
+
+**Schritt 2 (20 min):** Body schreiben — kürzeste sinnvolle Schrittfolge.
+
+**Schritt 3 (10 min):** Testen
+1. Neue Session: `claude`
+2. Trigger eintippen wie ein User: `mach mir Release-Notes für die letzten 7 Tage`
+3. Schaut, ob Skill auto-invoked wird (im Output sichtbar)
+4. Wenn nein: `description` schärfen, mehr Trigger-Beispiele
+
+**Schritt 4 (5 min):** Commit + Pull Request
+
+<CommandBox lang="bash">
+{`git add .claude/skills/<name>/
+git commit -m "feat(skills): add <name> skill"`}
+</CommandBox>
+
+</De>
+
+<En>
+
+**Pick a skill from your daily work.** Suggestions if you don't have an idea:
+
+| Skill | What it does |
+|---|---|
+| `release-notes` | Commits since last tag → markdown changelog |
+| `find-todo` | TODO/FIXME in repo → structured list with file + line |
+| `pr-template` | From diff → PR description with summary, changes, test plan |
+| `dep-audit` | New dependency → check license + maintainer + last release |
+| `daily-standup` | Your commits since yesterday → standup format |
+
+**Step 1 (10 min):** Sketch SKILL.md
+
+<CommandBox lang="bash">
+{`mkdir -p .claude/skills/<name>
+$EDITOR .claude/skills/<name>/SKILL.md`}
+</CommandBox>
+
+Frontmatter with `name`, `description` (2–3 example triggers), optionally `allowed-tools`.
+
+**Step 2 (20 min):** Write the body — shortest sensible step list.
+
+**Step 3 (10 min):** Test
+1. New session: `claude`
+2. Type a trigger like a user: `give me release notes for the last 7 days`
+3. Watch if the skill auto-invokes (visible in output)
+4. If not: sharpen `description`, add more trigger examples
+
+**Step 4 (5 min):** Commit + pull request
+
+<CommandBox lang="bash">
+{`git add .claude/skills/<name>/
+git commit -m "feat(skills): add <name> skill"`}
+</CommandBox>
+
+</En>
+</ExerciseCard>
+
+<NoteCard variant="hint">
+<I18n
+  de="Wer fertig ist: zweiten Skill bauen, der den ersten nutzt. Skills können sich gegenseitig referenzieren — z.B. `pr-template` ruft intern `release-notes` auf."
+  en="Done early: build a second skill that uses the first. Skills can reference each other — e.g. `pr-template` calls `release-notes` internally."
+/>
+</NoteCard>
+
+<SpeakerNotes>
+<I18n
+  de="Während der 45 Min: zwischen den Tischen rotieren. Häufigste Probleme: (1) Skill-Description zu generisch → kein Auto-Invoke, (2) Schritte zu vage → Output schwankt stark, (3) Tools nicht whitelistet → Skill blockt. Am Ende: 2-3 Skills im Plenum demoen."
+  en="During the 45 min: rotate between tables. Most common problems: (1) description too generic → no auto-invoke, (2) steps too vague → output varies wildly, (3) tools not whitelisted → skill blocks. End: demo 2-3 skills to the whole group."
+/>
+</SpeakerNotes>

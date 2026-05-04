@@ -1,0 +1,178 @@
+---
+title:
+  de: "Skill-Vorlage"
+  en: "Skill Template"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="Skill-Vorlage" en="Skill Template" />
+
+<De>
+## Skeleton SKILL.md
+
+<CommandBox lang="markdown" caption=".claude/skills/<name>/SKILL.md">
+{`---
+name: <kebab-case-name>
+description: |
+  Eine Zeile WAS der Skill macht.
+  Use when the user says "<typischer Trigger 1>" or "<Trigger 2>"
+  or "<deutscher Trigger>".
+allowed-tools:
+  - Read
+  - Bash(git *)
+  - Bash(npm *)
+model: claude-sonnet-4-6   # optional, sonst inherited
+---
+
+# <Skill Title>
+
+## Vorgehen
+
+1. Schritt 1 — was tust du, mit welchem Tool?
+2. Schritt 2 — Verifikations-/Test-Schritt
+3. Schritt 3 — Output-Format
+
+## Ausgabe-Format
+
+\`\`\`markdown
+## <Titel>
+- Bullet 1
+- Bullet 2
+\`\`\`
+
+## Edge Cases
+
+- Wenn <Bedingung>: <Verhalten>
+- Wenn <Bedingung>: brich ab und sage warum
+
+## Beispiel
+
+User: "<Beispiel-Anfrage>"
+Erwartete Ausgabe: <kurz>`}
+</CommandBox>
+
+## Beispiel: `release-notes`-Skill
+
+<CommandBox lang="markdown" caption=".claude/skills/release-notes/SKILL.md">
+{`---
+name: release-notes
+description: |
+  Erstelle Release Notes aus Commits seit dem letzten Git-Tag.
+  Use when the user says "release notes", "changelog", "what changed",
+  oder auf Deutsch "release notes erstellen".
+allowed-tools:
+  - Bash(git log *)
+  - Bash(git tag *)
+---
+
+# Release Notes
+
+## Vorgehen
+
+1. \`git tag --sort=-creatordate | head -1\` — letzter Tag
+2. \`git log <tag>..HEAD --pretty=format:"%h %s"\` — alle Commits seit dem
+3. Gruppiere nach Conventional-Commit-Typ:
+   - feat → "✨ Features"
+   - fix → "🐛 Fixes"
+   - chore/docs → "📝 Misc"
+   - andere → "Other"
+4. Output als Markdown.
+
+## Output-Format
+
+\`\`\`markdown
+# Release <next-version>
+
+## ✨ Features
+- abc123 — feat: add user profile
+- ...
+
+## 🐛 Fixes
+- def456 — fix: handle null email
+\`\`\``}
+</CommandBox>
+</De>
+
+<En>
+## Skeleton SKILL.md
+
+<CommandBox lang="markdown" caption=".claude/skills/<name>/SKILL.md">
+{`---
+name: <kebab-case-name>
+description: |
+  One line WHAT the skill does.
+  Use when the user says "<typical trigger 1>" or "<trigger 2>".
+allowed-tools:
+  - Read
+  - Bash(git *)
+  - Bash(npm *)
+model: claude-sonnet-4-6   # optional, otherwise inherited
+---
+
+# <Skill Title>
+
+## Procedure
+
+1. Step 1 — what you do, with which tool?
+2. Step 2 — verification/test step
+3. Step 3 — output format
+
+## Output format
+
+\`\`\`markdown
+## <Title>
+- Bullet 1
+- Bullet 2
+\`\`\`
+
+## Edge cases
+
+- When <condition>: <behaviour>
+- When <condition>: abort and explain why
+
+## Example
+
+User: "<example query>"
+Expected output: <short>`}
+</CommandBox>
+
+## Example: `release-notes` skill
+
+<CommandBox lang="markdown" caption=".claude/skills/release-notes/SKILL.md">
+{`---
+name: release-notes
+description: |
+  Build release notes from commits since the last git tag.
+  Use when the user says "release notes", "changelog" or "what changed".
+allowed-tools:
+  - Bash(git log *)
+  - Bash(git tag *)
+---
+
+# Release Notes
+
+## Procedure
+
+1. \`git tag --sort=-creatordate | head -1\` — last tag
+2. \`git log <tag>..HEAD --pretty=format:"%h %s"\` — all commits since
+3. Group by conventional-commit type:
+   - feat → "✨ Features"
+   - fix → "🐛 Fixes"
+   - chore/docs → "📝 Misc"
+   - other → "Other"
+4. Output as markdown.
+
+## Output format
+
+\`\`\`markdown
+# Release <next-version>
+
+## ✨ Features
+- abc123 — feat: add user profile
+- ...
+
+## 🐛 Fixes
+- def456 — fix: handle null email
+\`\`\``}
+</CommandBox>
+</En>

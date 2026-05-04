@@ -1,0 +1,85 @@
+---
+title:
+  de: "Team-Konventionen"
+  en: "Team Conventions"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="Team-Konventionen" en="Team Conventions" />
+
+<De>
+## Was ein Team gemeinsam regeln sollte
+
+| Bereich | Konkrete Konvention |
+|---|---|
+| **CLAUDE.md** | Wer pflegt? Wann updaten? Wer reviewt? |
+| **Skills** | Welche sind team-weit? Wo committed (`.claude/skills/`)? |
+| **Subagents** | Standard-Set für Code-Review, Recherche, Security-Check |
+| **MCP-Server** | Welche sind erlaubt? Mit welchen Token-Scopes? |
+| **Permissions** | Gemeinsame `.claude/settings.json` im Repo |
+| **Spec-Format** | Template in `docs/specs/_template.md` |
+| **Plan-Format** | Template in `docs/plans/_template.md` |
+| **Commit-Trailer** | `Co-Authored-By: Claude` ja/nein? |
+| **Cost-Cap** | Pro-User-Limit definiert? Alert-Schwelle? |
+| **Review-Disziplin** | KI-PRs pro Reviewer/Tag-Limit? |
+
+## Onboarding-Pfad für neue Team-Mitglieder
+
+1. **Tag 1:** Claude Code installieren, `claude doctor`, eigene `~/.claude/CLAUDE.md`
+2. **Tag 2:** Repo-`CLAUDE.md` lesen, mit `/init` durchspielen
+3. **Tag 3:** Skills + MCP-Server konfigurieren laut Team-Doku
+4. **Woche 2:** ersten Spec → Plan → Code Cycle mit Pair-Programming-Session
+5. **Woche 4:** eigenen Skill für eine wiederkehrende Aufgabe schreiben
+
+## Living Convention
+
+- Konventionen müssen **leben** — vierteljährlicher Review, was funktioniert noch
+- **Skill-Backlog** offen halten — wer eine wiederkehrende Aufgabe sieht, schlägt Skill vor
+- **CLAUDE.md-Updates** durch normalen PR-Prozess, nicht heimlich
+
+<NoteCard variant="tip">
+**Killer-Move:** ein **Wiki-Skill** im Repo, der nach jeder größeren Änderung CLAUDE.md / Specs / Plans up-to-date hält. Gibt aktuelle Doku ohne Disziplin-Pflicht.
+</NoteCard>
+</De>
+
+<En>
+## What a team should agree on
+
+| Area | Concrete convention |
+|---|---|
+| **CLAUDE.md** | Who maintains? When to update? Who reviews? |
+| **Skills** | Which are team-wide? Where committed (`.claude/skills/`)? |
+| **Subagents** | Standard set for code review, research, security check |
+| **MCP servers** | Which are allowed? With what token scopes? |
+| **Permissions** | Shared `.claude/settings.json` in repo |
+| **Spec format** | Template in `docs/specs/_template.md` |
+| **Plan format** | Template in `docs/plans/_template.md` |
+| **Commit trailer** | `Co-Authored-By: Claude` yes/no? |
+| **Cost cap** | Per-user limit defined? Alert threshold? |
+| **Review discipline** | Limit on AI PRs per reviewer per day? |
+
+## Onboarding path for new team members
+
+1. **Day 1:** install Claude Code, `claude doctor`, own `~/.claude/CLAUDE.md`
+2. **Day 2:** read repo `CLAUDE.md`, run `/init`
+3. **Day 3:** configure skills + MCP servers per team docs
+4. **Week 2:** first spec → plan → code cycle in a pair-programming session
+5. **Week 4:** write own skill for a recurring task
+
+## Living convention
+
+- Conventions must **live** — quarterly review, what still works
+- Keep a **skill backlog** open — anyone who sees a recurring task suggests a skill
+- **CLAUDE.md updates** through normal PR process, not stealth
+
+<NoteCard variant="tip">
+**Killer move:** a **wiki skill** in the repo that keeps CLAUDE.md / specs / plans up-to-date after every major change. Current docs without discipline pressure.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Wenn ein Team das alles aufsetzt, dauert es ~2 Wochen. Empfehlen: nicht alles am ersten Tag. Wichtigster Punkt: Skills team-shared, sonst hat jeder seine eigenen 'KI-Heroes'. Das war Punkt aus Modul 0 — internes Know-how das skaliert."
+  en="If a team sets all this up, ~2 weeks. Recommend: not everything day one. Most important: team-shared skills, else everyone has their own 'AI heroes'. That was a Module 0 point — internal know-how that scales."
+/>
+</SpeakerNotes>

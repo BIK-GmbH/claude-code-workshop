@@ -1,0 +1,100 @@
+---
+title:
+  de: "Slash Commands"
+  en: "Slash Commands"
+researchedOn: 2026-05-04
+sources:
+  - https://computingforgeeks.com/claude-code-cheat-sheet/
+  - https://blakecrosley.com/guides/claude-code
+---
+
+# <I18n de="Slash Commands" en="Slash Commands" />
+
+<De>
+## Eingebaute Commands (die wichtigsten)
+
+| Command | Was es tut |
+|---|---|
+| `/help` | Hilfe anzeigen |
+| `/clear` | Session-Kontext leeren — Frischstart |
+| `/compact` | Verlauf komprimieren statt löschen |
+| `/cost` | Kosten dieser Session |
+| `/model` | Modell wechseln |
+| `/init` | Initiale `CLAUDE.md` für ein Repo generieren |
+| `/review` | KI prüft euren ausstehenden Pull Request |
+| `/permissions` | Berechtigungs-Übersicht & -Einstellungen |
+| `/skills` | installierte Skills auflisten |
+| `/agents` | verfügbare Subagents |
+| `/mcp` | MCP-Server-Status |
+| `/login` / `/logout` | Auth-Wechsel |
+
+## Eigene Commands (Custom Slash Commands)
+
+In `.claude/commands/<name>.md` Markdown-Datei mit YAML-Frontmatter:
+
+<CommandBox lang="markdown">
+{`---
+description: Ungelöste TODOs im Code finden und in Issues umwandeln
+---
+
+Suche im Repo nach TODO/FIXME-Kommentaren.
+Pro Treffer: erstelle ein GitHub-Issue mit
+- Titel: TODO-Text
+- Body: Datei + Zeilennummer + Code-Snippet
+- Label: from-todo`}
+</CommandBox>
+
+Aufruf: `/skill-name` (z.B. `/find-todo`).
+
+<NoteCard variant="hint">
+**2026-Update:** Slash Commands und Skills sind unifiziert. Neue Empfehlung: `.claude/skills/` statt `.claude/commands/` — jeder Skill bekommt automatisch ein Slash-Interface.
+</NoteCard>
+</De>
+
+<En>
+## Built-in commands (the important ones)
+
+| Command | What it does |
+|---|---|
+| `/help` | Show help |
+| `/clear` | Clear session context — fresh start |
+| `/compact` | Compress history instead of clearing |
+| `/cost` | Cost of this session |
+| `/model` | Switch model |
+| `/init` | Generate an initial `CLAUDE.md` for a repo |
+| `/review` | AI reviews your pending pull request |
+| `/permissions` | Permissions overview & settings |
+| `/skills` | List installed skills |
+| `/agents` | Available subagents |
+| `/mcp` | MCP server status |
+| `/login` / `/logout` | Auth switch |
+
+## Custom commands
+
+Markdown file in `.claude/commands/<name>.md` with YAML frontmatter:
+
+<CommandBox lang="markdown">
+{`---
+description: Find unresolved TODOs and turn them into issues
+---
+
+Scan the repo for TODO/FIXME comments.
+For each hit: create a GitHub issue with
+- title: TODO text
+- body: file + line + code snippet
+- label: from-todo`}
+</CommandBox>
+
+Invoke: `/skill-name` (e.g. `/find-todo`).
+
+<NoteCard variant="hint">
+**2026 update:** Slash commands and skills are now unified. New recommendation: `.claude/skills/` instead of `.claude/commands/` — every skill automatically gets a slash interface.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Live: `/help` aufrufen, dann eigenes Slash-Command bauen — `/find-todo` ist guter Showcase. Wichtig: $ARGUMENTS kann im Command-Body benutzt werden für Parameter. Zeigen, wie team-shared Commands über Repo committed werden — das ist eine Form von Process-as-Code."
+  en="Live: open `/help`, then build a custom slash command — `/find-todo` is a good showcase. Note: `$ARGUMENTS` can be used in the command body for parameters. Show how team-shared commands get committed to the repo — that's a form of process-as-code."
+/>
+</SpeakerNotes>

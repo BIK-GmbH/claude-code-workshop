@@ -1,0 +1,92 @@
+---
+title:
+  de: "Installation"
+  en: "Installation"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+  - https://petronellatech.com/blog/claude-code-cli-guide/
+---
+
+# <I18n de="Claude Code installieren" en="Install Claude Code" />
+
+<De>
+## Voraussetzungen
+
+- **Node.js 20+** (LTS empfohlen) — `node -v`
+- **Git** und Terminal-Zugang
+- macOS / Linux nativ; Windows via **WSL2**
+
+## Installation
+
+<CommandBox lang="bash">
+npm install -g @anthropic-ai/claude-code
+</CommandBox>
+
+## Erstes Login
+
+<CommandBox lang="bash">
+claude
+</CommandBox>
+
+Beim ersten Start öffnet sich der Auth-Flow im Browser. Login wahlweise via:
+
+- **Claude Pro / Max** (Subscription) — empfohlen für Einzel-Devs
+- **Anthropic API-Key** (Pay-per-use) — für Teams + CI/CD
+- **Amazon Bedrock / Google Vertex** — für Enterprise-Compliance
+
+## Quick-Sanity-Check
+
+<CommandBox lang="bash">
+claude --version
+claude doctor          # prüft Node, Git, MCP-Server, Auth
+</CommandBox>
+
+<NoteCard variant="hint">
+Auf Windows ohne WSL2 habt ihr in 2026 noch viele Edge-Cases. Investiert die 30 Min und setzt WSL2 + Ubuntu auf — spart später Stunden.
+</NoteCard>
+</De>
+
+<En>
+## Prerequisites
+
+- **Node.js 20+** (LTS recommended) — `node -v`
+- **Git** and terminal access
+- macOS / Linux native; Windows via **WSL2**
+
+## Install
+
+<CommandBox lang="bash">
+npm install -g @anthropic-ai/claude-code
+</CommandBox>
+
+## First login
+
+<CommandBox lang="bash">
+claude
+</CommandBox>
+
+The first launch opens the auth flow in your browser. Sign in with:
+
+- **Claude Pro / Max** (subscription) — recommended for individuals
+- **Anthropic API key** (pay-per-use) — for teams + CI/CD
+- **Amazon Bedrock / Google Vertex** — for enterprise compliance
+
+## Quick sanity check
+
+<CommandBox lang="bash">
+claude --version
+claude doctor          # checks Node, Git, MCP servers, auth
+</CommandBox>
+
+<NoteCard variant="hint">
+On Windows without WSL2 you still hit many edge cases in 2026. Spend the 30 min and set up WSL2 + Ubuntu — saves hours later.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Live-Install vor der Gruppe machen, falls noch nicht vorbereitet. Auth-Flow ist der häufigste Stolperstein — Browser muss am gleichen System auf sein. Bei API-Key: Konto-Limits zeigen, niemand will Live $200 verbrennen. BIK-Trick: temporären API-Key vorbereitet haben falls jemand keinen hat."
+  en="Live-install in front of the group if not pre-done. Auth flow is the most common stumbling block — browser must be on the same system. With API key: show quota limits, nobody wants to burn $200 live. BIK trick: have a temp API key ready in case someone has none."
+/>
+</SpeakerNotes>

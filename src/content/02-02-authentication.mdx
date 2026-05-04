@@ -1,0 +1,81 @@
+---
+title:
+  de: "Authentifizierung & Provider"
+  en: "Authentication & Providers"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+---
+
+# <I18n de="Authentifizierung" en="Authentication" />
+
+<De>
+## Drei Auth-Pfade
+
+| Pfad | Wer | Vorteil | Nachteil |
+|---|---|---|---|
+| **Claude Pro / Max** | Einzel-Devs | Flatrate, kein Cost-Schock | Persönlicher Account, kein Multi-User |
+| **Anthropic API-Key** | Teams, CI/CD | Pay-per-use, gemeinsam nutzbar | Cost-Monitoring nötig |
+| **Bedrock / Vertex** | Enterprise | Compliance, eigene Region, SSO | Setup-Aufwand, langsamer Roll-Out neuer Modelle |
+
+## Wechsel zwischen Konten
+
+<CommandBox lang="bash">
+claude --logout            # aktuelle Session beenden
+claude                     # neuer Login-Flow
+
+# Mehrere Provider parallel nutzen — über Env-Vars steuerbar:
+ANTHROPIC_API_KEY=sk-ant-... claude
+CLAUDE_CODE_USE_BEDROCK=1 claude
+</CommandBox>
+
+## Token-Tracking
+
+<CommandBox lang="bash">
+/cost                      # in laufender Session: was hat dieser Run gekostet?
+/usage                     # Übersicht über Session-Verbräuche
+</CommandBox>
+
+<NoteCard variant="warning">
+**Niemals** API-Keys in `CLAUDE.md` oder Repo-Files schreiben — Claude liest die und gibt sie potenziell weiter. Immer über Env-Vars / Secrets-Manager.
+</NoteCard>
+</De>
+
+<En>
+## Three auth paths
+
+| Path | Who | Pro | Con |
+|---|---|---|---|
+| **Claude Pro / Max** | Solo devs | Flat rate, no cost shock | Personal account, no multi-user |
+| **Anthropic API key** | Teams, CI/CD | Pay-per-use, shareable | Cost monitoring required |
+| **Bedrock / Vertex** | Enterprise | Compliance, own region, SSO | Setup effort, slower new-model rollout |
+
+## Switching between accounts
+
+<CommandBox lang="bash">
+claude --logout            # end current session
+claude                     # new login flow
+
+# Use multiple providers in parallel — controlled via env vars:
+ANTHROPIC_API_KEY=sk-ant-... claude
+CLAUDE_CODE_USE_BEDROCK=1 claude
+</CommandBox>
+
+## Token tracking
+
+<CommandBox lang="bash">
+/cost                      # in a running session: what did this run cost?
+/usage                     # overview of session usage
+</CommandBox>
+
+<NoteCard variant="warning">
+**Never** put API keys in `CLAUDE.md` or repo files — Claude reads those and may leak them. Always via env vars / secrets manager.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Wichtig: bei Enterprise-Kunden Compliance-Story sauber spielen — Bedrock/Vertex erlaubt eigene Region, eigene Logging-Pipeline, kein Anthropic-Default-Logging. Claude Pro/Max für Workshop-TN ist meistens die einfachste Wahl. CIO-Konversation: Cost-Cap pro User über Anthropic Console + Slack-Alert empfehlen."
+  en="Important: with enterprise clients, play the compliance story straight — Bedrock/Vertex allows own region, own logging pipeline, no Anthropic-default logging. Claude Pro/Max is usually easiest for workshop participants. CIO conversation: recommend cost cap per user via Anthropic Console + Slack alert."
+/>
+</SpeakerNotes>

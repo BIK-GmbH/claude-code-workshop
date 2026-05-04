@@ -1,0 +1,119 @@
+---
+title:
+  de: "Hands-on: Spec → Code"
+  en: "Hands-on: Spec → Code"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="Hands-on" en="Hands-on" />
+
+<ExerciseCard
+  duration="60 min"
+  title={{ de: "End-to-End Spec-Driven", en: "End-to-end spec-driven" }}
+  goal=""
+>
+
+<De>
+
+**Wählt eine Aufgabe aus eurem Backlog**, die ca. 1–2 Stunden Arbeit wäre, wenn ihr es selbst schreibt. Nicht trivial (10 Min), nicht riesig (1 Tag).
+
+**Phase 1 (10 min) — Spec schreiben**
+
+Erstellt `docs/specs/<feature>.md` mit:
+- Goal (1 Satz)
+- Why (1 Satz)
+- Constraints (Bullet-Liste)
+- Acceptance Criteria (testbare Aussagen)
+- Anti-Goals (was explizit NICHT)
+- Files involved (eure Schätzung)
+
+**Phase 2 (10 min) — Plan generieren**
+
+<CommandBox lang="text">
+{`> [Plan Mode] Lies docs/specs/<feature>.md. Erstelle einen
+  Implementierungsplan mit Schritten, Files, Tests und Risiken.`}
+</CommandBox>
+
+Plan iterieren bis er passt. Wenn fertig: in `docs/plans/<feature>.md` ablegen.
+
+**Phase 3 (30 min) — Implementieren**
+
+<CommandBox lang="text">
+{`> Mach Schritt 1 aus dem Plan. Schreib den Test zuerst, dann den Code,
+  dann lass den Test laufen.
+
+> Mach Schritt 2.
+
+> ...`}
+</CommandBox>
+
+Pro Schritt: Test → Code → grün → kurz committen.
+
+**Phase 4 (10 min) — Review**
+
+- `git diff main..HEAD` — alles wie geplant?
+- Test-Suite voll laufen lassen
+- Manueller Smoke-Check der goldenen Pfade
+- Wenn alles grün: PR aufmachen
+
+</De>
+
+<En>
+
+**Pick a backlog item** that would be ~1–2 hours of work if you wrote it yourself. Not trivial (10 min), not huge (1 day).
+
+**Phase 1 (10 min) — Write the spec**
+
+Create `docs/specs/<feature>.md` with:
+- Goal (one sentence)
+- Why (one sentence)
+- Constraints (bullets)
+- Acceptance criteria (testable statements)
+- Anti-goals (what explicitly NOT)
+- Files involved (your estimate)
+
+**Phase 2 (10 min) — Generate plan**
+
+<CommandBox lang="text">
+{`> [Plan Mode] Read docs/specs/<feature>.md. Build an implementation
+  plan with steps, files, tests and risks.`}
+</CommandBox>
+
+Iterate the plan until it fits. When done: drop it into `docs/plans/<feature>.md`.
+
+**Phase 3 (30 min) — Implement**
+
+<CommandBox lang="text">
+{`> Do step 1 from the plan. Write the test first, then the code,
+  then run the test.
+
+> Do step 2.
+
+> ...`}
+</CommandBox>
+
+Per step: test → code → green → small commit.
+
+**Phase 4 (10 min) — Review**
+
+- `git diff main..HEAD` — everything as planned?
+- Run the full test suite
+- Manual smoke check of golden paths
+- All green: open the PR
+
+</En>
+</ExerciseCard>
+
+<NoteCard variant="hint">
+<I18n
+  de="Wer fertig ist: Plan-Doc + Spec-Doc unter `docs/specs/` und `docs/plans/` committen. Das ist die wertvollste Artefakt-Kette aus diesem Workshop — daraus baut ihr eure Team-Konventionen auf."
+  en="Done early: commit the plan + spec under `docs/specs/` and `docs/plans/`. That's the most valuable artifact chain from this workshop — your team conventions grow from this."
+/>
+</NoteCard>
+
+<SpeakerNotes>
+<I18n
+  de="60 Min sind knapp aber realistisch. Ich rotiere und helfe an den schwierigen Schritten. Häufiges Problem: Spec zu groß — bei 30+ Acceptance Criteria runter-skopen auf MVP. Plan-Iteration: TN müssen pushen, nicht nur erste Plan-Version akzeptieren."
+  en="60 min is tight but realistic. I rotate and help on hard steps. Common problem: spec too big — at 30+ acceptance criteria, scope down to MVP. Plan iteration: participants must push, don't accept first plan version."
+/>
+</SpeakerNotes>

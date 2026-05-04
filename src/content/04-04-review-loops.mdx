@@ -1,0 +1,95 @@
+---
+title:
+  de: "Review-Loops"
+  en: "Review Loops"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+---
+
+# <I18n de="Review-Loops" en="Review Loops" />
+
+<De>
+## Drei Review-Stellen im Workflow
+
+```
+SPEC → [REVIEW 1] → PLAN → [REVIEW 2] → CODE → [REVIEW 3] → MERGE
+        Mensch              Mensch              Mensch + KI
+```
+
+### Review 1 — Spec
+- Versteht jemand außerhalb der Diskussion das Goal?
+- Sind Constraints und Anti-Goals klar?
+- Gibt es Acceptance Criteria, die testbar sind?
+
+### Review 2 — Plan
+- Stimmt die Reihenfolge?
+- Sind Risiken adressiert oder nur erwähnt?
+- Pro Schritt: gibt es einen Test/Verifikation?
+
+### Review 3 — Code
+- Diff lesen, nicht nur überfliegen
+- Tests laufen tatsächlich (`npm test` / `pytest`)
+- Manueller Check der goldenen Pfade
+- Sicherheits-Check (Secrets, Inputs, Auth)
+
+## Subagents als Review-Multiplikator
+
+Lasst zwei Subagents parallel reviewen — `code-reviewer` (Code-Quality) + `security-reviewer` (Security/Compliance). Konsolidiert deren Output.
+
+## Anti-Pattern: „Looks good, merging"
+
+- KI-generierte Code-Diffs sind **größer und gleichförmiger** als manuelle
+- → Visual-Skim funktioniert schlechter als bei Mensch-Code
+- → Diff trotzdem **Zeile für Zeile** durchgehen
+
+<NoteCard variant="warning">
+Wenn ihr nach 30 Min Code-Review noch immer „alles sieht gut aus" denkt — entweder ist es wirklich gut, oder ihr habt Reviewer-Fatigue. Pausenzeichen: kurz aufstehen, dann fertigreviewen.
+</NoteCard>
+</De>
+
+<En>
+## Three review stations in the workflow
+
+```
+SPEC → [REVIEW 1] → PLAN → [REVIEW 2] → CODE → [REVIEW 3] → MERGE
+        human               human               human + AI
+```
+
+### Review 1 — Spec
+- Would someone outside the discussion understand the goal?
+- Are constraints and anti-goals clear?
+- Are acceptance criteria testable?
+
+### Review 2 — Plan
+- Is the order right?
+- Are risks addressed or just mentioned?
+- Does each step have a test/verification?
+
+### Review 3 — Code
+- Read the diff, don't just skim
+- Tests actually run (`npm test` / `pytest`)
+- Manual check of golden paths
+- Security check (secrets, inputs, auth)
+
+## Subagents as review multiplier
+
+Run two subagents in parallel — `code-reviewer` (quality) + `security-reviewer` (security/compliance). Consolidate their output.
+
+## Anti-pattern: "Looks good, merging"
+
+- AI-generated diffs are **larger and more uniform** than manual ones
+- → Visual skim works worse than on human code
+- → Read the diff **line by line** anyway
+
+<NoteCard variant="warning">
+If after 30 min of code review you still think "all looks good" — either it really is, or you have reviewer fatigue. Sign: stand up briefly, then finish.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Review 3 ist der wichtigste — und der schmerzhafteste. KI-Diffs sind im Schnitt 3-5x größer als Mensch-PRs. Pattern empfehlen: Codex/Claude-Code-Diffs in kleinere, themen-getrennte Commits brechen lassen, dann pro Commit reviewen. Review-Reihenfolge: tests → diff → manuell."
+  en="Review 3 is the most important — and most painful. AI diffs are on average 3-5x larger than human PRs. Recommended pattern: have Codex/Claude break diffs into smaller, theme-split commits, then review per commit. Review order: tests → diff → manual."
+/>
+</SpeakerNotes>

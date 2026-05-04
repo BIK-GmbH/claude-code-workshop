@@ -1,0 +1,105 @@
+---
+title:
+  de: "Hands-on: erste CLAUDE.md"
+  en: "Hands-on: First CLAUDE.md"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="Hands-on" en="Hands-on" />
+
+<ExerciseCard
+  duration="30 min"
+  title={{ de: "Eure erste CLAUDE.md", en: "Your first CLAUDE.md" }}
+  goal=""
+>
+
+<De>
+
+**Setup-Check (5 min)** — alle gleichzeitig:
+
+<CommandBox lang="bash">
+{`node -v       # ≥ 20
+git --version
+claude doctor`}
+</CommandBox>
+
+**Schritt 1 (5 min):** In eurem Projekt `claude` starten, dann:
+
+<CommandBox lang="bash">
+/init
+</CommandBox>
+
+Claude scannt das Repo und schlägt eine erste `CLAUDE.md` vor.
+
+**Schritt 2 (15 min):** Die generierte CLAUDE.md aufmachen und manuell ergänzen:
+
+- Eine **„Was ist das?"-Sektion** in 1–2 Sätzen
+- **Tech Stack**-Tabelle
+- **Befehle**-Block (Tests, Build, Deploy)
+- **Konventionen** (Commit-Stil, Naming, Tabs vs Spaces, …)
+- **Bekannte Limitierungen** (was funktioniert nicht in eurer Umgebung?)
+
+**Schritt 3 (5 min):** Test-Drive:
+
+<CommandBox lang="bash">
+{`/clear
+> Erkläre mir die Architektur dieses Projekts in 5 Sätzen.`}
+</CommandBox>
+
+Ist die Antwort konkret und stimmt? → CLAUDE.md ist gut.
+Ist sie generisch oder falsch? → CLAUDE.md hat eine Lücke.
+
+</De>
+
+<En>
+
+**Setup check (5 min)** — everyone in parallel:
+
+<CommandBox lang="bash">
+{`node -v       # ≥ 20
+git --version
+claude doctor`}
+</CommandBox>
+
+**Step 1 (5 min):** In your project run `claude`, then:
+
+<CommandBox lang="bash">
+/init
+</CommandBox>
+
+Claude scans the repo and proposes a first `CLAUDE.md`.
+
+**Step 2 (15 min):** Open the generated CLAUDE.md and fill in manually:
+
+- A **"What is this?"** section in 1–2 sentences
+- **Tech stack** table
+- **Commands** block (tests, build, deploy)
+- **Conventions** (commit style, naming, tabs vs spaces, …)
+- **Known limitations** (what doesn't work in your env?)
+
+**Step 3 (5 min):** Test drive:
+
+<CommandBox lang="bash">
+{`/clear
+> Explain this project's architecture in 5 sentences.`}
+</CommandBox>
+
+Concrete and correct answer? → CLAUDE.md is good.
+Generic or wrong? → CLAUDE.md has a gap.
+
+</En>
+</ExerciseCard>
+
+<NoteCard variant="hint">
+<I18n
+  de="Wer fertig ist: Versucht eine eigene CLAUDE.md unter ~/.claude/CLAUDE.md anzulegen mit persönlichen Vorlieben (Sprache, Format-Stil). Die wird in jedem Projekt zusätzlich geladen."
+  en="Done early? Try creating a personal ~/.claude/CLAUDE.md with your prefs (language, formatting). That's loaded on top in every project."
+/>
+</NoteCard>
+
+<SpeakerNotes>
+<I18n
+  de="Während der 30 Min: 1:1-Hilfe geben. Häufigste Probleme: (1) Auth-Flow hängt, (2) Repo zu groß für /init, (3) Dependencies fehlen. Bei (2): explizit Verzeichnisse ausschließen über frontmatter `description: skip these subdirs: vendor/, dist/`. Am Ende: 2-3 freiwillig CLAUDE.md zeigen lassen, gemeinsam reviewen."
+  en="During the 30 min: provide 1:1 help. Most common problems: (1) auth flow hangs, (2) repo too big for /init, (3) deps missing. For (2): explicitly exclude dirs via `description: skip these subdirs: vendor/, dist/`. End: have 2-3 volunteers show their CLAUDE.md, review together."
+/>
+</SpeakerNotes>

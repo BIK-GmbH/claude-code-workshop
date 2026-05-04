@@ -1,0 +1,112 @@
+---
+title:
+  de: "Plan Mode"
+  en: "Plan Mode"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+  - https://www.datacamp.com/tutorial/claude-code-best-practices
+---
+
+# <I18n de="Plan Mode" en="Plan Mode" />
+
+<De>
+## Was ist Plan Mode?
+
+- **Read-only-Modus** — Claude analysiert, plant, aber **schreibt nichts**
+- Toggle: **Shift+Tab** in der Session, oder Start mit `claude --plan`
+- Output: ein vollständiger Implementierungsplan, den ihr **freigebt** bevor Code entsteht
+
+## Wann nutzen?
+
+| Szenario | Plan Mode? |
+|---|---|
+| Trivialer Bugfix, klar lokalisiert | nein, direkt machen |
+| Multi-File-Refactoring | **ja, immer** |
+| Neue Feature über mehrere Schichten | **ja, immer** |
+| Architektur-Entscheidung | **ja, mehrere Iterationen** |
+| Code-Review-Pass | meistens nein |
+
+## Wie es kostentechnisch hilft
+
+> Plan Mode halves token consumption by reducing back-and-forth generation.
+
+— Anthropic Best Practices, 2026
+
+Statt 10 Edits + 10 Reverts → 1 sauberer Plan + 1 atomare Implementierung.
+
+## Workflow-Beispiel
+
+<CommandBox lang="text">
+{`> Implementiere User-Profile-Update mit Avatar-Upload (Plan Mode)
+
+[Claude liest 12 Files]
+[Claude erstellt Plan mit 7 Schritten + 3 Risiken + 4 zu erstellende Dateien]
+
+> Sieht gut aus, aber Schritt 5 muss vor Schritt 4 — sonst FK-Konflikt
+
+[Claude überarbeitet Plan]
+
+> OK, mach's
+
+[Claude exit Plan Mode, implementiert]`}
+</CommandBox>
+
+<NoteCard variant="tip" title="Goldene Regel">
+**Bei jeder Aufgabe, die mehr als eine Datei berührt: Plan Mode zuerst.** Spart Stunden.
+</NoteCard>
+</De>
+
+<En>
+## What is plan mode?
+
+- **Read-only mode** — Claude analyses, plans, but **writes nothing**
+- Toggle: **Shift+Tab** in session, or start with `claude --plan`
+- Output: a full implementation plan that you **approve** before code happens
+
+## When to use
+
+| Scenario | Plan mode? |
+|---|---|
+| Trivial bugfix, clearly localised | no, just do it |
+| Multi-file refactor | **yes, always** |
+| New feature across multiple layers | **yes, always** |
+| Architecture decision | **yes, multiple iterations** |
+| Code-review pass | usually no |
+
+## How it helps cost-wise
+
+> Plan mode halves token consumption by reducing back-and-forth generation.
+
+— Anthropic Best Practices, 2026
+
+Instead of 10 edits + 10 reverts → 1 clean plan + 1 atomic implementation.
+
+## Workflow example
+
+<CommandBox lang="text">
+{`> Implement user-profile update with avatar upload (plan mode)
+
+[Claude reads 12 files]
+[Claude builds plan with 7 steps + 3 risks + 4 files to create]
+
+> Looks good, but step 5 must come before step 4 — else FK conflict
+
+[Claude revises plan]
+
+> OK, go
+
+[Claude exits plan mode, implements]`}
+</CommandBox>
+
+<NoteCard variant="tip" title="Golden rule">
+**For any task touching more than one file: plan mode first.** Saves hours.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Live-Demo: zwei mal die gleiche Aufgabe — einmal ohne Plan Mode (rumprobiert), einmal mit (klar). TN sehen Token-/Zeit-Differenz im /cost. Plan Mode ist KEIN Bürokratie-Overhead — es ist die schnellste Variante für nicht-triviale Tasks."
+  en="Live demo: same task twice — once without plan mode (flailing), once with (clean). Participants see token/time delta in /cost. Plan mode is NOT bureaucratic overhead — it's the fastest path for non-trivial tasks."
+/>
+</SpeakerNotes>

@@ -1,0 +1,81 @@
+---
+title:
+  de: "Modellauswahl"
+  en: "Model Selection"
+researchedOn: 2026-05-04
+sources:
+  - https://www.nxcode.io/resources/news/best-ai-for-coding-2026-complete-ranking
+---
+
+# <I18n de="Welches Modell wofür?" en="Which Model for What?" />
+
+<De>
+## Aktuelle Claude-Modelle (Mai 2026)
+
+| Modell | Kontext | Stärke | Cost-Tier | Use-Case |
+|---|---|---|---|---|
+| **Opus 4.6** | 1M Tokens | Komplex, höchste Qualität | $$$$ | Architektur, schwere Refactorings |
+| **Opus 4.7 (1M)** | 1M Tokens | Wie 4.6 + besseres Tool-Calling | $$$$ | Lange Agent-Loops |
+| **Sonnet 4.6** | 200k Tokens | Default, sehr ausgewogen | $$ | Daily-Driver, 90 % der Tasks |
+| **Haiku 4.5** | 200k Tokens | Schnell + günstig | $ | Routine, Linting, einfache Edits |
+
+## Wechseln in der Session
+
+<CommandBox lang="bash">
+/model                     # interaktiver Picker
+
+# Direkt setzen via Env:
+ANTHROPIC_MODEL=claude-sonnet-4-6 claude
+ANTHROPIC_MODEL=claude-opus-4-7 claude
+</CommandBox>
+
+## Faustregeln
+
+- **Default:** Sonnet 4.6 — das beste Preis-Leistungs-Verhältnis
+- **Komplexe Architektur, mehrere Files, lange Plans:** Opus
+- **Routine (Tests schreiben, Boilerplate, Doku-Updates):** Haiku
+- **Kostendruck im Team:** mit Sonnet starten, **bei Bedarf** auf Opus eskalieren
+
+<NoteCard variant="tip">
+Manche Teams nutzen einen **Auto-Router**: einfache Turns → Haiku, mittlere → Sonnet, komplexe → Opus. Spart 40–70 % Kosten bei kaum Qualitätsverlust.
+</NoteCard>
+</De>
+
+<En>
+## Current Claude models (May 2026)
+
+| Model | Context | Strength | Cost tier | Use case |
+|---|---|---|---|---|
+| **Opus 4.6** | 1M tokens | Complex, top quality | $$$$ | Architecture, heavy refactors |
+| **Opus 4.7 (1M)** | 1M tokens | Like 4.6 + better tool calls | $$$$ | Long agent loops |
+| **Sonnet 4.6** | 200k tokens | Default, very balanced | $$ | Daily driver, 90% of tasks |
+| **Haiku 4.5** | 200k tokens | Fast + cheap | $ | Routine, linting, simple edits |
+
+## Switching mid-session
+
+<CommandBox lang="bash">
+/model                     # interactive picker
+
+# Set directly via env:
+ANTHROPIC_MODEL=claude-sonnet-4-6 claude
+ANTHROPIC_MODEL=claude-opus-4-7 claude
+</CommandBox>
+
+## Rules of thumb
+
+- **Default:** Sonnet 4.6 — best price/performance
+- **Complex architecture, multi-file, long plans:** Opus
+- **Routine (writing tests, boilerplate, doc updates):** Haiku
+- **Team cost pressure:** start with Sonnet, **escalate to Opus** as needed
+
+<NoteCard variant="tip">
+Some teams run an **auto-router**: simple turns → Haiku, medium → Sonnet, complex → Opus. Saves 40–70% cost with minimal quality loss.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Live: `/model` zeigen, kurz Sonnet vs Opus Reaction-Time vergleichen. Kostentabelle der Anthropic Console aufrufen — TN sehen real, was sie verbrauchen. Opus-Empfehlung: bei langen `--continue`-Sessions Opus, sonst Sonnet."
+  en="Live: show `/model`, briefly compare Sonnet vs Opus reaction time. Open Anthropic Console cost table — participants see real consumption. Opus recommendation: long `--continue` sessions → Opus, otherwise Sonnet."
+/>
+</SpeakerNotes>

@@ -1,0 +1,93 @@
+---
+title:
+  de: "Eigene Skills schreiben"
+  en: "Writing Your Own Skill"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="Skill-Engineering" en="Skill Engineering" />
+
+<De>
+## Vier Skill-Archetypen
+
+### 1. Procedural Skill
+Eine wiederholbare Schritt-für-Schritt-Routine.
+**Beispiel:** „Erstelle Migration mit Vorab-Check"
+
+### 2. Diagnostic Skill
+Sammelt Daten → erstellt Bericht.
+**Beispiel:** „Finde alle TODOs und gruppiere nach Datei"
+
+### 3. Generator Skill
+Macht aus Input ein Artefakt.
+**Beispiel:** „Aus PRD → React-Komponente + Storybook + Tests"
+
+### 4. Validator Skill
+Prüft Code/Doku gegen Regeln.
+**Beispiel:** „Validiere Dependency-Änderungen gegen Lizenz-Whitelist"
+
+## Schreib-Prozess
+
+1. **Real-World-Trigger sammeln** — wie haben User die Aufgabe in den letzten 4 Wochen formuliert?
+2. **Kürzeste mögliche Schrittfolge** — was würde ein Junior-Dev brauchen?
+3. **Edge-Cases dokumentieren** — was tun wenn Input fehlt / Tool nicht verfügbar?
+4. **Test-Anfrage durchspielen** — Trigger eintippen, schauen ob Skill greift
+5. **Iterieren** — `description` schärfen bis Auto-Invoke zuverlässig matcht
+
+## Anti-Patterns
+
+- ❌ Skill schreibt fest „nutze Modell xyz" — bricht bei Modell-Updates
+- ❌ Skill speichert State in Repo — bei Multi-User chaotisch
+- ❌ 50-Zeilen-Skill für 10-Sekunden-Aufgabe — Skill-Overhead nicht wert
+- ❌ Skill ohne Beispiel-Trigger — Auto-Invoke erkennt nichts
+
+<NoteCard variant="hint">
+**Stütze:** Lass Claude den ersten Skill-Entwurf machen — `Schreibe einen Skill, der TODOs scannt und in GitHub-Issues umwandelt`. Dann iterativ verfeinern.
+</NoteCard>
+</De>
+
+<En>
+## Four skill archetypes
+
+### 1. Procedural skill
+A repeatable step-by-step routine.
+**Example:** "Create a migration with pre-check"
+
+### 2. Diagnostic skill
+Collects data → writes report.
+**Example:** "Find all TODOs and group by file"
+
+### 3. Generator skill
+Turns input into an artifact.
+**Example:** "From PRD → React component + Storybook + tests"
+
+### 4. Validator skill
+Checks code/docs against rules.
+**Example:** "Validate dependency changes against license whitelist"
+
+## Writing process
+
+1. **Collect real triggers** — how did users phrase the task over the last 4 weeks?
+2. **Shortest possible step list** — what would a junior dev need?
+3. **Document edge cases** — what if input is missing / tool unavailable?
+4. **Run a test query** — type the trigger, watch the skill fire
+5. **Iterate** — sharpen `description` until auto-invoke reliably matches
+
+## Anti-patterns
+
+- ❌ Skill hardcodes "use model xyz" — breaks on model updates
+- ❌ Skill stores state in repo — chaos with multi-user
+- ❌ 50-line skill for a 10-second task — overhead not worth it
+- ❌ Skill without example triggers — auto-invoke catches nothing
+
+<NoteCard variant="hint">
+**Tip:** Have Claude write the first skill draft — `Write a skill that scans TODOs and turns them into GitHub issues`. Then refine iteratively.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Live-Pair: gemeinsam einen Skill bauen. Vorschlag: 'release-notes' — sammelt Commits seit letztem Tag, gruppiert nach Conventional-Commits-Type, schreibt Markdown. ~20 Min, dann sofort einsetzbar. TN können das Pattern auf eigene Use-Cases übertragen."
+  en="Live-pair: build a skill together. Suggestion: 'release-notes' — collects commits since last tag, groups by conventional-commit type, writes markdown. ~20 min, immediately usable. Participants can transfer the pattern to their own use cases."
+/>
+</SpeakerNotes>
