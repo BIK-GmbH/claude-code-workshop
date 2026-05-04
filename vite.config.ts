@@ -4,6 +4,7 @@ import mdx from "@mdx-js/rollup";
 import tailwindcss from "@tailwindcss/vite";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
+import remarkGfm from "remark-gfm";
 import path from "node:path";
 
 // https://vitejs.dev/config/
@@ -17,6 +18,7 @@ export default defineConfig({
         remarkPlugins: [
           remarkFrontmatter,
           [remarkMdxFrontmatter, { name: "frontmatter" }],
+          remarkGfm,
         ],
       }),
     },

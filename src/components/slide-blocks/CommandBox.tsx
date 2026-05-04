@@ -1,18 +1,29 @@
-import { useState } from "react";
+import { useState, type ReactNode, isValidElement } from "react";
 import clsx from "clsx";
 
 interface Props {
-  /** Shell command or code snippet */
-  children: string;
+  /** Shell command or code snippet — string or React text nodes */
+  children: ReactNode;
   /** Visual hint, e.g. "bash", "json" */
   lang?: string;
   /** Optional caption above the box */
   caption?: string;
 }
 
+/** Walk React children and concatenate text content. */
+function extractText(node: ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(extractText).join("");
+  if (isValidElement<{ children?: ReactNode }>(node)) {
+    return extractText(node.props.children);
+  }
+  return "";
+}
+
 export function CommandBox({ children, lang = "bash", caption }: Props) {
   const [copied, setCopied] = useState(false);
-  const code = typeof children === "string" ? children.trim() : String(children);
+  const code = extractText(children).trim();
 
   async function copy() {
     try {
@@ -38,8 +49,13 @@ export function CommandBox({ children, lang = "bash", caption }: Props) {
         className="relative rounded-md border overflow-hidden"
         style={{ borderColor: "var(--border)", background: "#0b1220" }}
       >
-        <div className="flex items-center justify-between px-3 py-1.5 text-[10px] uppercase tracking-wider"
-          style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.6)" }}>
+        <div
+          className="flex items-center justify-between px-3 py-1.5 text-[10px] uppercase tracking-wider"
+          style={{
+            background: "rgba(255,255,255,0.04)",
+            color: "rgba(255,255,255,0.6)",
+          }}
+        >
           <span>{lang}</span>
           <button
             onClick={copy}
@@ -52,7 +68,10 @@ export function CommandBox({ children, lang = "bash", caption }: Props) {
             {copied ? "✓ copied" : "copy"}
           </button>
         </div>
-        <pre className="p-4 m-0 text-sm overflow-x-auto" style={{ color: "#e2e8f0" }}>
+        <pre
+          className="p-4 m-0 text-sm overflow-x-auto whitespace-pre-wrap"
+          style={{ color: "#e2e8f0" }}
+        >
           <code>{code}</code>
         </pre>
       </div>
