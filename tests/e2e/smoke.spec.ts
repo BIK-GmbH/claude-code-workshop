@@ -1,0 +1,64 @@
+import { test, expect } from "@playwright/test";
+
+test.describe("Phase 1 smoke", () => {
+  test("app renders header, sidebar, footer and first slide", async ({ page }) => {
+    await page.goto("/");
+    await expect(page).toHaveURL(/#\/s\/00\.01$/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Cover");
+    await expect(page.locator("[data-workshop-header]")).toBeVisible();
+    await expect(page.locator("[data-workshop-sidebar]")).toBeVisible();
+    await expect(page.locator("[data-workshop-footer]")).toBeVisible();
+  });
+
+  test("ArrowRight navigates to next slide", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    await page.locator("[data-workshop-content]").waitFor();
+    // Focus body so the keymap definitely receives the keystroke.
+    await page.locator("body").click();
+    await page.keyboard.press("ArrowRight");
+    await expect(page).toHaveURL(/#\/s\/00\.02$/, { timeout: 5_000 });
+  });
+
+  test("ArrowLeft navigates back", async ({ page }) => {
+    await page.goto("/#/s/00.02");
+    await page.locator("body").click();
+    await page.keyboard.press("ArrowLeft");
+    await expect(page).toHaveURL(/#\/s\/00\.01$/);
+  });
+
+  test("Sidebar click navigates", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    await page.getByTestId("module-toggle-1").click();
+    await page.getByTestId("slide-link-01.03").click();
+    await expect(page).toHaveURL(/#\/s\/01\.03$/);
+  });
+
+  test("Theme toggle switches data-theme", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    const html = page.locator("html");
+    const before = await html.getAttribute("data-theme");
+    await page.getByTestId("theme-toggle").click();
+    const after = await html.getAttribute("data-theme");
+    expect(after).not.toBe(before);
+  });
+
+  test("Lang toggle changes language", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    await page.getByTestId("lang-en").click();
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  });
+
+  test("Cmd+K opens command palette", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    await page.locator("body").click();
+    await page.keyboard.press("Meta+K");
+    await expect(page.locator("[data-command-palette-overlay]")).toBeVisible();
+  });
+
+  test("/print renders all slides", async ({ page }) => {
+    await page.goto("/#/print");
+    const slides = page.locator(".slide-page");
+    await expect(slides.first()).toBeVisible();
+    expect(await slides.count()).toBeGreaterThan(40);
+  });
+});

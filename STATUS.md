@@ -4,14 +4,14 @@
 
 ## Letzte Aktualisierung
 
-2026-05-04 — Plan committed, starte Phase 0.
+2026-05-04 — Phase 0 ✅ abgeschlossen (Commit `e4c39f4`). Starte Phase 1.
 
 ## Phasen-Status
 
 | # | Phase | Status |
 |---|---|---|
-| 0 | Repo-Setup, Vite+React+TS+Tailwind, Tokens, Skeleton | ⏳ in Arbeit |
-| 1 | Layout-Shell + Routing + Keymap | ⬜ pending |
+| 0 | Repo-Setup, Vite+React+TS+Tailwind, Tokens, Skeleton | ✅ done (`e4c39f4`) |
+| 1 | Layout-Shell + Routing + Keymap | ⏳ in Arbeit |
 | 2 | MDX-Loader + Custom-Components | ⬜ pending |
 | 3 | Theme/Lang/Presenter/⌘K | ⬜ pending |
 | 4 | Inhalte Modul 0 + 1 | ⬜ pending |
@@ -23,13 +23,14 @@
 
 ## Was als Nächstes
 
-**Phase 0** — siehe `PLAN.md` für DoD.
+**Phase 1** — Layout-Shell + Routing + Keymap. Siehe `PLAN.md` für DoD.
 
 Konkrete nächste Schritte:
-1. `npm create vite@latest . -- --template react-ts` (im Workshop-Dir)
-2. Tailwind v4 + Tokens-CSS + BIK-Blau einrichten
-3. shadcn-Init + minimale Komponenten (Button, Card, Sheet)
-4. Skeleton-App rendert mit BIK-Blau Header
+1. `WorkshopLayout.tsx` (Header/Sidebar/Footer Grid via CSS-Grid)
+2. `Sidebar.tsx` mit Akkordeon-Modulen, Active-Highlight
+3. `react-router-dom` mit HashRouter, Routen `/m/:module/:slide` + `/print`
+4. `SlideNav.tsx` Keyboard-Bindings: ←/→/J/K/Home/End/P/F/⌘K
+5. Stub-Slide-Manifest (echter MDX-Loader kommt Phase 2)
 
 ## Bekannte Blocker / Open Questions
 
