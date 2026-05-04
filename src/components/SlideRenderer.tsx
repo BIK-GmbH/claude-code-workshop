@@ -9,6 +9,7 @@ import {
   DemoBox,
   ExerciseCard,
   NoteCard,
+  SkillCard,
   SpeakerNotes,
 } from "./slide-blocks";
 import { getSlideComponent, findSlide } from "@/lib/slides";
@@ -28,6 +29,7 @@ const mdxComponents = {
   DemoBox,
   ExerciseCard,
   NoteCard,
+  SkillCard,
   SpeakerNotes,
   h1: (props: ChildrenProps) => (
     <h1

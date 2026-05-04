@@ -1,0 +1,349 @@
+---
+title:
+  de: "Top Skills — Living Catalog"
+  en: "Top Skills — Living Catalog"
+researchedOn: 2026-05-04
+sources:
+  - https://github.com/modelcontextprotocol/servers
+  - https://alexop.dev/posts/understanding-claude-code-full-stack/
+---
+
+# <I18n de="Top Skills — Living Catalog" en="Top Skills — Living Catalog" />
+
+<De>
+Ein **lebendiger Katalog** der besten Claude-Code-Skills aus Anthropic-Releases,
+Community und YouTube-Walkthroughs. Wird kontinuierlich erweitert — neue
+Quellen werden via `researchedOn` und der Changelog-Folie nachvollziehbar
+dokumentiert.
+
+**Wartungs-Workflow:**
+1. Neue Skill-Quelle (YouTube-Video, Blog-Post, GitHub-Repo) wird in den Workshop-Chat geworfen
+2. Inhalt wird per `youtube-knowledge-extractor` / WebFetch ausgewertet
+3. Eine neue `<SkillCard>` mit Name, Was, Quellen, Install, Trigger, Tags wird ergänzt
+4. `researchedOn` wird im Frontmatter aktualisiert
+5. Eintrag im Changelog (Slide 99.06) wird ergänzt
+
+**Tier-System:**
+- ★ **Must-have** — würden wir in jeder Demo-Setup empfehlen
+- ✓ **Useful** — situativ stark, lohnt sich anzuschauen
+- ⚗ **Experimental** — frisch, vielversprechend, noch nicht produktionsbewährt
+</De>
+
+<En>
+A **living catalog** of the best Claude Code skills from Anthropic releases,
+community, and YouTube walkthroughs. Updated continuously — new sources are
+tracked via `researchedOn` and the changelog slide.
+
+**Maintenance workflow:**
+1. New skill source (YouTube video, blog post, GitHub repo) dropped into chat
+2. Content is parsed via `youtube-knowledge-extractor` / WebFetch
+3. A new `<SkillCard>` with name, what, sources, install, trigger, tags is added
+4. `researchedOn` in frontmatter is bumped
+5. Changelog entry (slide 99.06) added
+
+**Tier system:**
+- ★ **Must-have** — we'd recommend in every demo setup
+- ✓ **Useful** — situational, worth a look
+- ⚗ **Experimental** — fresh, promising, not yet production-proven
+</En>
+
+---
+
+## <I18n de="Anthropic-Official" en="Anthropic Official" />
+
+<SkillCard
+  name="/init"
+  tier="must-have"
+  what={<I18n de="Generiert eine erste CLAUDE.md aus der Repo-Analyse" en="Generates a first CLAUDE.md from repo analysis" />}
+  trigger="/init"
+  tags={["official", "manual"]}
+  sources={[
+    {
+      type: "docs",
+      title: "Claude Code Best Practices — CLAUDE.md",
+      url: "https://code.claude.com/docs/en/best-practices",
+      author: "Anthropic",
+    },
+  ]}
+>
+  <I18n
+    de="Erste Adresse für jedes neue Repo. Output muss manuell verfeinert werden, aber das Skelett spart 30 Minuten."
+    en="First port of call for any new repo. Output needs manual refinement but the skeleton saves 30 min."
+  />
+</SkillCard>
+
+<SkillCard
+  name="/review"
+  tier="must-have"
+  what={<I18n de="Anthropic-shipped PR-Review für offene Pull Requests" en="Anthropic-shipped PR review for open pull requests" />}
+  trigger="/review"
+  tags={["official", "manual", "ci"]}
+  sources={[
+    {
+      type: "docs",
+      title: "Claude Code CLI Guide",
+      url: "https://code.claude.com/docs",
+      author: "Anthropic",
+    },
+  ]}
+>
+  <I18n
+    de="Funktioniert direkt gegen GitHub-PRs wenn `gh` authentifiziert ist. Kombiniert mit eigenem `code-reviewer`-Subagent für tiefere Pässe."
+    en="Works directly against GitHub PRs when `gh` is authenticated. Combine with own `code-reviewer` subagent for deeper passes."
+  />
+</SkillCard>
+
+---
+
+## <I18n de="Community / Tooling" en="Community / Tooling" />
+
+<SkillCard
+  name="cc-switch"
+  tier="useful"
+  what={<I18n de="Schneller Account-Switch zwischen mehreren Claude-Code-Setups" en="Fast account switch between multiple Claude Code setups" />}
+  install={`# über npm:
+npm install -g cc-switch
+cc-switch --help`}
+  trigger="cc-switch <profile>"
+  tags={["community", "personal"]}
+  sources={[
+    {
+      type: "blog",
+      title: "Claude Code Agentic Stack: cc-switch & claude-context MCP",
+      url: "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+      author: "Max Quimby",
+      date: "2026",
+    },
+  ]}
+>
+  <I18n
+    de="Wenn ihr mehrere Anthropic-Konten / Provider parallel nutzt (Pro, API, Bedrock), spart cc-switch das ständige Logout/Login."
+    en="If you juggle multiple Anthropic accounts / providers (Pro, API, Bedrock), cc-switch saves the constant logout/login dance."
+  />
+</SkillCard>
+
+<SkillCard
+  name="claude-context (MCP)"
+  tier="useful"
+  what={<I18n de="MCP-Server für persistente Conversation-Memory über Sessions hinweg" en="MCP server for persistent conversation memory across sessions" />}
+  install={`# in .claude/settings.json:
+{
+  "mcpServers": {
+    "claude-context": {
+      "command": "npx",
+      "args": ["-y", "claude-context-mcp"]
+    }
+  }
+}`}
+  tags={["community", "mcp", "auto-invoke"]}
+  sources={[
+    {
+      type: "blog",
+      title: "Claude Code Agentic Stack",
+      url: "https://dev.to/max_quimby/claude-code-agentic-stack-cc-switch-claude-context-mcp-1dg2",
+      author: "Max Quimby",
+      date: "2026",
+    },
+  ]}
+>
+  <I18n
+    de="Hält Kontext über Session-Grenzen hinweg, wenn /clear oder /compact zu viel verlieren würde. Achtung: Memory-Inhalte werden persistiert — keine Secrets!"
+    en="Keeps context across session boundaries when /clear or /compact would lose too much. Caution: memory contents are persisted — no secrets!"
+  />
+</SkillCard>
+
+---
+
+## <I18n de="MCP-Server (offizielle Registry)" en="MCP servers (official registry)" />
+
+<SkillCard
+  name="@modelcontextprotocol/server-github"
+  tier="must-have"
+  what={<I18n de="Issues, PRs, Code-Search, Repo-Metadata aus GitHub" en="Issues, PRs, code search, repo metadata from GitHub" />}
+  install={`{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "$GITHUB_TOKEN" }
+    }
+  }
+}`}
+  tags={["official", "mcp", "auto-invoke"]}
+  sources={[
+    {
+      type: "repo",
+      title: "modelcontextprotocol/servers",
+      url: "https://github.com/modelcontextprotocol/servers",
+      author: "Anthropic",
+    },
+  ]}
+>
+  <I18n
+    de="Erste MCP-Empfehlung. Token-Scope auf das Notwendigste beschränken (read-only für Recherche-Use-Cases)."
+    en="First MCP recommendation. Limit token scope to the necessary (read-only for research use cases)."
+  />
+</SkillCard>
+
+<SkillCard
+  name="@modelcontextprotocol/server-postgres"
+  tier="useful"
+  what={<I18n de="Schema-Inspektion und Read-Only-Queries gegen Postgres" en="Schema inspection and read-only queries against Postgres" />}
+  install={`{
+  "mcpServers": {
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y", "@modelcontextprotocol/server-postgres",
+        "postgres://readonly_user:pw@host/db"
+      ]
+    }
+  }
+}`}
+  tags={["official", "mcp"]}
+  sources={[
+    {
+      type: "repo",
+      title: "modelcontextprotocol/servers",
+      url: "https://github.com/modelcontextprotocol/servers",
+      author: "Anthropic",
+    },
+  ]}
+>
+  <I18n
+    de="UNBEDINGT Read-Only-User für Connection-String anlegen. Sonst kann Claude versehentlich DELETE/UPDATE feuern."
+    en="ALWAYS use a read-only user for the connection string. Else Claude can accidentally fire DELETE/UPDATE."
+  />
+</SkillCard>
+
+---
+
+## <I18n de="Subagents-Patterns" en="Subagent patterns" />
+
+<SkillCard
+  name="code-reviewer"
+  tier="must-have"
+  what={<I18n de="Strukturierter Code-Review mit Severity-Gruppierung" en="Structured code review with severity grouping" />}
+  install={`mkdir -p .claude/agents
+cat > .claude/agents/code-reviewer.md <<'MD'
+---
+name: code-reviewer
+description: Reviews code for bugs, security, code quality.
+tools: [Read, Bash(git diff *)]
+model: claude-opus-4-7
+---
+You are an expert code reviewer. Read the diff and report:
+1. Bugs / logic errors
+2. Security
+3. Performance
+4. Readability
+5. Missing tests
+End with: SHIP IT / FIX REQUIRED / NEEDS DISCUSSION
+MD`}
+  trigger="use the code-reviewer agent on the diff"
+  tags={["subagent", "team", "official"]}
+  sources={[
+    {
+      type: "docs",
+      title: "Claude Code Subagents",
+      url: "https://code.claude.com/docs/en/sub-agents",
+      author: "Anthropic",
+    },
+    {
+      type: "blog",
+      title: "Understanding Claude Code's Full Stack",
+      url: "https://alexop.dev/posts/understanding-claude-code-full-stack/",
+      author: "alexop.dev",
+    },
+  ]}
+/>
+
+<SkillCard
+  name="code-explorer"
+  tier="useful"
+  what={<I18n de="Recherche-Subagent für unbekannte Sub-Systeme — eigener Context, sauberer Hauptverlauf" en="Research subagent for unknown sub-systems — own context, clean main session" />}
+  install={`cat > .claude/agents/code-explorer.md <<'MD'
+---
+name: code-explorer
+description: Explore unfamiliar code areas, map architecture, document deps.
+tools: [Read, Grep, Glob, Bash(git log *)]
+---
+Trace execution paths, map architecture layers, identify abstractions and
+patterns. Output: structured Markdown summary with file references.
+MD`}
+  trigger="use the code-explorer agent to map the auth/ subsystem"
+  tags={["subagent", "team"]}
+  sources={[
+    {
+      type: "blog",
+      title: "Understanding Claude Code's Full Stack",
+      url: "https://alexop.dev/posts/understanding-claude-code-full-stack/",
+      author: "alexop.dev",
+    },
+  ]}
+/>
+
+---
+
+## <I18n de="Eigene Skills (Workshop-erprobt)" en="Own skills (workshop-tested)" />
+
+<SkillCard
+  name="release-notes"
+  tier="must-have"
+  what={<I18n de="Markdown-Changelog aus Commits seit dem letzten Tag" en="Markdown changelog from commits since the last tag" />}
+  install={`# vollständige Definition siehe Slide 99.07 Demo 5
+# kurz: .claude/skills/release-notes/SKILL.md mit
+# git log <tag>..HEAD + Conventional-Commits-Gruppierung`}
+  trigger={`"release notes seit dem letzten Tag" / /release-notes`}
+  tags={["personal", "team", "auto-invoke"]}
+  sources={[
+    {
+      type: "docs",
+      title: "Trainer Demo 5",
+      url: "#/s/99.07",
+    },
+  ]}
+/>
+
+<SkillCard
+  name="find-todo"
+  tier="useful"
+  what={<I18n de="Findet alle TODO/FIXME im Repo, gruppiert nach Datei" en="Find all TODO/FIXME in the repo, grouped by file" />}
+  install={`mkdir -p .claude/skills/find-todo
+cat > .claude/skills/find-todo/SKILL.md <<'MD'
+---
+name: find-todo
+description: Find TODO/FIXME/HACK comments and group by file.
+allowed-tools: [Bash(grep *), Bash(rg *)]
+---
+1. \`rg -n "TODO|FIXME|HACK" --type-add 'src:*.{ts,tsx,py,go,rs}' -t src\`
+   (Fallback: \`grep -rn ...\`)
+2. Gruppiere nach Datei
+3. Output als Markdown-Liste mit Datei + Zeile + Kommentar
+MD`}
+  trigger={`"finde alle TODOs" / /find-todo`}
+  tags={["personal", "auto-invoke"]}
+  sources={[
+    {
+      type: "docs",
+      title: "Skill Templates Slide 99.02",
+      url: "#/s/99.02",
+    },
+  ]}
+/>
+
+---
+
+<NoteCard variant="hint" title="Mehr Skills hinzufügen">
+<I18n
+  de="Wirf YouTube-Links / Blog-URLs / GitHub-Repos in den Chat. Ich extrahiere via youtube-knowledge-extractor + WebFetch und lege automatisch eine neue SkillCard im passenden Block an. Frontmatter-Datum wird aktualisiert, Changelog-Slide bekommt einen Eintrag."
+  en="Drop YouTube links / blog URLs / GitHub repos into the chat. I'll extract via youtube-knowledge-extractor + WebFetch and add a new SkillCard in the right block. Frontmatter date updated, changelog slide gets an entry."
+/>
+</NoteCard>
+
+<SpeakerNotes>
+<I18n
+  de="Diese Folie ist explizit für die Modul-3-Vertiefung gedacht. TN können hier nach dem Workshop nachgucken welche Skills es gibt — Tier-Markierung hilft bei Priorisierung. Bei Live-Vortrag: nicht alle Cards durchgehen, sondern 2-3 Must-haves zeigen + erwähnen dass Katalog wächst."
+  en="This slide is explicitly for module 3 deep dive. Participants check back here post-workshop for available skills — tier markers help with prioritisation. In live talk: don't read all cards, show 2-3 must-haves and mention the catalog grows."
+/>
+</SpeakerNotes>

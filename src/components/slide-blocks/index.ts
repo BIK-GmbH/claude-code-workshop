@@ -3,4 +3,5 @@ export { CommandBox } from "./CommandBox";
 export { DemoBox } from "./DemoBox";
 export { ExerciseCard } from "./ExerciseCard";
 export { NoteCard } from "./NoteCard";
+export { SkillCard } from "./SkillCard";
 export { SpeakerNotes } from "./SpeakerNotes";

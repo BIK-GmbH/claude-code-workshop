@@ -98,7 +98,7 @@ test.describe("Navigation edge cases", () => {
     await page.goto("/#/s/00.01");
     await page.locator("body").click();
     await page.keyboard.press("End");
-    await expect(page).toHaveURL(/#\/s\/99\.07$/);
+    await expect(page).toHaveURL(/#\/s\/99\.08$/);
   });
 
   test("Home jumps to first slide", async ({ page }) => {
