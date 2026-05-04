@@ -6,6 +6,8 @@ researchedOn: 2026-05-04
 sources:
   - https://github.com/modelcontextprotocol/servers
   - https://alexop.dev/posts/understanding-claude-code-full-stack/
+  - https://youtu.be/6cYBFfA7Nyk
+  - https://youtu.be/eRS3CmvrOvA
 ---
 
 # <I18n de="Top Skills — Living Catalog" en="Top Skills — Living Catalog" />
@@ -93,6 +95,75 @@ tracked via `researchedOn` and the changelog slide.
   />
 </SkillCard>
 
+<SkillCard
+  name="skill-creator"
+  tier="must-have"
+  what={<I18n de="Offizielles Anthropic-Plugin: erzeugt Skills aus Plain-English-Beschreibungen oder SOPs" en="Official Anthropic plugin: generates skills from plain-English descriptions or SOPs" />}
+  install={`/plugin install skill-creator`}
+  trigger={`"baue mir einen Skill der ..." / /skill-creator`}
+  tags={["official", "manual", "cross-skill"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "I Tried 100+ Claude Code Skills. These 6 Are The Best",
+      url: "https://youtu.be/eRS3CmvrOvA",
+      author: "Nate Herk | AI Automation",
+      date: "2026",
+    },
+  ]}
+>
+  <I18n
+    de="Meta-Skill, der andere Skills baut — die 'Skill-Factory'. Reduziert Skill-Engineering von 30 Min auf 5 Min, weil das Boilerplate (Frontmatter, Trigger-Phrasen, allowed-tools) automatisch passt."
+    en="Meta-skill that builds other skills — the 'skill factory'. Reduces skill engineering from 30 min to 5 min by auto-formatting frontmatter, trigger phrases, allowed-tools."
+  />
+</SkillCard>
+
+<SkillCard
+  name="/ultrareview (cloud)"
+  tier="useful"
+  what={<I18n de="Multi-Agent-Cloud-Review des aktuellen Branches mit parallelen Agents in Sandbox" en="Multi-agent cloud review of the current branch with parallel agents in sandbox" />}
+  install={`# in claude-code v2.1.86+:
+/ultrareview              # local branch
+/ultrareview 42           # GitHub PR by number`}
+  trigger={`/ultrareview / /ultrareview 42`}
+  tags={["official", "manual", "ci", "subagent"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "I Tried 100+ Claude Code Skills",
+      url: "https://youtu.be/eRS3CmvrOvA",
+      author: "Nate Herk | AI Automation",
+    },
+  ]}
+>
+  <I18n
+    de="Quality-Gate vor jedem Major-Merge oder Migration. Reproduziert Bugs in der Sandbox, kostenpflichtig pro Run."
+    en="Quality gate before any major merge or migration. Reproduces bugs in the sandbox, billed per run."
+  />
+</SkillCard>
+
+<SkillCard
+  name="frontend-design"
+  tier="useful"
+  what={<I18n de="Anthropic-Skill für professionelle, nicht-AI-aussehende Frontend-Designs" en="Anthropic skill for professional, non-AI-looking frontend designs" />}
+  install={`/plugin install frontend-design`}
+  trigger={`"baue eine Landing Page mit ...", "design die Komponente"`}
+  tags={["official", "auto-invoke"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "I Tried 100+ Claude Code Skills",
+      url: "https://youtu.be/eRS3CmvrOvA",
+      author: "Nate Herk | AI Automation",
+    },
+  ]}
+>
+  <I18n
+    de="Generiert distinct UIs ohne Generic-AI-Look. Spart die ständige 'sieht aus wie ChatGPT'-Korrektur-Schleife."
+    en="Generates distinctive UIs without the generic AI look. Saves the constant 'looks like ChatGPT' correction loop."
+  />
+</SkillCard>
+
 ---
 
 ## <I18n de="Community / Tooling" en="Community / Tooling" />
@@ -152,6 +223,239 @@ cc-switch --help`}
   />
 </SkillCard>
 
+<SkillCard
+  name="ClaudeMem"
+  tier="useful"
+  what={<I18n de="Persistente Memory via lokaler SQLite-DB + Vector-Search — Knowledge über Sessions" en="Persistent memory via local SQLite + vector search — knowledge across sessions" />}
+  trigger={`Auto-invoke beim Session-Start, "what did we decide about ..."`}
+  tags={["community", "auto-invoke", "personal"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "I Tried 100+ Claude Code Skills",
+      url: "https://youtu.be/eRS3CmvrOvA",
+      author: "Nate Herk | AI Automation",
+    },
+  ]}
+>
+  <I18n
+    de="Eliminiert die 'Startup-Tax' jeder neuen Session — Claude erinnert sich an Entscheidungen aus früheren Sessions ohne Re-Briefing. Lokale SQLite, kein Cloud-Roundtrip."
+    en="Eliminates the 'startup tax' of every new session — Claude remembers decisions from earlier sessions without re-briefing. Local SQLite, no cloud roundtrip."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Superpowers"
+  tier="useful"
+  what={<I18n de="Plugin-Bundle erzwingt Plan → Test → Code → Review-Workflow für jeden größeren Task" en="Plugin bundle enforces plan → test → code → review workflow for any sizeable task" />}
+  install={`/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers`}
+  trigger={`Auto-invoke bei Feature-Requests, "implementiere X"`}
+  tags={["community", "auto-invoke", "cross-skill"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "I Tried 100+ Claude Code Skills",
+      url: "https://youtu.be/eRS3CmvrOvA",
+      author: "Nate Herk | AI Automation",
+    },
+  ]}
+>
+  <I18n
+    de="Verwandelt Claude in Senior-Dev-Modus: erst brainstormen, dann planen, dann TDD, dann Review. Schwergewichtig — nicht für Trivial-Tasks. Sehr starke Synergie mit Spec-Driven-Development (Modul 4)."
+    en="Turns Claude into senior-dev mode: first brainstorm, then plan, then TDD, then review. Heavyweight — not for trivial tasks. Strong synergy with spec-driven development (Module 4)."
+  />
+</SkillCard>
+
+<SkillCard
+  name="GSD (Get Shit Done)"
+  tier="experimental"
+  what={<I18n de="Context-Engineering-Plugin mit Sub-Agent-Architektur und Quality-Gates" en="Context-engineering plugin with sub-agent architecture and quality gates" />}
+  trigger={`/gsd <task>`}
+  tags={["community", "subagent", "manual"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "I Tried 100+ Claude Code Skills",
+      url: "https://youtu.be/eRS3CmvrOvA",
+      author: "Nate Herk | AI Automation",
+    },
+  ]}
+>
+  <I18n
+    de="Spawnt frische, isolierte Sub-Agents pro Schritt — Hauptsession bleibt clean. Gut für komplexe Multi-Step-Execution wo Context-Drift sonst zuschlägt."
+    en="Spawns fresh isolated sub-agents per step — main session stays clean. Good for complex multi-step execution where context drift would otherwise hit."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Context Mode"
+  tier="useful"
+  what={<I18n de="Routet Tool-Calls durch Sandbox, komprimiert Raw-Output drastisch (315 KB → 5 KB)" en="Routes tool calls through sandbox, drastically compresses raw output (315 KB → 5 KB)" />}
+  tags={["community", "auto-invoke"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "I Tried 100+ Claude Code Skills",
+      url: "https://youtu.be/eRS3CmvrOvA",
+      author: "Nate Herk | AI Automation",
+    },
+  ]}
+>
+  <I18n
+    de="Killer für lange Sessions mit log-/HTML-/screenshot-Outputs. Verhindert dass das Context-Fenster mit Garbage-Daten zugemüllt wird. Beobachteter Effekt: Session-Performance bleibt über 4+ Stunden stabil."
+    en="Killer for long sessions with log/HTML/screenshot outputs. Prevents context window from filling with garbage data. Observed: session performance stays stable over 4+ hours."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Caveman Skill"
+  tier="useful"
+  what={<I18n de="Erzwingt knappe, 'höhlenmenschen-artige' Antworten — spart Tokens UND erhöht Genauigkeit" en="Enforces concise, 'caveman-style' responses — saves tokens AND increases accuracy" />}
+  trigger={`Auto-invoke, oder "be brief"`}
+  tags={["community", "auto-invoke"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "Top 10 NEW Open Source Claude Code Tools (May)",
+      url: "https://youtu.be/6cYBFfA7Nyk",
+      author: "Chase AI",
+      date: "2026-05",
+    },
+  ]}
+>
+  <I18n
+    de="Basiert auf Paper 'Brevity Constraints Reverse Performance Hierarchies in Language Models'. Spart ca. 5 % Token-Kosten + reduziert 'KI redet sich in falsche Antwort hinein'-Effekt."
+    en="Based on the paper 'Brevity Constraints Reverse Performance Hierarchies in Language Models'. Saves ~5% token costs + reduces the 'AI talks itself into a wrong answer' effect."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Graphify"
+  tier="experimental"
+  what={<I18n de="Baut multimodale Knowledge-Graphs aus Repo-Files — 71x weniger Tokens als Raw-Read" en="Builds multimodal knowledge graphs from repo files — 71x fewer tokens than raw reads" />}
+  tags={["community", "experimental"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "Top 10 NEW Open Source Claude Code Tools (May)",
+      url: "https://youtu.be/6cYBFfA7Nyk",
+      author: "Chase AI",
+      date: "2026-05",
+    },
+  ]}
+>
+  <I18n
+    de="Mittelding zwischen Markdown-Folder und voller Graph-RAG-Pipeline. Sweet spot für mittelgroße Codebasen wo CLAUDE.md zu klein und Vector-RAG zu komplex wäre."
+    en="Middle ground between markdown folders and full graph-RAG pipelines. Sweet spot for mid-size codebases where CLAUDE.md is too small and vector RAG too complex."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Codeburn"
+  tier="useful"
+  what={<I18n de="Dashboard für Token-Usage und Kosten über 16 AI-Coding-Tools hinweg" en="Dashboard for token usage and cost across 16 AI coding tools" />}
+  tags={["community", "ci", "team"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "Top 10 NEW Open Source Claude Code Tools (May)",
+      url: "https://youtu.be/6cYBFfA7Nyk",
+      author: "Chase AI",
+      date: "2026-05",
+    },
+  ]}
+>
+  <I18n
+    de="DevOps-Pflicht ab 5+ Devs im Team — sehen wer/welches Projekt das Budget verbrennt. Cross-Tool: nicht nur Claude, sondern Cursor/Codex/Copilot in einem Dashboard."
+    en="DevOps must-have at 5+ devs — see who/which project burns budget. Cross-tool: not just Claude but Cursor/Codex/Copilot in one dashboard."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Open Design"
+  tier="experimental"
+  what={<I18n de="Open-Source-Klon von Claude Design — lokal, ohne Subscription-Limits" en="Open-source clone of Claude Design — local, no subscription limits" />}
+  tags={["community", "experimental"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "Top 10 NEW Open Source Claude Code Tools (May)",
+      url: "https://youtu.be/6cYBFfA7Nyk",
+      author: "Chase AI",
+      date: "2026-05",
+    },
+  ]}
+>
+  <I18n
+    de="Für Prototypen, Slide-Decks, UI-Mockups ohne Anthropic-Quota zu verbrennen. Self-hosted alternative."
+    en="For prototypes, slide decks, UI mockups without burning Anthropic quota. Self-hosted alternative."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Browser Harness"
+  tier="experimental"
+  what={<I18n de="Self-improving Playwright-Replacement — Agent updated eigene Skill-Files nach jedem Run" en="Self-improving Playwright replacement — agent updates its own skill files after every run" />}
+  tags={["community", "experimental"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "Top 10 NEW Open Source Claude Code Tools (May)",
+      url: "https://youtu.be/6cYBFfA7Nyk",
+      author: "Chase AI",
+      date: "2026-05",
+    },
+  ]}
+>
+  <I18n
+    de="Playwright wenn Playwright sich selbst nach jedem Run verbessert. Frühphase, aber konzeptuell stark — könnte E2E-Test-Maintenance dramatisch ändern."
+    en="'Playwright if Playwright self-improved after every run'. Early stage but conceptually strong — could dramatically change E2E maintenance."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Impeccable (v3)"
+  tier="useful"
+  what={<I18n de="Frontend-Design-Tool mit Live-Browser-Editing und 23 UI-Optimization-Commands" en="Frontend design tool with live browser editing and 23 UI optimization commands" />}
+  tags={["community"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "Top 10 NEW Open Source Claude Code Tools (May)",
+      url: "https://youtu.be/6cYBFfA7Nyk",
+      author: "Chase AI",
+      date: "2026-05",
+    },
+  ]}
+>
+  <I18n
+    de="Live-Mode-Modus tweakt Komponenten direkt im Browser — kein Edit-Reload-Zyklus. Komplementär zu Anthropic's frontend-design Skill."
+    en="Live mode tweaks components directly in the browser — no edit-reload cycle. Complementary to Anthropic's frontend-design skill."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Design Extract"
+  tier="useful"
+  what={<I18n de="Headless-Browser extrahiert Design-System (Farben, Spacing, Brand-Voice) aus jeder URL" en="Headless browser extracts design system (colors, spacing, brand voice) from any URL" />}
+  tags={["community"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "Top 10 NEW Open Source Claude Code Tools (May)",
+      url: "https://youtu.be/6cYBFfA7Nyk",
+      author: "Chase AI",
+      date: "2026-05",
+    },
+  ]}
+>
+  <I18n
+    de="Killer für 'Mach es so wie ihre Webseite' — verhindert dass Brand-Konsistenz verloren geht beim AI-Generieren neuer Pages."
+    en="Killer for 'make it like their website' — prevents loss of brand consistency when AI-generating new pages."
+  />
+</SkillCard>
+
 ---
 
 ## <I18n de="MCP-Server (offizielle Registry)" en="MCP servers (official registry)" />
@@ -182,6 +486,79 @@ cc-switch --help`}
   <I18n
     de="Erste MCP-Empfehlung. Token-Scope auf das Notwendigste beschränken (read-only für Recherche-Use-Cases)."
     en="First MCP recommendation. Limit token scope to the necessary (read-only for research use cases)."
+  />
+</SkillCard>
+
+<SkillCard
+  name="n8n MCP Server"
+  tier="useful"
+  what={<I18n de="TypeScript-MCP-Server lässt Claude n8n-Workflows bauen und validieren" en="TypeScript MCP server lets Claude build and validate n8n workflows" />}
+  install={`{
+  "mcpServers": {
+    "n8n": {
+      "command": "npx",
+      "args": ["-y", "@n8n-mcp/server"],
+      "env": { "N8N_URL": "https://your-n8n-instance.com",
+               "N8N_API_KEY": "$N8N_API_KEY" }
+    }
+  }
+}`}
+  tags={["community", "mcp"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "Top 10 NEW Open Source Claude Code Tools (May)",
+      url: "https://youtu.be/6cYBFfA7Nyk",
+      author: "Chase AI",
+      date: "2026-05",
+    },
+  ]}
+>
+  <I18n
+    de="Sweet-Spot für No-Code-Automation-Teams die mit Claude statt UI-Click-Sessions Workflows bauen wollen."
+    en="Sweet spot for no-code automation teams who want to build workflows with Claude instead of UI clicking."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Claude Video"
+  tier="experimental"
+  what={<I18n de="FFmpeg + Whisper-Bridge — Claude 'sieht' Videos via Frame-Extraction und Audio-Transkript" en="FFmpeg + Whisper bridge — Claude 'watches' videos via frame extraction and audio transcript" />}
+  tags={["community", "experimental"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "Top 10 NEW Open Source Claude Code Tools (May)",
+      url: "https://youtu.be/6cYBFfA7Nyk",
+      author: "Chase AI",
+      date: "2026-05",
+    },
+  ]}
+>
+  <I18n
+    de="Multimodal-Frame-Extraction bleibt im Token-Budget. Use-Case: Tutorial-Videos analysieren, UI-Screencasts dokumentieren, Bug-Reproduce-Recordings auswerten."
+    en="Multimodal frame extraction stays in token budget. Use case: analyse tutorials, document UI screencasts, evaluate bug-repro recordings."
+  />
+</SkillCard>
+
+<SkillCard
+  name="Career Ops"
+  tier="experimental"
+  what={<I18n de="Agentisches Job-Search-Command-Center — passt Lebensläufe an, bewertet Job-Fit" en="Agentic job search command center — tailors resumes, evaluates job fit" />}
+  tags={["community", "experimental", "personal"]}
+  sources={[
+    {
+      type: "youtube",
+      title: "Top 10 NEW Open Source Claude Code Tools (May)",
+      url: "https://youtu.be/6cYBFfA7Nyk",
+      author: "Chase AI",
+      date: "2026-05",
+    },
+  ]}
+>
+  <I18n
+    de="Off-Topic für Workshop, aber sehr starkes Beispiel für 'Boring-but-useful'-Skills (siehe Nate-Herk-Video) — verkauft sich an Endkunden weil konkreter Outcome (Stunden gespart, mehr Interviews)."
+    en="Off-topic for the workshop, but a strong example of 'boring-but-useful' skills (see Nate Herk video) — sells to end customers because concrete outcome (hours saved, more interviews)."
   />
 </SkillCard>
 
@@ -293,7 +670,7 @@ MD`}
   what={<I18n de="Markdown-Changelog aus Commits seit dem letzten Tag" en="Markdown changelog from commits since the last tag" />}
   install={`# vollständige Definition siehe Slide 99.07 Demo 5
 # kurz: .claude/skills/release-notes/SKILL.md mit
-# git log <tag>..HEAD + Conventional-Commits-Gruppierung`}
+# git log {LAST_TAG}..HEAD + Conventional-Commits-Gruppierung`}
   trigger={`"release notes seit dem letzten Tag" / /release-notes`}
   tags={["personal", "team", "auto-invoke"]}
   sources={[
