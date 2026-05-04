@@ -45,6 +45,19 @@ test.describe("Content coverage", () => {
     await expect(page.locator("main pre").first()).toBeVisible();
   });
 
+  test("appendix — trainer demos slide has multiple DemoBoxes", async ({ page }) => {
+    await page.goto("/#/s/99.07");
+    // DemoBoxes have a "▶ Demo" badge text
+    const demos = page.locator("section").filter({ hasText: "▶ Demo" });
+    expect(await demos.count()).toBeGreaterThanOrEqual(8);
+    // First demo: setup the demo repo
+    await expect(page.locator("main")).toContainText("mkdir -p ~/demo-repo");
+    // Skill demo with full release-notes definition
+    await expect(page.locator("main")).toContainText("name: release-notes");
+    // Spec demo with realistic acceptance criteria
+    await expect(page.locator("main")).toContainText("Acceptance Criteria");
+  });
+
   test("appendix — resources slide has external links", async ({ page }) => {
     await page.goto("/#/s/99.05");
     const externalLinks = page.locator('main a[href^="http"]');
@@ -85,7 +98,7 @@ test.describe("Navigation edge cases", () => {
     await page.goto("/#/s/00.01");
     await page.locator("body").click();
     await page.keyboard.press("End");
-    await expect(page).toHaveURL(/#\/s\/99\.06$/);
+    await expect(page).toHaveURL(/#\/s\/99\.07$/);
   });
 
   test("Home jumps to first slide", async ({ page }) => {

@@ -1,0 +1,393 @@
+---
+title:
+  de: "Trainer-Demos — Copy & Paste"
+  en: "Trainer Demos — Copy & Paste"
+researchedOn: 2026-05-04
+---
+
+# <I18n de="Live-Demo-Snippets" en="Live Demo Snippets" />
+
+<De>
+Sammlung aller **vollständig copy-paste-baren** Snippets für Live-Vorführungen.
+Jeder Block ist eigenständig und sollte in einer **leeren Demo-Repository** laufen
+(siehe Demo 1). Die Reihenfolge folgt dem Workshop-Ablauf.
+</De>
+
+<En>
+Collection of all **fully copy-paste** snippets for live demos. Each block is
+self-contained and should run in an **empty demo repository** (see Demo 1).
+Order follows the workshop flow.
+</En>
+
+---
+
+## <I18n de="Vorbereitung" en="Preparation" />
+
+<DemoBox step={0} title="Demo-Repo aufsetzen" lang="bash" context="Einmal vor dem Workshop ausführen.">
+{`mkdir -p ~/demo-repo && cd ~/demo-repo
+git init -q
+echo "# Demo Repo" > README.md
+git add . && git commit -q -m "init"
+
+# Optional: Beispiel-Code für Demos
+mkdir -p src tests
+cat > src/users.py <<'PY'
+def get_user_by_id(user_id: int) -> dict | None:
+    return {"id": user_id, "email": "test@example.com"}
+PY
+cat > tests/test_users.py <<'PY'
+from src.users import get_user_by_id
+
+def test_lookup():
+    assert get_user_by_id(1)["email"] == "test@example.com"
+PY
+git add . && git commit -q -m "add demo code"`}
+</DemoBox>
+
+---
+
+## <I18n de="Modul 2 — Setup" en="Module 2 — Setup" />
+
+<DemoBox step={1} title="Install + Doctor" lang="bash">
+{`# Install
+npm install -g @anthropic-ai/claude-code
+
+# Sanity-Check
+claude --version
+claude doctor`}
+</DemoBox>
+
+<DemoBox step={2} title="Erste Session + /init" lang="bash" context="Im ~/demo-repo starten.">
+{`cd ~/demo-repo
+claude
+
+# In der Session:
+# > /init
+# > /cost
+# > /model`}
+</DemoBox>
+
+<DemoBox step={3} title="Minimal-CLAUDE.md ablegen" lang="bash" context="Falls /init nichts brauchbares produziert.">
+{`cat > CLAUDE.md <<'MD'
+# Demo Repo
+
+## Was ist das?
+Spielwiese für den Claude-Code-Workshop.
+
+## Tech Stack
+- Python 3.12 (src/), pytest (tests/)
+
+## Befehle
+- Tests: \`pytest -v\`
+
+## Konventionen
+- Conventional Commits
+- Keine Mocks bei DB/HTTP
+MD
+
+git add CLAUDE.md && git commit -m "docs: add CLAUDE.md"`}
+</DemoBox>
+
+<DemoBox step={4} title="Sichere Permissions" lang="json" context=".claude/settings.json — eine sinnvolle Default-Allowlist.">
+{`{
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(pytest *)",
+      "Bash(npm test)",
+      "Read"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(curl * | sh)"
+    ]
+  }
+}`}
+</DemoBox>
+
+---
+
+## <I18n de="Modul 3 — Skills" en="Module 3 — Skills" />
+
+<DemoBox step={5} title="Release-Notes-Skill anlegen" lang="bash" context="In einer Claude-Session ablegen, ohne Editor-Wechsel.">
+{`mkdir -p .claude/skills/release-notes
+
+cat > .claude/skills/release-notes/SKILL.md <<'MD'
+---
+name: release-notes
+description: |
+  Erstelle Release Notes aus Commits seit dem letzten Git-Tag.
+  Use when the user says "release notes", "changelog", "what changed",
+  oder auf Deutsch "release notes erstellen" / "changelog für die letzten X tage".
+allowed-tools:
+  - Bash(git log *)
+  - Bash(git tag *)
+---
+
+# Release Notes
+
+## Vorgehen
+
+1. \`git tag --sort=-creatordate | head -1\` -> letzter Tag (oder leer)
+2. Wenn Tag vorhanden: \`git log <tag>..HEAD --pretty=format:"%h %s"\`
+   sonst: \`git log -50 --pretty=format:"%h %s"\`
+3. Gruppiere Commits nach Conventional-Commit-Typ:
+   - feat       -> "Features"
+   - fix        -> "Fixes"
+   - chore/docs -> "Misc"
+   - andere     -> "Other"
+4. Output als Markdown mit \`# Release <next-version>\`-Header.
+
+## Output-Format
+
+\`\`\`markdown
+# Release <next-version>
+
+## Features
+- abc123 — feat: add foo
+
+## Fixes
+- def456 — fix: handle null email
+
+## Misc
+- ghi789 — docs: update README
+\`\`\`
+MD
+
+git add .claude/skills/release-notes/
+git commit -m "feat(skills): add release-notes"`}
+</DemoBox>
+
+<DemoBox step={6} title="Skill in Session triggern" lang="text" context="Beispiel-Anfragen, eine wählen und tippen.">
+{`claude
+
+# Trigger-Varianten — eine pro Demo-Lauf:
+> mach mir release notes für die letzten Commits
+> create release notes
+> changelog seit dem letzten Release
+> /release-notes        # manuell falls auto-invoke nicht greift`}
+</DemoBox>
+
+<DemoBox step={7} title="Code-Reviewer Subagent" lang="bash" context=".claude/agents/code-reviewer.md anlegen.">
+{`mkdir -p .claude/agents
+
+cat > .claude/agents/code-reviewer.md <<'MD'
+---
+name: code-reviewer
+description: |
+  Reviews code for bugs, logic errors, security, code quality.
+  Use after implementing a feature or before merging a PR.
+tools: [Read, Bash(git diff *), Bash(git log *)]
+model: claude-opus-4-7
+---
+
+You are an expert code reviewer. Read the diff and report:
+
+1. Bugs or logic errors (high confidence only)
+2. Security issues (input validation, auth, secrets, injection)
+3. Performance regressions
+4. Code-quality issues that block readability
+5. Missing tests for new behaviour
+
+Format as a bulleted list grouped by severity.
+End with a one-line verdict: SHIP IT / FIX REQUIRED / NEEDS DISCUSSION.
+MD
+
+git add .claude/agents/ && git commit -m "feat(agents): add code-reviewer"`}
+</DemoBox>
+
+<DemoBox step={8} title="Subagent triggern" lang="text">
+{`claude
+
+> use the code-reviewer agent to review the diff against main
+> use the code-reviewer agent on PR #42`}
+</DemoBox>
+
+---
+
+## <I18n de="Modul 3 — MCP-Server" en="Module 3 — MCP servers" />
+
+<DemoBox step={9} title="GitHub-MCP konfigurieren" lang="json" context=".claude/settings.json (mcpServers-Block hinzufügen).">
+{`{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "$GITHUB_TOKEN" }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y", "@modelcontextprotocol/server-filesystem",
+        "/Users/chris/demo-repo"
+      ]
+    }
+  }
+}`}
+</DemoBox>
+
+<DemoBox step={10} title="MCP-Status prüfen" lang="text" context="In Claude-Session.">
+{`/mcp                       # angeschlossene Server + Tool-Liste
+
+# Falls debug nötig:
+# claude --mcp-debug starten`}
+</DemoBox>
+
+---
+
+## <I18n de="Modul 4 — Spec-Driven" en="Module 4 — Spec-Driven" />
+
+<DemoBox step={11} title="Spec-Template anlegen" lang="bash" context="Realistisches Beispiel-Spec für Email-Login.">
+{`mkdir -p docs/specs docs/plans
+
+cat > docs/specs/email-login.md <<'MD'
+# Spec: Email-Login
+
+## Goal
+User können sich mit Email + Password einloggen.
+
+## Why
+Existierender OAuth-Flow ist auf Mobile zu langsam und brüchig.
+Die meisten Support-Tickets der letzten 6 Wochen drehen sich um Login-Probleme.
+
+## Constraints
+- Bcrypt für Hashing — keine eigene Crypto
+- Bestandsuser müssen migrierbar sein (NULL password_hash = "force reset")
+- Lockout-State persistiert in DB, nicht in-memory
+- DSGVO: Login-Versuche nicht länger als 30 Tage logge
+
+## Acceptance Criteria
+- Test: erfolgreicher Login mit korrektem Password
+- Test: 3 falsche Versuche -> Lockout für 60 Sekunden
+- Test: nach Lockout-Zeit wieder einloggen funktioniert
+- Test: forgot-password sendet Mail innerhalb 30 Sekunden
+- Test: Migration füllt password_hash mit NULL ohne Datenverlust
+
+## Anti-Goals
+- Kein Magic-Link in dieser Iteration
+- Kein 2FA jetzt (separater Sprint)
+- Kein Social-Login-Refactoring
+
+## Files involved (Schätzung)
+- migrations/0042_password_hash.sql (neu)
+- api/auth/signup.py
+- api/auth/login.py
+- api/auth/lockout.py (neu)
+- api/users/model.py
+- frontend/login.tsx
+- tests/test_login.py (neu)
+MD
+
+git add docs/specs/ && git commit -m "docs: add email-login spec"`}
+</DemoBox>
+
+<DemoBox step={12} title="Plan generieren" lang="text" context="Plan-Mode (Shift+Tab) + Spec referenzieren.">
+{`claude --plan
+
+> Lies docs/specs/email-login.md.
+> Erstelle einen Implementierungsplan mit nummerierten Schritten,
+> Files (create vs modify), Risiken und Rollback-Strategie.
+> Pro Schritt ein Test, der grün sein muss bevor weiter.
+
+# Iteration:
+> Schritt 5 muss vor Schritt 4 — sonst FK-Konflikt.
+> Risk #2 ist nicht adressiert — wie testen wir Lockout-Recovery?
+
+# Wenn fertig:
+> Speichere den Plan als docs/plans/email-login.md`}
+</DemoBox>
+
+<DemoBox step={13} title="Test-First implementieren" lang="text">
+{`claude
+
+> Hier ist der Test:
+>
+>   def test_lockout_after_3_wrong():
+>       for _ in range(3):
+>           with pytest.raises(InvalidCredentials):
+>               login("user@x", "wrong")
+>       with pytest.raises(AccountLocked):
+>           login("user@x", "correct")
+>
+> Implementiere die Lockout-Logik so, dass dieser Test grün wird.
+> Beachte CLAUDE.md: keine eigene Crypto, bcrypt nutzen.`}
+</DemoBox>
+
+---
+
+## <I18n de="Modul 5 — Sicherheit" en="Module 5 — Security" />
+
+<DemoBox step={14} title="Pre-Commit-Hook gegen Test-Verfälschung" lang="bash" context="Verhindert dass Claude Tests verändert um sie grün zu kriegen.">
+{`cat > .git/hooks/pre-commit <<'SH'
+#!/bin/sh
+# Block commits that touch test files without explicit "ALLOW_TEST_CHANGE"
+# in the commit message.
+test_changes=$(git diff --cached --name-only | grep -E '(^|/)tests?/|test_.*\\.py$|.*\\.test\\.(ts|tsx|js)$' || true)
+
+if [ -n "$test_changes" ]; then
+  msg=$(git log --format=%B -n 1 HEAD 2>/dev/null || echo "")
+  staged_msg="$(cat \"$1\" 2>/dev/null || echo \"\")"
+  if ! echo "$staged_msg$msg" | grep -q "ALLOW_TEST_CHANGE"; then
+    echo "ERROR: test files modified without ALLOW_TEST_CHANGE in commit message:"
+    echo "$test_changes"
+    exit 1
+  fi
+fi
+SH
+chmod +x .git/hooks/pre-commit`}
+</DemoBox>
+
+<DemoBox step={15} title="Halluzination provozieren" lang="text" context="Demonstriert wie LLMs ohne Kontext erfinden.">
+{`claude
+> /clear
+
+# Ohne Read-Call:
+> Wie heißt unsere Funktion zum User-Lookup in src/users.py?
+# (Claude rät — manchmal richtig, oft halluziniert)
+
+> Lies src/users.py und nenne die Funktion exakt.
+# (jetzt korrekt: get_user_by_id)`}
+</DemoBox>
+
+---
+
+## <I18n de="Modul 6 — Workflow" en="Module 6 — Workflow" />
+
+<DemoBox step={16} title="Vollständiger Spec → Plan → Code Cycle" lang="text" context="In einer Session, ohne Unterbrechung.">
+{`claude --plan
+
+> Aufgabe: Füge der get_user_by_id-Funktion in src/users.py einen
+> Cache-Decorator hinzu. Cache-Größe 100, LRU.
+>
+> Schritt 1: schreibe einen Test in tests/test_users.py der zeigt
+>            dass zwei aufeinanderfolgende Calls mit gleicher ID
+>            den gleichen Object-Identity haben (is, nicht ==).
+>
+> Schritt 2: Implementiere Cache so dass Test grün wird.
+>
+> Schritt 3: Test laufen lassen und Output zeigen.
+
+# Plan-Mode-Output reviewen, dann:
+> OK, mach Schritt 1.
+> [Test laufen, sollte rot sein]
+> Mach Schritt 2.
+> [Test grün]
+> /cost`}
+</DemoBox>
+
+<NoteCard variant="tip">
+<I18n
+  de="Wenn ihr eine Demo nicht im Voraus durchgespielt habt — NICHT live ausprobieren. Lieber: 'Hier wäre der Code, ich zeige euch den Output' und Screenshot/Recording vorbereiten."
+  en="Demos you haven't run beforehand: do NOT try them live. Better: 'this is the code, here's the output' with a screenshot/recording ready."
+/>
+</NoteCard>
+
+<SpeakerNotes>
+<I18n
+  de="Vor jedem Workshop dieses Slide einmal komplett durchgehen — Demos 0+1 als Setup, dann nach Bedarf 5/7/11/16. Demo 14 (Pre-Commit) und 15 (Halluzination) sind die mit dem höchsten Aha-Effekt."
+  en="Before each workshop, walk through this slide once — demos 0+1 as setup, then 5/7/11/16 as needed. Demo 14 (pre-commit) and 15 (hallucination) have the highest aha effect."
+/>
+</SpeakerNotes>

@@ -96,6 +96,7 @@ export const MANIFEST: ModuleMeta[] = [
       { id: "99.04", module: 99, slide: 4, title: { de: "Cheat-Sheet: Tasten", en: "Cheat sheet: keyboard" } },
       { id: "99.05", module: 99, slide: 5, title: { de: "Ressourcen", en: "Resources" } },
       { id: "99.06", module: 99, slide: 6, title: { de: "Changelog", en: "Changelog" } },
+      { id: "99.07", module: 99, slide: 7, title: { de: "Trainer-Demos (Copy & Paste)", en: "Trainer Demos (Copy & Paste)" } },
     ],
   },
 ];

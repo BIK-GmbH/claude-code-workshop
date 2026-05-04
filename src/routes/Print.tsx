@@ -7,6 +7,7 @@ import {
   De,
   En,
   CommandBox,
+  DemoBox,
   ExerciseCard,
   NoteCard,
   SpeakerNotes,
@@ -14,7 +15,7 @@ import {
 import type { ComponentType } from "react";
 
 const printMdxComponents = {
-  I18n, Lang, De, En, CommandBox, ExerciseCard, NoteCard, SpeakerNotes,
+  I18n, Lang, De, En, CommandBox, DemoBox, ExerciseCard, NoteCard, SpeakerNotes,
 } as Record<string, ComponentType<unknown>>;
 
 /** Linear print view — all slides, no chrome, used by browser print + Playwright PDF export. */
