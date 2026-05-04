@@ -5,6 +5,8 @@ title:
 researchedOn: 2026-05-04
 sources:
   - https://github.com/modelcontextprotocol/servers
+  - https://github.com/anthropics/skills
+  - https://github.com/anthropics/claude-plugins-official
   - https://alexop.dev/posts/understanding-claude-code-full-stack/
   - https://youtu.be/6cYBFfA7Nyk
   - https://youtu.be/eRS3CmvrOvA
@@ -224,12 +226,23 @@ cc-switch --help`}
 </SkillCard>
 
 <SkillCard
-  name="ClaudeMem"
-  tier="useful"
-  what={<I18n de="Persistente Memory via lokaler SQLite-DB + Vector-Search — Knowledge über Sessions" en="Persistent memory via local SQLite + vector search — knowledge across sessions" />}
+  name="claude-mem"
+  tier="must-have"
+  what={<I18n de="Auto-Capture aller Claude-Sessions, semantische Kompression — Top-Plugin mit 71k★" en="Auto-captures every Claude session with semantic compression — top plugin with 71k★" />}
+  install={`/plugin install claude-mem
+
+# oder manuell:
+git clone https://github.com/thedotmack/claude-mem \\
+  ~/.claude/plugins/claude-mem`}
   trigger={`Auto-invoke beim Session-Start, "what did we decide about ..."`}
   tags={["community", "auto-invoke", "personal"]}
   sources={[
+    {
+      type: "repo",
+      title: "thedotmack/claude-mem (71k★)",
+      url: "https://github.com/thedotmack/claude-mem",
+      author: "thedotmack",
+    },
     {
       type: "youtube",
       title: "I Tried 100+ Claude Code Skills",
@@ -239,20 +252,26 @@ cc-switch --help`}
   ]}
 >
   <I18n
-    de="Eliminiert die 'Startup-Tax' jeder neuen Session — Claude erinnert sich an Entscheidungen aus früheren Sessions ohne Re-Briefing. Lokale SQLite, kein Cloud-Roundtrip."
-    en="Eliminates the 'startup tax' of every new session — Claude remembers decisions from earlier sessions without re-briefing. Local SQLite, no cloud roundtrip."
+    de="Eliminiert die 'Startup-Tax' jeder neuen Session — Claude erinnert sich an Entscheidungen aus früheren Sessions ohne Re-Briefing. Aktuell #1 Claude-Code-Plugin nach Stars."
+    en="Eliminates the 'startup tax' of every new session — Claude remembers decisions from earlier sessions without re-briefing. Currently #1 Claude Code plugin by stars."
   />
 </SkillCard>
 
 <SkillCard
-  name="Superpowers"
-  tier="useful"
-  what={<I18n de="Plugin-Bundle erzwingt Plan → Test → Code → Review-Workflow für jeden größeren Task" en="Plugin bundle enforces plan → test → code → review workflow for any sizeable task" />}
+  name="superpowers"
+  tier="must-have"
+  what={<I18n de="Curated Plugin-Marketplace + Plan → Test → Code → Review-Workflow" en="Curated plugin marketplace + plan → test → code → review workflow" />}
   install={`/plugin marketplace add obra/superpowers-marketplace
 /plugin install superpowers`}
   trigger={`Auto-invoke bei Feature-Requests, "implementiere X"`}
   tags={["community", "auto-invoke", "cross-skill"]}
   sources={[
+    {
+      type: "repo",
+      title: "obra/superpowers-marketplace (926★)",
+      url: "https://github.com/obra/superpowers-marketplace",
+      author: "obra",
+    },
     {
       type: "youtube",
       title: "I Tried 100+ Claude Code Skills",
@@ -309,12 +328,24 @@ cc-switch --help`}
 </SkillCard>
 
 <SkillCard
-  name="Caveman Skill"
-  tier="useful"
-  what={<I18n de="Erzwingt knappe, 'höhlenmenschen-artige' Antworten — spart Tokens UND erhöht Genauigkeit" en="Enforces concise, 'caveman-style' responses — saves tokens AND increases accuracy" />}
-  trigger={`Auto-invoke, oder "be brief"`}
+  name="caveman"
+  tier="must-have"
+  what={<I18n de="Höhlenmenschen-Antworten — laut Repo 65 % Token-Reduktion (53k+ GitHub-Stars)" en="Caveman-style responses — repo claims 65% token cut (53k+ GitHub stars)" />}
+  install={`# als Plugin
+/plugin install caveman
+
+# oder manuell als Skill
+git clone https://github.com/JuliusBrussee/caveman \\
+  ~/.claude/skills/caveman`}
+  trigger={`Auto-invoke, oder "be brief" / "caveman mode"`}
   tags={["community", "auto-invoke"]}
   sources={[
+    {
+      type: "repo",
+      title: "JuliusBrussee/caveman (53k★)",
+      url: "https://github.com/JuliusBrussee/caveman",
+      author: "Julius Brussee",
+    },
     {
       type: "youtube",
       title: "Top 10 NEW Open Source Claude Code Tools (May)",
@@ -325,8 +356,8 @@ cc-switch --help`}
   ]}
 >
   <I18n
-    de="Basiert auf Paper 'Brevity Constraints Reverse Performance Hierarchies in Language Models'. Spart ca. 5 % Token-Kosten + reduziert 'KI redet sich in falsche Antwort hinein'-Effekt."
-    en="Based on the paper 'Brevity Constraints Reverse Performance Hierarchies in Language Models'. Saves ~5% token costs + reduces the 'AI talks itself into a wrong answer' effect."
+    de="Basiert auf Paper 'Brevity Constraints Reverse Performance Hierarchies in Language Models'. Spart laut Repo bis zu 65 % Token + reduziert 'KI redet sich in falsche Antwort hinein'-Effekt. Heute meistgesternter Claude-Code-Skill."
+    en="Based on the paper 'Brevity Constraints Reverse Performance Hierarchies in Language Models'. Repo claims up to 65% token savings + reduces the 'AI talks itself into a wrong answer' effect. Most-starred Claude Code skill today."
   />
 </SkillCard>
 
@@ -590,6 +621,382 @@ cc-switch --help`}
   <I18n
     de="UNBEDINGT Read-Only-User für Connection-String anlegen. Sonst kann Claude versehentlich DELETE/UPDATE feuern."
     en="ALWAYS use a read-only user for the connection string. Else Claude can accidentally fire DELETE/UPDATE."
+  />
+</SkillCard>
+
+---
+
+## <I18n de="GitHub Top-Stars (verifiziert)" en="GitHub Top Stars (verified)" />
+
+<I18n
+  de="Direkt von GitHub recherchiert, sortiert nach Stars. Stand Mai 2026."
+  en="Directly researched from GitHub, sorted by stars. As of May 2026."
+/>
+
+<SkillCard
+  name="anthropics/skills"
+  tier="must-have"
+  what={<I18n de="Offizielles Anthropic-Repository für Agent Skills — DAS Fundament (127k★)" en="Official Anthropic repository for Agent Skills — THE foundation (127k★)" />}
+  install={`# durchstöbern, einzelne Skills clonen:
+git clone --depth 1 https://github.com/anthropics/skills /tmp/anthropic-skills
+ls /tmp/anthropic-skills
+
+# einzelnen Skill in eigenes Setup übernehmen:
+cp -r /tmp/anthropic-skills/<skill-name> ~/.claude/skills/`}
+  tags={["official", "auto-invoke"]}
+  sources={[
+    {
+      type: "repo",
+      title: "anthropics/skills (127k★)",
+      url: "https://github.com/anthropics/skills",
+      author: "Anthropic",
+    },
+  ]}
+>
+  <I18n
+    de="Erste Anlaufstelle. Hier liegen die offiziellen Anthropic-Skills die im Claude-Code-Plugin-System sichtbar werden — pdf, excalidraw, frontend-design, etc. Eigene Skills anhand der Patterns hier studieren."
+    en="First port of call. The official Anthropic skills exposed in the Claude Code plugin system live here — pdf, excalidraw, frontend-design, etc. Study patterns here when writing your own."
+  />
+</SkillCard>
+
+<SkillCard
+  name="anthropics/claude-plugins-official"
+  tier="must-have"
+  what={<I18n de="Offizielle Anthropic-Direktorie hochwertiger Claude-Code-Plugins (18k★)" en="Official Anthropic-managed directory of high-quality Claude Code plugins (18k★)" />}
+  install={`# als Marketplace einbinden:
+/plugin marketplace add anthropics/claude-plugins-official
+/plugin list                  # was steht zur Verfügung
+/plugin install <name>`}
+  tags={["official", "manual"]}
+  sources={[
+    {
+      type: "repo",
+      title: "anthropics/claude-plugins-official (18k★)",
+      url: "https://github.com/anthropics/claude-plugins-official",
+      author: "Anthropic",
+    },
+  ]}
+>
+  <I18n
+    de="Anthropic-kuratierter Marketplace — sicherere Wahl als zufällige Community-Plugins. Plugin-Quality-Bar ist sichtbar höher."
+    en="Anthropic-curated marketplace — safer choice than random community plugins. Quality bar is noticeably higher."
+  />
+</SkillCard>
+
+<SkillCard
+  name="claude-hud"
+  tier="useful"
+  what={<I18n de="Live-Statusleiste während Sessions: Context-Verbrauch, aktive Tools, Subagents, Todos (21k★)" en="Live status bar during sessions: context use, active tools, subagents, todos (21k★)" />}
+  install={`/plugin install claude-hud
+
+# oder manuell:
+git clone https://github.com/jarrodwatts/claude-hud \\
+  ~/.claude/plugins/claude-hud`}
+  tags={["community", "auto-invoke", "personal"]}
+  sources={[
+    {
+      type: "repo",
+      title: "jarrodwatts/claude-hud (21k★)",
+      url: "https://github.com/jarrodwatts/claude-hud",
+      author: "Jarrod Watts",
+    },
+  ]}
+>
+  <I18n
+    de="Killer für lange Pair-Sessions — sichtbar wieviel Context noch frei ist, was gerade läuft. Verhindert das 'plötzlich Context-Voll'-Phänomen."
+    en="Killer for long pair sessions — visible how much context remains, what's running. Prevents the 'suddenly context full' phenomenon."
+  />
+</SkillCard>
+
+<SkillCard
+  name="planning-with-files"
+  tier="useful"
+  what={<I18n de="Manus-Style persistente Markdown-Pläne als Skill — der Workflow hinter 2 Mrd $ Akquisition (20k★)" en="Manus-style persistent markdown planning as a skill — the workflow behind a $2B acquisition (20k★)" />}
+  install={`git clone https://github.com/OthmanAdi/planning-with-files \\
+  ~/.claude/skills/planning-with-files`}
+  trigger={`"plane diese Aufgabe", "plan with files"`}
+  tags={["community", "auto-invoke", "cross-skill"]}
+  sources={[
+    {
+      type: "repo",
+      title: "OthmanAdi/planning-with-files (20k★)",
+      url: "https://github.com/OthmanAdi/planning-with-files",
+      author: "Othman Adi",
+    },
+  ]}
+>
+  <I18n
+    de="Persistente Planungs-Files (todo.md, plan.md im Repo) statt nur in-Session-Plan. Survived Context-Switches & /clear. Komplementär zu Plan-Mode (Modul 4)."
+    en="Persistent plan files (todo.md, plan.md in repo) instead of in-session-only. Survives context switches & /clear. Complementary to plan mode (Module 4)."
+  />
+</SkillCard>
+
+<SkillCard
+  name="humanizer"
+  tier="useful"
+  what={<I18n de="Entfernt typische AI-Schreibspuren aus Texten — 'es wirkt nicht mehr nach KI' (17k★)" en="Removes typical AI-writing tells from text — 'no longer reads like AI' (17k★)" />}
+  install={`git clone https://github.com/blader/humanizer \\
+  ~/.claude/skills/humanizer`}
+  trigger={`"humanize this text", "entferne KI-Spuren"`}
+  tags={["community", "manual"]}
+  sources={[
+    {
+      type: "repo",
+      title: "blader/humanizer (17k★)",
+      url: "https://github.com/blader/humanizer",
+      author: "blader",
+    },
+  ]}
+>
+  <I18n
+    de="Für Content-Marketing, Blog-Posts, Newsletter — entfernt 'jedoch / darüber hinaus / abschließend' und ähnliche Tells. Auch deutsche Variante existiert (op7418/Humanizer-zh, 6.9k★)."
+    en="For content marketing, blog posts, newsletters — removes 'however / furthermore / in conclusion' and similar tells. German variant exists too (op7418/Humanizer-zh, 6.9k★)."
+  />
+</SkillCard>
+
+<SkillCard
+  name="trailofbits/skills"
+  tier="useful"
+  what={<I18n de="Security-Research, Vulnerability-Detection und Audit-Workflows von Trail of Bits (5k★)" en="Security research, vulnerability detection, audit workflows by Trail of Bits (5k★)" />}
+  install={`git clone https://github.com/trailofbits/skills /tmp/tob-skills
+# einzelne Skills auswählen:
+ls /tmp/tob-skills
+cp -r /tmp/tob-skills/<skill> ~/.claude/skills/`}
+  tags={["community", "ci"]}
+  sources={[
+    {
+      type: "repo",
+      title: "trailofbits/skills (5k★)",
+      url: "https://github.com/trailofbits/skills",
+      author: "Trail of Bits",
+    },
+  ]}
+>
+  <I18n
+    de="Trail of Bits = führende Security-Audit-Firma. Skills decken Smart-Contract-Audit, statische Analyse, Vuln-Detection. Empfohlen für Teams in regulierten Branchen oder mit Compliance-Pflicht."
+    en="Trail of Bits = top security-audit firm. Skills cover smart-contract audit, static analysis, vuln detection. Recommended for teams in regulated industries or with compliance duty."
+  />
+</SkillCard>
+
+<SkillCard
+  name="alirezarezvani/claude-skills"
+  tier="useful"
+  what={<I18n de="Meta-Pack: 232+ Skills + Agent-Plugins für Claude, Codex, Gemini CLI, Cursor und 8 weitere (13k★)" en="Meta-pack: 232+ skills + agent plugins for Claude, Codex, Gemini CLI, Cursor and 8 more (13k★)" />}
+  install={`git clone https://github.com/alirezarezvani/claude-skills \\
+  ~/.claude/skill-packs/alirezarezvani
+
+# Skills sind in Sub-Foldern organisiert
+ls ~/.claude/skill-packs/alirezarezvani/skills`}
+  tags={["community", "cross-skill"]}
+  sources={[
+    {
+      type: "repo",
+      title: "alirezarezvani/claude-skills (13k★)",
+      url: "https://github.com/alirezarezvani/claude-skills",
+      author: "Alireza Rezvani",
+    },
+  ]}
+>
+  <I18n
+    de="Massiv-Pack zum Stöbern. Nicht alle 232 sind brauchbar — Cherry-Picking empfohlen. Tool-agnostisch, einige Skills laufen auch in Cursor/Codex/Gemini-CLI."
+    en="Massive pack to browse. Not all 232 are useful — cherry-pick. Tool-agnostic, some skills also run in Cursor/Codex/Gemini CLI."
+  />
+</SkillCard>
+
+<SkillCard
+  name="claude-octopus"
+  tier="experimental"
+  what={<I18n de="Bis zu 8 AI-Modelle parallel auf jedem Task — Blind-Spots vor dem Ship sichtbar (3k★)" en="Up to 8 AI models in parallel on every task — blind spots surface before ship (3k★)" />}
+  install={`/plugin install claude-octopus
+
+# oder manuell:
+git clone https://github.com/nyldn/claude-octopus \\
+  ~/.claude/plugins/claude-octopus`}
+  trigger={`/octopus <task>`}
+  tags={["community", "experimental", "subagent"]}
+  sources={[
+    {
+      type: "repo",
+      title: "nyldn/claude-octopus (3k★)",
+      url: "https://github.com/nyldn/claude-octopus",
+      author: "nyldn",
+    },
+  ]}
+>
+  <I18n
+    de="Lässt z.B. Opus, Sonnet, Haiku + GPT-5 + Gemini parallel die gleiche Aufgabe lösen — Diff-Analyse zeigt Konsens vs. Blind-Spot. Teuer in Token, aber unbezahlbar bei kritischen Entscheidungen."
+    en="Runs e.g. Opus, Sonnet, Haiku + GPT-5 + Gemini in parallel on the same task — diff analysis shows consensus vs blind spots. Expensive in tokens but priceless for critical calls."
+  />
+</SkillCard>
+
+<SkillCard
+  name="ccplugins/awesome-claude-code-plugins"
+  tier="useful"
+  what={<I18n de="Awesome-Liste: kuratiert Slash-Commands, Subagents, MCP-Server und Hooks für Claude Code" en="Awesome list: curated slash commands, subagents, MCP servers, hooks for Claude Code" />}
+  tags={["community"]}
+  sources={[
+    {
+      type: "repo",
+      title: "ccplugins/awesome-claude-code-plugins",
+      url: "https://github.com/ccplugins/awesome-claude-code-plugins",
+      author: "ccplugins community",
+    },
+  ]}
+>
+  <I18n
+    de="Klassische 'Awesome-X'-Liste. Erste Anlaufstelle wenn ihr nach einem spezifischen Plugin/Skill für einen Use-Case sucht — bevor ihr selbst baut."
+    en="Classic 'awesome-X' list. First port of call when looking for a specific plugin/skill for a use case — before you build your own."
+  />
+</SkillCard>
+
+---
+
+## <I18n de="Domain-Specific Skills (GitHub Community)" en="Domain-Specific Skills (GitHub Community)" />
+
+<SkillCard
+  name="guizang-ppt-skill"
+  tier="useful"
+  what={<I18n de="Prompts → horizontal-swipe Magazine-Style HTML-Decks (10 Layouts, 5 Themes) (4.8k★)" en="Prompts → horizontal-swipe magazine-style HTML decks (10 layouts, 5 themes) (4.8k★)" />}
+  install={`git clone https://github.com/op7418/guizang-ppt-skill \\
+  ~/.claude/skills/guizang-ppt`}
+  trigger={`"baue mir ein Deck zu ...", "magazine-style HTML"`}
+  tags={["community", "manual"]}
+  sources={[
+    {
+      type: "repo",
+      title: "op7418/guizang-ppt-skill (4.8k★)",
+      url: "https://github.com/op7418/guizang-ppt-skill",
+      author: "op7418",
+    },
+  ]}
+>
+  <I18n
+    de="Schöne Alternative zu PPTX wenn ihr im Web-Stack bleibt. Deutlich besser als die Default-AI-PowerPoint-Outputs. Auch geeignet für Marketing-Decks."
+    en="Nice alternative to PPTX if you stay web-native. Much better than default AI PowerPoint output. Also great for marketing decks."
+  />
+</SkillCard>
+
+<SkillCard
+  name="codebase-to-course"
+  tier="useful"
+  what={<I18n de="Verwandelt jede Codebasis in einen interaktiven HTML-Kurs (4.2k★)" en="Turns any codebase into an interactive HTML course (4.2k★)" />}
+  install={`git clone https://github.com/zarazhangrui/codebase-to-course \\
+  ~/.claude/skills/codebase-to-course`}
+  trigger={`"erstelle einen Kurs aus diesem Repo"`}
+  tags={["community", "manual"]}
+  sources={[
+    {
+      type: "repo",
+      title: "zarazhangrui/codebase-to-course (4.2k★)",
+      url: "https://github.com/zarazhangrui/codebase-to-course",
+      author: "Zara Zhang",
+    },
+  ]}
+>
+  <I18n
+    de="Onboarding-Pflicht für komplexe Repos — KI baut interaktive Single-Page mit Architektur, Hauptpfaden, Beispiel-Workflows. Spart Junior-Onboarding-Zeit."
+    en="Onboarding gold for complex repos — AI builds interactive single page with architecture, main paths, example workflows. Saves junior onboarding time."
+  />
+</SkillCard>
+
+<SkillCard
+  name="lackeyjb/playwright-skill"
+  tier="useful"
+  what={<I18n de="Browser-Automation via Playwright, model-invoked — Claude schreibt + führt Test-Scripts aus (2.5k★)" en="Browser automation via Playwright, model-invoked — Claude writes + executes test scripts (2.5k★)" />}
+  install={`git clone https://github.com/lackeyjb/playwright-skill \\
+  ~/.claude/skills/playwright-skill`}
+  trigger={`"teste die Login-Seite im Browser"`}
+  tags={["community", "auto-invoke", "ci"]}
+  sources={[
+    {
+      type: "repo",
+      title: "lackeyjb/playwright-skill (2.5k★)",
+      url: "https://github.com/lackeyjb/playwright-skill",
+      author: "lackeyjb",
+    },
+  ]}
+>
+  <I18n
+    de="Officially recommended für E2E-Test-Generierung. Komplementär zu Browser-Harness (Self-Improving) — playwright-skill ist klassisch, stabil, weit verbreitet."
+    en="Recommended for E2E test generation. Complementary to Browser Harness (self-improving) — playwright-skill is classic, stable, widely used."
+  />
+</SkillCard>
+
+<SkillCard
+  name="mcp_excalidraw"
+  tier="useful"
+  what={<I18n de="MCP-Server + Skill für Excalidraw — programmatische Diagramm-Erstellung, Edit, Export (1.8k★)" en="MCP server + skill for Excalidraw — programmatic diagram creation, edit, export (1.8k★)" />}
+  install={`# als MCP-Server in .claude/settings.json:
+{
+  "mcpServers": {
+    "excalidraw": {
+      "command": "npx",
+      "args": ["-y", "@yctimlin/mcp-excalidraw"]
+    }
+  }
+}`}
+  trigger={`"zeichne ein Architektur-Diagramm", "erstelle Flow-Chart"`}
+  tags={["community", "mcp"]}
+  sources={[
+    {
+      type: "repo",
+      title: "yctimlin/mcp_excalidraw (1.8k★)",
+      url: "https://github.com/yctimlin/mcp_excalidraw",
+      author: "Tim Lin",
+    },
+  ]}
+>
+  <I18n
+    de="Killer-Tool für Live-Architecture-Diagramme im Workshop. Output ist editierbar in der echten Excalidraw-UI. Komplementär zu Mermaid (statisch in Markdown)."
+    en="Killer for live architecture diagrams in workshops. Output is editable in real Excalidraw UI. Complementary to Mermaid (static in markdown)."
+  />
+</SkillCard>
+
+<SkillCard
+  name="nothing-design-skill"
+  tier="experimental"
+  what={<I18n de="UI in Nothing-Design-Sprache: monochrom, typografisch, industriell (2.2k★)" en="UI in Nothing design language: monochrome, typographic, industrial (2.2k★)" />}
+  install={`git clone https://github.com/dominikmartn/nothing-design-skill \\
+  ~/.claude/skills/nothing-design`}
+  trigger={`"design im Nothing-Style"`}
+  tags={["community", "manual"]}
+  sources={[
+    {
+      type: "repo",
+      title: "dominikmartn/nothing-design-skill (2.2k★)",
+      url: "https://github.com/dominikmartn/nothing-design-skill",
+      author: "Dominik Martin",
+    },
+  ]}
+>
+  <I18n
+    de="Brand-spezifischer Skill — interessant als Vorbild wie man eigene Brand-Style-Skills baut (BIK-Style-Skill anyone?)."
+    en="Brand-specific skill — interesting as a template for building your own brand-style skills (BIK-style skill, anyone?)."
+  />
+</SkillCard>
+
+<SkillCard
+  name="cavekit"
+  tier="experimental"
+  what={<I18n de="Vom selben Autor wie caveman: Natural-Language → Blueprints → parallele Build-Pläne (825★)" en="From the caveman author: natural language → blueprints → parallel build plans (825★)" />}
+  install={`/plugin install cavekit
+
+# oder:
+git clone https://github.com/JuliusBrussee/cavekit \\
+  ~/.claude/plugins/cavekit`}
+  tags={["community", "experimental", "cross-skill"]}
+  sources={[
+    {
+      type: "repo",
+      title: "JuliusBrussee/cavekit (825★)",
+      url: "https://github.com/JuliusBrussee/cavekit",
+      author: "Julius Brussee",
+    },
+  ]}
+>
+  <I18n
+    de="Spec-Driven-Development als Plugin gegossen — wer caveman mag, will hier reinschauen. Plant Builds parallel statt sequentiell."
+    en="Spec-driven development cast as a plugin — if you like caveman, look here. Plans builds in parallel instead of sequentially."
   />
 </SkillCard>
 
