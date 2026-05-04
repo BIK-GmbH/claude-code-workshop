@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Lang, SlideMeta } from "@/types/slide";
-import { neighbours } from "@/lib/manifest";
+import { neighbours } from "@/lib/slides";
 import { t } from "@/lib/i18n";
 
 interface Props {

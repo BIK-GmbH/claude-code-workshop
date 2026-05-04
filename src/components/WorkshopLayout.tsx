@@ -7,7 +7,7 @@ import { CommandPalette } from "./CommandPalette";
 import { useLang } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useKeymap } from "@/lib/keymap";
-import { ALL_SLIDES, findSlide, neighbours } from "@/lib/manifest";
+import { ALL_SLIDES, findSlide, neighbours } from "@/lib/slides";
 
 export function WorkshopLayout() {
   const [lang, setLang] = useLang();

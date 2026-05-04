@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Bilingual, Lang } from "@/types/slide";
 
 const KEY = "workshop.lang";
@@ -11,7 +11,13 @@ export function getInitialLang(): Lang {
   return nav.startsWith("en") ? "en" : "de";
 }
 
-export function useLang(): [Lang, (l: Lang) => void] {
+interface LangCtx {
+  lang: Lang;
+  setLang: (l: Lang) => void;
+}
+const Ctx = createContext<LangCtx | null>(null);
+
+export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(getInitialLang);
 
   useEffect(() => {
@@ -22,7 +28,13 @@ export function useLang(): [Lang, (l: Lang) => void] {
     window.localStorage.setItem(KEY, l);
     setLangState(l);
   }
-  return [lang, setLang];
+  return <Ctx.Provider value={{ lang, setLang }}>{children}</Ctx.Provider>;
+}
+
+export function useLang(): [Lang, (l: Lang) => void] {
+  const v = useContext(Ctx);
+  if (!v) throw new Error("useLang must be used inside <LangProvider>");
+  return [v.lang, v.setLang];
 }
 
 export function pick(b: Bilingual, lang: Lang): string {

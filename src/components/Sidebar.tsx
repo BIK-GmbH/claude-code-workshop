@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import clsx from "clsx";
-import { MANIFEST } from "@/lib/manifest";
+import { MANIFEST } from "@/lib/slides";
 import { pick, t } from "@/lib/i18n";
 import type { Lang } from "@/types/slide";
 

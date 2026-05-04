@@ -9,6 +9,7 @@ export default defineConfig({
   use: {
     baseURL: "http://localhost:5174",
     trace: "on-first-retry",
+    locale: "de-DE",
   },
   webServer: {
     command: "BASE_PATH=/ npm run dev",

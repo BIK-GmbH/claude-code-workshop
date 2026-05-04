@@ -4,7 +4,7 @@ test.describe("Phase 1 smoke", () => {
   test("app renders header, sidebar, footer and first slide", async ({ page }) => {
     await page.goto("/");
     await expect(page).toHaveURL(/#\/s\/00\.01$/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("Cover");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Claude Code Workshop");
     await expect(page.locator("[data-workshop-header]")).toBeVisible();
     await expect(page.locator("[data-workshop-sidebar]")).toBeVisible();
     await expect(page.locator("[data-workshop-footer]")).toBeVisible();
@@ -60,5 +60,26 @@ test.describe("Phase 1 smoke", () => {
     const slides = page.locator(".slide-page");
     await expect(slides.first()).toBeVisible();
     expect(await slides.count()).toBeGreaterThan(40);
+  });
+});
+
+test.describe("Phase 2 MDX rendering", () => {
+  test("00.01 cover slide renders MDX with NoteCard + bilingual switch", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Claude Code Workshop");
+    // Subtitle in DE
+    await expect(page.locator("main")).toContainText("Augmented Working für professionelle Softwareentwicklung");
+    // NoteCard hint about navigation
+    await expect(page.locator("main")).toContainText("⌘K");
+    // Switch to EN
+    await page.getByTestId("lang-en").click();
+    await expect(page.locator("main")).toContainText("Augmented Working for professional software development");
+  });
+
+  test("Speaker notes hidden by default, visible in presenter mode", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    await expect(page.locator("[data-speaker-notes]")).toBeHidden();
+    await page.goto("/#/s/00.01?presenter=1");
+    await expect(page.locator("[data-speaker-notes]")).toBeVisible();
   });
 });

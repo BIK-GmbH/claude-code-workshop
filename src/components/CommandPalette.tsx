@@ -1,6 +1,6 @@
 import { Command } from "cmdk";
 import { useNavigate } from "react-router-dom";
-import { MANIFEST } from "@/lib/manifest";
+import { MANIFEST } from "@/lib/slides";
 import { pick, t } from "@/lib/i18n";
 import type { Lang } from "@/types/slide";
 

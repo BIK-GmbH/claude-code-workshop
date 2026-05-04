@@ -1,4 +1,4 @@
-import { ALL_SLIDES } from "@/lib/manifest";
+import { ALL_SLIDES } from "@/lib/slides";
 import { useLang } from "@/lib/i18n";
 import { pick } from "@/lib/i18n";
 
