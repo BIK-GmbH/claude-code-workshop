@@ -1,0 +1,44 @@
+@media print {
+  :root {
+    --bg: #ffffff;
+    --fg: #000000;
+  }
+
+  /* Hide UI chrome — only slide content prints. */
+  .no-print,
+  header[data-workshop-header],
+  aside[data-workshop-sidebar],
+  footer[data-workshop-footer],
+  [data-presenter-toggle],
+  [data-command-palette] {
+    display: none !important;
+  }
+
+  main[data-workshop-content] {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .slide-page {
+    page-break-after: always;
+    break-after: page;
+    padding: 1.5cm 1.8cm;
+    min-height: 100vh;
+  }
+
+  .slide-page:last-child {
+    page-break-after: auto;
+  }
+
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  pre, code {
+    border: 1px solid #ccc;
+    background: #f7f7f7 !important;
+    color: #000 !important;
+  }
+}
