@@ -1,0 +1,74 @@
+---
+title:
+  de: "Wie LLMs denken"
+  en: "How LLMs Think"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+  - https://addyosmani.com/blog/good-spec/
+---
+
+# <I18n de="Mentalmodell: Wie Claude Code denkt" en="Mental Model: How Claude Code Thinks" />
+
+<De>
+## Drei Konzepte, die alles erklären
+
+### 1. Token & Kontextfenster
+
+- LLMs „lesen" und „schreiben" in **Tokens** (≈ ¾ Wort)
+- Claude 4.6 Opus hat **bis zu 1 Mio Tokens** Kontext, Sonnet 4.6 200k
+- **Alles, was im Kontext liegt, kostet Geld + Zeit + Aufmerksamkeit**
+- → „Mehr Kontext rein" ist nicht automatisch besser
+
+### 2. Statelessness pro Turn
+
+- Jeder LLM-Call startet **bei Null** — Erinnerung gibt's nur durch erneutes Mitsenden
+- Claude Code merkt sich Sessions, weil es Verlauf + `CLAUDE.md` automatisch wieder mitschickt
+- → Wenn ihr `/clear` macht, ist die Erinnerung weg (außer was in Files steht)
+
+### 3. Halluzination ist Default
+
+- LLMs **erfinden plausibel klingende Fakten**, wenn sie keine haben
+- API-Endpoints, Funktionsnamen, Imports — alles potenziell halluziniert
+- Gegenmittel: **Kontext geben** (Doku im Repo, MCP-Server zur DB, klare CLAUDE.md)
+- → Verifizieren, nicht vertrauen
+
+<NoteCard variant="warning" title="Anti-Pattern">
+„Schreib mir einen Test, der die `userService.getUserById()`-Funktion testet" — wenn diese Funktion nicht im Kontext ist, halluziniert Claude einen plausiblen Stub. Besser: erst `Read userService.ts`, dann fragen.
+</NoteCard>
+</De>
+
+<En>
+## Three concepts that explain everything
+
+### 1. Tokens & context window
+
+- LLMs "read" and "write" in **tokens** (≈ ¾ of a word)
+- Claude 4.6 Opus has **up to 1M tokens** of context, Sonnet 4.6 200k
+- **Everything in the context costs money + time + attention**
+- → "More context in" is not automatically better
+
+### 2. Statelessness per turn
+
+- Every LLM call **starts from zero** — memory only via re-sending history
+- Claude Code remembers sessions because it auto-resends transcript + `CLAUDE.md`
+- → If you `/clear`, the memory is gone (except what's in files)
+
+### 3. Hallucination is the default
+
+- LLMs **invent plausible-sounding facts** when they lack them
+- API endpoints, function names, imports — all potentially hallucinated
+- Antidote: **provide context** (docs in repo, MCP server to DB, clear CLAUDE.md)
+- → Verify, don't trust
+
+<NoteCard variant="warning" title="Anti-pattern">
+"Write me a test for the `userService.getUserById()` function" — if that function isn't in context, Claude will hallucinate a plausible stub. Better: `Read userService.ts` first, then ask.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Optional Live-Demo: in einer leeren Shell `claude` starten, fragen 'wie heißt unsere Funktion zum User-Lookup' — Claude gibt einen erfundenen Namen. Dann CLAUDE.md mit echtem Funktionsnamen ergänzen, neu fragen, korrekte Antwort. Sichtbar machen, wie viel Kontext-Setup ausmacht."
+  en="Optional live demo: open empty shell, run `claude`, ask 'what's our user lookup function called' — Claude makes one up. Add real function name to CLAUDE.md, ask again, correct answer. Demonstrates how much context setup matters."
+/>
+</SpeakerNotes>

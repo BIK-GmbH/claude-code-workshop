@@ -1,0 +1,65 @@
+---
+title:
+  de: "Was Claude Code ist (und was nicht)"
+  en: "What Claude Code Is (and Is Not)"
+researchedOn: 2026-05-04
+sources:
+  - https://code.claude.com/docs/en/best-practices
+  - https://www.nxcode.io/resources/news/best-ai-for-coding-2026-complete-ranking
+  - https://thoughts.jock.pl/p/ai-coding-harness-agents-2026
+---
+
+# <I18n de="Was Claude Code ist" en="What Claude Code Is" />
+
+<De>
+## Definition
+
+Claude Code ist ein **agentischer Coding-Assistent**, der direkt im Terminal lebt und mit eurer Codebasis arbeitet — nicht nur einzelne Datei-Snippets vervollständigt, sondern **mehrstufige Aufgaben** plant und ausführt.
+
+## Drei Eigenschaften, die ihn unterscheiden
+
+1. **Agentisch** — er plant, ruft Tools auf (Shell, Edit, Read, Write, Web, MCP-Server), prüft Ergebnisse und korrigiert.
+2. **Codebasis-bewusst** — er liest mehrere Dateien, hält den Architekturkontext und baut sich ein Mentalmodell des Repos.
+3. **Spezifikations-getrieben** — mit `CLAUDE.md` und Plan Mode steuert ihr ihn nicht über Prompts, sondern über **dokumentierte Konventionen**.
+
+## Was Claude Code **nicht** ist
+
+- ❌ **Kein Autocomplete** — Cursor/Copilot füllen Zeilen, Claude Code löst Tasks.
+- ❌ **Kein magischer Senior** — Architektur-Entscheidungen bleiben bei euch.
+- ❌ **Kein Replacement für Code-Review** — KI-Code braucht mehr Review, nicht weniger.
+- ❌ **Kein Tool für unscharfe Specs** — schlechte Inputs ⇒ schlechte Outputs (mit hoher Geschwindigkeit).
+
+<NoteCard variant="warning">
+„Schneller tippen mit KI" ist die falsche Erwartung. Wer das sucht, sollte Cursor oder Copilot nutzen.
+</NoteCard>
+</De>
+
+<En>
+## Definition
+
+Claude Code is an **agentic coding assistant** that lives in the terminal and works with your codebase — not completing single-file snippets, but **planning and executing multi-step tasks**.
+
+## Three properties that set it apart
+
+1. **Agentic** — it plans, calls tools (shell, edit, read, write, web, MCP servers), verifies and corrects.
+2. **Codebase-aware** — it reads multiple files, holds the architectural context, builds a mental model of the repo.
+3. **Spec-driven** — via `CLAUDE.md` and plan mode you steer it through **documented conventions**, not prompts.
+
+## What Claude Code is **not**
+
+- ❌ **Not autocomplete** — Cursor/Copilot fill lines, Claude Code solves tasks.
+- ❌ **Not a magic senior** — architecture decisions stay with you.
+- ❌ **Not a code-review replacement** — AI code needs more review, not less.
+- ❌ **Not a tool for fuzzy specs** — bad inputs ⇒ bad outputs at high speed.
+
+<NoteCard variant="warning">
+"Type faster with AI" is the wrong expectation. If that's what you want, use Cursor or Copilot.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Wichtig: NICHT in Tool-Krieg verfallen. Cursor und Copilot sind ausgezeichnete Werkzeuge — für anderen Use-Case. Claude Code = Terminal-natives, agentisches Arbeiten an Tasks. Cursor = IDE-natives, schnelles Editieren. Codex (OpenAI) = Cloud-asynchrones Fire-and-Forget."
+  en="Important: don't go to tool-war. Cursor and Copilot are excellent — for a different use case. Claude Code = terminal-native, agentic task work. Cursor = IDE-native, fast editing. Codex (OpenAI) = async cloud fire-and-forget."
+/>
+</SpeakerNotes>

@@ -4,17 +4,18 @@
 
 ## Letzte Aktualisierung
 
-2026-05-04 — Phase 0 ✅ abgeschlossen (Commit `e4c39f4`). Starte Phase 1.
+2026-05-04 — Phase 0–3 ✅ abgeschlossen. App-Skelett, Layout, MDX-Pipeline,
+Lang/Theme/Presenter/⌘K alle live. 10 Playwright-Tests grün. Starte Phase 4.
 
 ## Phasen-Status
 
 | # | Phase | Status |
 |---|---|---|
 | 0 | Repo-Setup, Vite+React+TS+Tailwind, Tokens, Skeleton | ✅ done (`e4c39f4`) |
-| 1 | Layout-Shell + Routing + Keymap | ⏳ in Arbeit |
-| 2 | MDX-Loader + Custom-Components | ⬜ pending |
-| 3 | Theme/Lang/Presenter/⌘K | ⬜ pending |
-| 4 | Inhalte Modul 0 + 1 | ⬜ pending |
+| 1 | Layout-Shell + Routing + Keymap | ✅ done (`9e7747e`) |
+| 2 | MDX-Loader + Custom-Components | ✅ done (`98d4ae4`) |
+| 3 | Theme/Lang/Presenter/⌘K | ✅ done — in Phase 1+2 enthalten |
+| 4 | Inhalte Modul 0 + 1 | ⏳ in Arbeit |
 | 5 | Inhalte Modul 2–6 + Anhang | ⬜ pending |
 | 6 | Print-View + PDF-Export | ⬜ pending |
 | 7 | Playwright-Suite grün | ⬜ pending |
@@ -23,14 +24,15 @@
 
 ## Was als Nächstes
 
-**Phase 1** — Layout-Shell + Routing + Keymap. Siehe `PLAN.md` für DoD.
+**Phase 4** — Recherche + Inhalte für Modul 0 (Cover/Intro) und Modul 1
+(Grundlagen & Mindset). Siehe `PLAN.md` für DoD.
 
 Konkrete nächste Schritte:
-1. `WorkshopLayout.tsx` (Header/Sidebar/Footer Grid via CSS-Grid)
-2. `Sidebar.tsx` mit Akkordeon-Modulen, Active-Highlight
-3. `react-router-dom` mit HashRouter, Routen `/m/:module/:slide` + `/print`
-4. `SlideNav.tsx` Keyboard-Bindings: ←/→/J/K/Home/End/P/F/⌘K
-5. Stub-Slide-Manifest (echter MDX-Loader kommt Phase 2)
+1. WebSearch zu aktueller Tool-Landscape 2026 (Cursor, Codex, OpenCode, Aider, Continue.dev)
+2. Anthropic Claude Code Stand-Recherche (Modelle, Features per Mai 2026)
+3. MDX-Files: `00-02-welcome.mdx`, `00-03-goals.mdx`, `00-04-agenda.mdx`
+4. MDX-Files: `01-01-what-is.mdx` … `01-05-reflection.mdx`
+5. Pro Slide: DE+EN, Speaker-Notes, `researchedOn` + `sources[]`
 
 ## Bekannte Blocker / Open Questions
 
