@@ -7,6 +7,7 @@ import { pick, t } from "@/lib/i18n";
 import type { Lang } from "@/types/slide";
 
 const ICON = { strokeWidth: 2.25 } as const;
+const DRAWER_EXIT_MS = 220;
 
 interface Props {
   lang: Lang;
@@ -38,6 +39,25 @@ export function Sidebar({
   useEffect(() => {
     setOpenModules((prev) => new Set([...prev, activeModule]));
   }, [activeModule]);
+
+  // Drawer lifecycle: keep mounted during exit animation, then unmount.
+  const [drawerMounted, setDrawerMounted] = useState(false);
+  const [drawerExiting, setDrawerExiting] = useState(false);
+  useEffect(() => {
+    if (mobileOpen) {
+      setDrawerExiting(false);
+      setDrawerMounted(true);
+      return;
+    }
+    if (drawerMounted) {
+      setDrawerExiting(true);
+      const t = setTimeout(() => {
+        setDrawerMounted(false);
+        setDrawerExiting(false);
+      }, DRAWER_EXIT_MS);
+      return () => clearTimeout(t);
+    }
+  }, [mobileOpen, drawerMounted]);
 
   function toggleModule(idx: number) {
     setOpenModules((prev) => {
@@ -138,36 +158,43 @@ export function Sidebar({
                 </span>
               </button>
 
-              {isOpen && (
-                <ul className="pl-11 pr-3 pb-1">
-                  {m.slides.map((s) => {
-                    const slideActive = s.id === activeId;
-                    return (
-                      <li key={s.id}>
-                        <Link
-                          to={`/s/${s.id}`}
-                          data-testid={`slide-link-${s.id}`}
-                          onClick={onMobileClose}
-                          className={clsx(
-                            "block py-2 text-sm rounded px-2 -mx-2",
-                            slideActive
-                              ? "font-semibold"
-                              : "hover:bg-black/5 active:bg-black/10",
-                          )}
-                          style={
-                            slideActive
-                              ? { color: "var(--workshop-accent)" }
-                              : undefined
-                          }
-                          aria-current={slideActive ? "page" : undefined}
-                        >
-                          {pick(s.title, lang)}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
+              <div
+                className="accordion-content"
+                data-open={isOpen ? "true" : "false"}
+                aria-hidden={!isOpen}
+              >
+                <div>
+                  <ul className="pl-11 pr-3 pb-1">
+                    {m.slides.map((s) => {
+                      const slideActive = s.id === activeId;
+                      return (
+                        <li key={s.id}>
+                          <Link
+                            to={`/s/${s.id}`}
+                            data-testid={`slide-link-${s.id}`}
+                            onClick={onMobileClose}
+                            tabIndex={isOpen ? 0 : -1}
+                            className={clsx(
+                              "block py-2 text-sm rounded px-2 -mx-2",
+                              slideActive
+                                ? "font-semibold"
+                                : "hover:bg-black/5 active:bg-black/10",
+                            )}
+                            style={
+                              slideActive
+                                ? { color: "var(--workshop-accent)" }
+                                : undefined
+                            }
+                            aria-current={slideActive ? "page" : undefined}
+                          >
+                            {pick(s.title, lang)}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
             </div>
           );
         })}
@@ -190,19 +217,24 @@ export function Sidebar({
         {sidebarBody}
       </aside>
 
-      {/* Mobile: drawer + backdrop. Only mounted when open so that test-ids
-          don't collide with the desktop sidebar's identical buttons. */}
-      {mobileOpen && (
+      {/* Mobile: drawer + backdrop. Mounted while open OR animating-out so
+          enter/exit transitions can play. Unmounted afterwards to keep
+          desktop test-ids unique. */}
+      {drawerMounted && (
         <>
           <div
+            data-backdrop
+            data-exit={drawerExiting ? "1" : undefined}
             className="md:hidden fixed inset-0 z-40"
             style={{ background: "rgba(0,0,0,0.45)" }}
             onClick={onMobileClose}
             data-testid="sidebar-backdrop"
           />
           <aside
+            data-drawer
+            data-exit={drawerExiting ? "1" : undefined}
             data-workshop-sidebar-mobile
-            className="md:hidden fixed top-0 left-0 z-50 h-full flex flex-col shadow-xl translate-x-0"
+            className="md:hidden fixed top-0 left-0 z-50 h-full flex flex-col shadow-xl"
             style={{
               borderRight: "1px solid var(--border)",
               background: "var(--bg-elev)",

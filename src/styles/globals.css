@@ -114,6 +114,44 @@ html[data-motion="off"] [data-swipe-hint] {
   animation: none !important;
 }
 
+/* ── Mobile drawer + backdrop ──────────────────────────────────────── */
+@keyframes drawerSlideIn {
+  from { transform: translate3d(-100%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+@keyframes drawerSlideOut {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-100%, 0, 0); }
+}
+@keyframes backdropFadeIn  { from { opacity: 0 } to { opacity: 1 } }
+@keyframes backdropFadeOut { from { opacity: 1 } to { opacity: 0 } }
+
+[data-drawer]            { animation: drawerSlideIn  240ms cubic-bezier(.2,.7,.2,1); }
+[data-drawer][data-exit] { animation: drawerSlideOut 200ms ease-in forwards; }
+[data-backdrop]            { animation: backdropFadeIn  240ms ease-out; }
+[data-backdrop][data-exit] { animation: backdropFadeOut 200ms ease-in forwards; }
+
+html[data-motion="off"] [data-drawer],
+html[data-motion="off"] [data-drawer][data-exit],
+html[data-motion="off"] [data-backdrop],
+html[data-motion="off"] [data-backdrop][data-exit] {
+  animation: none !important;
+}
+
+/* ── Accordion expand/collapse via grid-row trick ─────────────────── */
+.accordion-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 220ms cubic-bezier(.2,.7,.2,1);
+}
+.accordion-content > div { overflow: hidden; min-height: 0; }
+.accordion-content[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+html[data-motion="off"] .accordion-content {
+  transition: none !important;
+}
+
 /* Mobile: avoid horizontal page-scroll when long pre/url content shows up. */
 @media (max-width: 767px) {
   .slide-page {
