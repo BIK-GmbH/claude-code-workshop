@@ -1,5 +1,7 @@
+import { Link, useParams } from "react-router-dom";
 import type { Lang, Theme } from "@/types/slide";
 import { t } from "@/lib/i18n";
+import { ALL_SLIDES } from "@/lib/slides";
 
 interface Props {
   lang: Lang;
@@ -10,6 +12,8 @@ interface Props {
 }
 
 export function Header({ lang, setLang, theme, setTheme, onOpenPalette }: Props) {
+  const params = useParams<{ slideId: string }>();
+  const currentId = params.slideId ?? ALL_SLIDES[0].id;
   return (
     <header
       data-workshop-header
@@ -36,6 +40,17 @@ export function Header({ lang, setLang, theme, setTheme, onOpenPalette }: Props)
       </div>
 
       <div className="ml-auto flex items-center gap-2">
+        <Link
+          to={`/p/${currentId}`}
+          data-testid="enter-presentation"
+          className="inline-flex items-center gap-1.5 px-2.5 h-8 rounded text-xs"
+          style={{ background: "rgba(255,255,255,0.14)" }}
+          title={lang === "de" ? "Präsentations-Modus" : "Presentation mode"}
+        >
+          <span>▶</span>
+          <span className="hidden sm:inline">{lang === "de" ? "Präsentation" : "Present"}</span>
+        </Link>
+
         <button
           onClick={onOpenPalette}
           data-command-palette

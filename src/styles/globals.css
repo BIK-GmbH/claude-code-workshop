@@ -28,3 +28,17 @@ a:hover { text-decoration: underline; }
 code, pre {
   font-family: var(--font-mono);
 }
+
+/* Presentation-mode tweaks: tighter padding, scaled headings inside the 16:9 box. */
+.presentation-slide .slide-page {
+  padding: 2.5rem 3rem !important;
+  max-width: none !important;
+}
+.presentation-slide h1 { font-size: 2.25rem !important; line-height: 1.2; }
+.presentation-slide h2 { font-size: 1.5rem !important; }
+.presentation-slide h3 { font-size: 1.25rem !important; }
+.presentation-slide pre { font-size: 0.85rem; }
+.presentation-slide table { font-size: 0.9rem; }
+.presentation-slide [data-speaker-notes] {
+  margin-top: 1.5rem;
+}
