@@ -45,7 +45,15 @@ export function WorkshopLayout() {
   });
 
   return (
-    <div className="h-screen flex flex-col" style={{ background: "var(--bg)", color: "var(--fg)" }}>
+    <div
+      className="flex flex-col"
+      style={{
+        background: "var(--bg)",
+        color: "var(--fg)",
+        height: "100dvh",
+        minHeight: "100dvh",
+      }}
+    >
       <Header
         lang={lang}
         setLang={setLang}

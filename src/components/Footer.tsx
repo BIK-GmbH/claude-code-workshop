@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ChevronLeft, ChevronRight, Printer } from "lucide-react";
 import type { Lang, SlideMeta } from "@/types/slide";
 import { neighbours } from "@/lib/slides";
 import { t } from "@/lib/i18n";
@@ -8,13 +9,15 @@ interface Props {
   current: SlideMeta;
 }
 
+const ICON = { strokeWidth: 2.25 } as const;
+
 export function Footer({ lang, current }: Props) {
   const { prev, next, index, total } = neighbours(current.id);
 
   return (
     <footer
       data-workshop-footer
-      className="border-t flex items-center px-4 text-xs shrink-0"
+      className="sticky bottom-0 z-30 border-t flex items-center px-3 sm:px-4 text-xs shrink-0"
       style={{
         height: "var(--footer-height)",
         borderColor: "var(--border)",
@@ -22,28 +25,34 @@ export function Footer({ lang, current }: Props) {
         color: "var(--fg-muted)",
       }}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
         {prev ? (
           <Link
             to={`/s/${prev.id}`}
-            className="px-2 py-1 rounded hover:bg-black/5"
-            title={t("prevSlide", lang)}
+            className="size-9 grid place-items-center rounded-md hover:bg-black/5 active:bg-black/10 transition-colors"
+            title={`${t("prevSlide", lang)} (${prev.id})`}
+            aria-label={t("prevSlide", lang)}
           >
-            ‹ {prev.id}
+            <ChevronLeft size={18} {...ICON} />
           </Link>
         ) : (
-          <span className="px-2 py-1 opacity-30">‹</span>
+          <span className="size-9 grid place-items-center opacity-30">
+            <ChevronLeft size={18} {...ICON} />
+          </span>
         )}
         {next ? (
           <Link
             to={`/s/${next.id}`}
-            className="px-2 py-1 rounded hover:bg-black/5"
-            title={t("nextSlide", lang)}
+            className="size-9 grid place-items-center rounded-md hover:bg-black/5 active:bg-black/10 transition-colors"
+            title={`${t("nextSlide", lang)} (${next.id})`}
+            aria-label={t("nextSlide", lang)}
           >
-            {next.id} ›
+            <ChevronRight size={18} {...ICON} />
           </Link>
         ) : (
-          <span className="px-2 py-1 opacity-30">›</span>
+          <span className="size-9 grid place-items-center opacity-30">
+            <ChevronRight size={18} {...ICON} />
+          </span>
         )}
       </div>
 
@@ -60,8 +69,14 @@ export function Footer({ lang, current }: Props) {
             {t("researchedOn", lang)}: {current.researchedOn}
           </span>
         )}
-        <Link to="/print" className="px-2 py-1 rounded hover:bg-black/5">
-          {t("print", lang)}
+        <Link
+          to="/print"
+          className="inline-flex items-center gap-1.5 px-2.5 h-9 rounded-md hover:bg-black/5 active:bg-black/10 transition-colors"
+          title={t("print", lang)}
+          aria-label={t("print", lang)}
+        >
+          <Printer size={16} {...ICON} />
+          <span className="hidden sm:inline">{t("print", lang)}</span>
         </Link>
       </div>
     </footer>

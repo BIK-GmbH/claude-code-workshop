@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom";
+import { Menu, Play, Search, Sun, Moon } from "lucide-react";
 import type { Lang, Theme } from "@/types/slide";
 import { t } from "@/lib/i18n";
 import { ALL_SLIDES } from "@/lib/slides";
@@ -11,6 +12,8 @@ interface Props {
   onOpenPalette: () => void;
   onToggleMobileSidebar: () => void;
 }
+
+const ICON = { strokeWidth: 2.25 } as const;
 
 export function Header({
   lang,
@@ -25,7 +28,7 @@ export function Header({
   return (
     <header
       data-workshop-header
-      className="flex items-center px-3 sm:px-5 border-b shrink-0 gap-2"
+      className="sticky top-0 z-30 flex items-center px-3 sm:px-5 border-b shrink-0 gap-2"
       style={{
         height: "var(--header-height)",
         background: "var(--workshop-accent)",
@@ -37,11 +40,11 @@ export function Header({
       <button
         onClick={onToggleMobileSidebar}
         data-testid="mobile-sidebar-toggle"
-        className="md:hidden size-9 grid place-items-center rounded text-lg shrink-0"
+        className="md:hidden size-9 grid place-items-center rounded-md transition-colors hover:bg-white/10 active:bg-white/20"
         style={{ background: "rgba(255,255,255,0.14)" }}
         aria-label="Menü"
       >
-        ☰
+        <Menu size={20} {...ICON} />
       </button>
 
       <div className="flex items-center gap-3 min-w-0">
@@ -64,12 +67,12 @@ export function Header({
         <Link
           to={`/p/${currentId}`}
           data-testid="enter-presentation"
-          className="inline-flex items-center gap-1.5 px-2.5 h-9 rounded text-xs"
+          className="inline-flex items-center gap-1.5 px-2.5 h-9 rounded-md transition-colors hover:bg-white/10 active:bg-white/20 text-xs"
           style={{ background: "rgba(255,255,255,0.14)" }}
           title={lang === "de" ? "Präsentations-Modus" : "Presentation mode"}
           aria-label={lang === "de" ? "Präsentations-Modus" : "Presentation mode"}
         >
-          <span>▶</span>
+          <Play size={16} {...ICON} fill="currentColor" />
           <span className="hidden md:inline">
             {lang === "de" ? "Präsentation" : "Present"}
           </span>
@@ -78,12 +81,12 @@ export function Header({
         <button
           onClick={onOpenPalette}
           data-command-palette
-          className="inline-flex items-center gap-2 px-2.5 h-9 rounded text-xs"
+          className="inline-flex items-center gap-2 px-2.5 h-9 rounded-md transition-colors hover:bg-white/10 active:bg-white/20 text-xs"
           style={{ background: "rgba(255,255,255,0.14)" }}
           title={t("search", lang)}
           aria-label={t("search", lang)}
         >
-          <span>🔍</span>
+          <Search size={16} {...ICON} />
           <span className="hidden lg:inline">{t("search", lang)}</span>
           <kbd
             className="hidden lg:inline px-1.5 py-0.5 rounded text-[10px] font-mono"
@@ -95,7 +98,7 @@ export function Header({
 
         {/* Desktop / tablet: 2-button DE/EN switch */}
         <div
-          className="hidden sm:flex rounded overflow-hidden text-xs"
+          className="hidden sm:flex rounded-md overflow-hidden text-xs"
           style={{ background: "rgba(255,255,255,0.14)" }}
           role="group"
           aria-label={t("toggleLang", lang)}
@@ -106,7 +109,7 @@ export function Header({
               onClick={() => setLang(l)}
               data-testid={`lang-${l}`}
               aria-pressed={lang === l}
-              className="px-2 h-9 uppercase tracking-wider"
+              className="px-2 h-9 uppercase tracking-wider transition-colors hover:bg-white/10"
               style={
                 lang === l
                   ? { background: "rgba(255,255,255,0.28)", fontWeight: 600 }
@@ -122,7 +125,7 @@ export function Header({
         <button
           onClick={() => setLang(lang === "de" ? "en" : "de")}
           data-testid="lang-toggle-mobile"
-          className="sm:hidden size-9 grid place-items-center rounded text-xs uppercase font-semibold"
+          className="sm:hidden size-9 grid place-items-center rounded-md text-xs uppercase font-semibold transition-colors hover:bg-white/10 active:bg-white/20"
           style={{ background: "rgba(255,255,255,0.14)" }}
           aria-label={t("toggleLang", lang)}
         >
@@ -132,12 +135,12 @@ export function Header({
         <button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           data-testid="theme-toggle"
-          className="size-9 grid place-items-center rounded"
+          className="size-9 grid place-items-center rounded-md transition-colors hover:bg-white/10 active:bg-white/20"
           style={{ background: "rgba(255,255,255,0.14)" }}
           title={t("toggleTheme", lang)}
           aria-label={t("toggleTheme", lang)}
         >
-          {theme === "dark" ? "☾" : "☀"}
+          {theme === "dark" ? <Moon size={18} {...ICON} /> : <Sun size={18} {...ICON} />}
         </button>
       </div>
     </header>

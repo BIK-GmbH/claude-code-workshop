@@ -1,5 +1,6 @@
 import { Command } from "cmdk";
 import { useNavigate } from "react-router-dom";
+import { Search } from "lucide-react";
 import { MANIFEST } from "@/lib/slides";
 import { pick, t } from "@/lib/i18n";
 import type { Lang } from "@/types/slide";
@@ -27,12 +28,18 @@ export function CommandPalette({ open, onClose, lang }: Props) {
         onClick={(e) => e.stopPropagation()}
       >
         <Command label="Workshop search">
-          <Command.Input
-            placeholder={t("search", lang)}
-            className="w-full px-4 py-3 outline-none border-b text-sm"
-            style={{ background: "transparent", borderColor: "var(--border)", color: "var(--fg)" }}
-            autoFocus
-          />
+          <div
+            className="flex items-center gap-2 px-4 border-b"
+            style={{ borderColor: "var(--border)" }}
+          >
+            <Search size={16} strokeWidth={2.25} style={{ color: "var(--fg-muted)" }} />
+            <Command.Input
+              placeholder={t("search", lang)}
+              className="flex-1 py-3 outline-none text-sm bg-transparent"
+              style={{ color: "var(--fg)" }}
+              autoFocus
+            />
+          </div>
           <Command.List className="max-h-[60vh] overflow-y-auto p-2">
             <Command.Empty className="px-4 py-6 text-sm text-center" style={{ color: "var(--fg-muted)" }}>
               —

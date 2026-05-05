@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import clsx from "clsx";
+import { ChevronDown, ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
 import { MANIFEST } from "@/lib/slides";
 import { pick, t } from "@/lib/i18n";
 import type { Lang } from "@/types/slide";
+
+const ICON = { strokeWidth: 2.25 } as const;
 
 interface Props {
   lang: Lang;
@@ -58,11 +61,11 @@ export function Sidebar({
       >
         <button
           onClick={onToggleCollapse}
-          className="size-8 grid place-items-center rounded hover:bg-black/5"
+          className="size-8 grid place-items-center rounded-md hover:bg-black/5 transition-colors"
           aria-label="Expand sidebar"
           title="Expand sidebar"
         >
-          ☰
+          <Menu size={18} {...ICON} />
         </button>
       </aside>
     );
@@ -84,20 +87,20 @@ export function Sidebar({
           {/* Desktop collapse */}
           <button
             onClick={onToggleCollapse}
-            className="hidden md:grid size-6 place-items-center rounded text-sm hover:bg-black/5"
+            className="hidden md:grid size-7 place-items-center rounded-md hover:bg-black/5 transition-colors"
             title="Collapse sidebar"
             aria-label="Collapse sidebar"
           >
-            ‹
+            <ChevronLeft size={16} {...ICON} />
           </button>
           {/* Mobile close */}
           <button
             onClick={onMobileClose}
-            className="md:hidden size-8 grid place-items-center rounded text-base hover:bg-black/5"
+            className="md:hidden size-9 grid place-items-center rounded-md hover:bg-black/5 active:bg-black/10 transition-colors"
             title="Schließen"
             aria-label="Schließen"
           >
-            ✕
+            <X size={18} {...ICON} />
           </button>
         </div>
       </div>
@@ -126,7 +129,13 @@ export function Sidebar({
                   {m.index === 99 ? "Anh" : String(m.index).padStart(2, "0")}
                 </span>
                 <span className="flex-1 truncate">{pick(m.title, lang)}</span>
-                <span className="opacity-50 text-xs">{isOpen ? "▾" : "▸"}</span>
+                <span className="opacity-50 shrink-0">
+                  {isOpen ? (
+                    <ChevronDown size={14} {...ICON} />
+                  ) : (
+                    <ChevronRight size={14} {...ICON} />
+                  )}
+                </span>
               </button>
 
               {isOpen && (

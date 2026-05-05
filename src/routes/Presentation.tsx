@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { ChevronLeft, ChevronRight, Eye, EyeOff, Moon, Sun, X } from "lucide-react";
 import { ALL_SLIDES, findSlide, neighbours } from "@/lib/slides";
 import { useLang, t, pick } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useKeymap } from "@/lib/keymap";
 import { SlideRenderer } from "@/components/SlideRenderer";
+
+const ICON = { strokeWidth: 2.25 } as const;
 
 /**
  * Fullscreen presentation mode — one slide at a time, no sidebar/header chrome.
@@ -122,46 +125,51 @@ export function Presentation() {
   return (
     <div
       data-presentation
-      className="h-screen w-screen flex flex-col"
+      className="w-screen flex flex-col"
       style={{
         background: theme === "dark" ? "#000" : "#0b1220",
         color: "var(--fg)",
+        height: "100dvh",
+        minHeight: "100dvh",
       }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* Top mini-header */}
+      {/* Top mini-header — sticky so it never scrolls away */}
       <div
-        className="absolute top-0 right-0 z-10 flex items-center gap-1.5 px-2 py-2 text-xs no-print"
-        style={{ color: "rgba(255,255,255,0.8)" }}
+        className="sticky top-0 z-20 flex items-center justify-end gap-1.5 px-2 py-2 text-xs no-print"
+        style={{ color: "rgba(255,255,255,0.85)" }}
       >
         <button
           onClick={() => setNotesOpen((o) => !o)}
-          className="px-2.5 py-1.5 rounded hover:bg-white/10 active:bg-white/20"
-          style={{ background: "rgba(255,255,255,0.08)" }}
+          className="inline-flex items-center gap-1.5 size-9 sm:w-auto sm:px-2.5 justify-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
+          style={{ background: "rgba(255,255,255,0.15)" }}
           title="Speaker-Notizen (N)"
           aria-label="Toggle speaker notes"
         >
-          <span className="hidden sm:inline">{notesOpen ? "👁 Notes ON" : "👁 Notes OFF"}</span>
-          <span className="sm:hidden">👁</span>
+          {notesOpen ? <Eye size={16} {...ICON} /> : <EyeOff size={16} {...ICON} />}
+          <span className="hidden sm:inline">
+            {notesOpen ? "Notes" : "Notes"}
+          </span>
         </button>
         <button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="px-2.5 py-1.5 rounded hover:bg-white/10 active:bg-white/20"
-          style={{ background: "rgba(255,255,255,0.08)" }}
+          className="size-9 grid place-items-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
+          style={{ background: "rgba(255,255,255,0.15)" }}
           title="Theme (T)"
           aria-label="Toggle theme"
         >
-          {theme === "dark" ? "☾" : "☀"}
+          {theme === "dark" ? <Moon size={18} {...ICON} /> : <Sun size={18} {...ICON} />}
         </button>
         <Link
           to={`/s/${current.id}`}
-          className="px-2.5 py-1.5 rounded hover:bg-white/10 active:bg-white/20"
-          style={{ background: "rgba(255,255,255,0.08)" }}
+          className="inline-flex items-center gap-1.5 size-9 sm:w-auto sm:px-2.5 justify-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
+          style={{ background: "rgba(255,255,255,0.15)" }}
           title="Doku-Ansicht (Esc)"
           aria-label="Exit presentation"
         >
-          ✕ <span className="hidden sm:inline">Esc</span>
+          <X size={18} {...ICON} />
+          <span className="hidden sm:inline">Esc</span>
         </Link>
       </div>
 
@@ -184,48 +192,54 @@ export function Presentation() {
         </div>
       </div>
 
-      {/* Bottom bar — counter + nav. Bigger tap-targets on mobile. */}
+      {/* Bottom bar — sticky so it never scrolls away on mobile. */}
       <div
-        className="flex items-center px-3 sm:px-6 py-2 sm:py-3 text-sm no-print gap-2 shrink-0"
-        style={{ color: "rgba(255,255,255,0.7)" }}
+        className="sticky bottom-0 z-20 flex items-center px-3 sm:px-6 py-2 sm:py-3 text-sm no-print gap-2 shrink-0"
+        style={{ color: "rgba(255,255,255,0.85)" }}
       >
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <span className="font-mono text-xs shrink-0">{current.id}</span>
+          <span className="font-mono text-xs shrink-0 opacity-70">{current.id}</span>
           <span className="opacity-50 hidden sm:inline">·</span>
-          <span className="hidden sm:inline shrink-0">
+          <span className="hidden sm:inline shrink-0 opacity-90">
             {t("module", lang)} {current.module === 99 ? "Anhang" : current.module}
           </span>
           <span className="opacity-50 hidden md:inline">·</span>
-          <span className="truncate hidden md:inline">{pick(current.title, lang)}</span>
+          <span className="truncate hidden md:inline opacity-90">{pick(current.title, lang)}</span>
         </div>
 
-        <div className="ml-auto flex items-center gap-1 sm:gap-3 font-mono text-xs">
+        <div className="ml-auto flex items-center gap-1 sm:gap-2 font-mono text-xs">
           {prev ? (
             <Link
               to={`/p/${prev.id}`}
-              className="px-3 py-2 rounded hover:bg-white/10 active:bg-white/20"
-              style={{ background: "rgba(255,255,255,0.06)" }}
+              className="size-9 grid place-items-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
+              style={{ background: "rgba(255,255,255,0.15)" }}
               aria-label="Previous slide"
+              title={`← ${prev.id}`}
             >
-              ←
+              <ChevronLeft size={18} {...ICON} />
             </Link>
           ) : (
-            <span className="px-3 py-2 opacity-30">←</span>
+            <span className="size-9 grid place-items-center opacity-30">
+              <ChevronLeft size={18} {...ICON} />
+            </span>
           )}
-          <span className="opacity-70 px-2">
+          <span className="opacity-80 px-2 tabular-nums">
             {index + 1} / {total}
           </span>
           {next ? (
             <Link
               to={`/p/${next.id}`}
-              className="px-3 py-2 rounded hover:bg-white/10 active:bg-white/20"
-              style={{ background: "rgba(255,255,255,0.06)" }}
+              className="size-9 grid place-items-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
+              style={{ background: "rgba(255,255,255,0.15)" }}
               aria-label="Next slide"
+              title={`${next.id} →`}
             >
-              →
+              <ChevronRight size={18} {...ICON} />
             </Link>
           ) : (
-            <span className="px-3 py-2 opacity-30">→</span>
+            <span className="size-9 grid place-items-center opacity-30">
+              <ChevronRight size={18} {...ICON} />
+            </span>
           )}
         </div>
       </div>
