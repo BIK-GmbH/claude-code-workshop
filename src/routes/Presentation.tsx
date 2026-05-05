@@ -6,7 +6,10 @@ import { useLang, t, pick } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useKeymap } from "@/lib/keymap";
 import { useSwipeNav } from "@/lib/useSwipeNav";
+import { useSlideDirection } from "@/lib/useSlideDirection";
+import { useMotion } from "@/lib/motion";
 import { SlideRenderer } from "@/components/SlideRenderer";
+import clsx from "clsx";
 
 const ICON = { strokeWidth: 2.25 } as const;
 
@@ -101,10 +104,13 @@ export function Presentation() {
     onTogglePresenter: () => setNotesOpen((o) => !o),
   });
 
+  const motion = useMotion();
+  const direction = useSlideDirection(current.id);
   // Touch-swipe handler for mobile slide nav (shared with WorkshopLayout)
   const swipe = useSwipeNav({
     onSwipeLeft: () => next && nav(`/p/${next.id}`),
     onSwipeRight: () => prev && nav(`/p/${prev.id}`),
+    enabled: motion.enabled,
   });
 
   return (
@@ -117,7 +123,7 @@ export function Presentation() {
         height: "100dvh",
         minHeight: "100dvh",
       }}
-      {...swipe}
+      {...swipe.handlers}
     >
       {/* Top mini-header — sticky so it never scrolls away */}
       <div
@@ -167,7 +173,16 @@ export function Presentation() {
           }}
         >
           <div
-            className="absolute inset-0 overflow-y-auto presentation-slide"
+            key={current.id}
+            className={clsx(
+              "absolute inset-0 overflow-y-auto presentation-slide",
+              motion.enabled && direction === "forward" && "slide-enter-forward",
+              motion.enabled && direction === "backward" && "slide-enter-backward",
+              swipe.dragging ? "slide-dragging" : "slide-snap-back",
+            )}
+            style={{
+              transform: swipe.dragX ? `translate3d(${swipe.dragX}px, 0, 0)` : undefined,
+            }}
             data-slide-id={current.id}
             data-notes-open={notesOpen ? "1" : "0"}
           >

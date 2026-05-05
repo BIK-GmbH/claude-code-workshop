@@ -48,6 +48,22 @@ test.describe("Phase 1 smoke", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
   });
 
+  test("Motion toggle cycles auto → on → off → auto", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    const html = page.locator("html");
+    const btn = page.getByTestId("motion-toggle");
+    // initial: auto
+    await expect(btn).toHaveAttribute("data-motion-mode", "auto");
+    await btn.click();
+    await expect(btn).toHaveAttribute("data-motion-mode", "on");
+    await expect(html).toHaveAttribute("data-motion", "on");
+    await btn.click();
+    await expect(btn).toHaveAttribute("data-motion-mode", "off");
+    await expect(html).toHaveAttribute("data-motion", "off");
+    await btn.click();
+    await expect(btn).toHaveAttribute("data-motion-mode", "auto");
+  });
+
   test("Cmd+K opens command palette", async ({ page }) => {
     await page.goto("/#/s/00.01");
     await page.locator("body").click();

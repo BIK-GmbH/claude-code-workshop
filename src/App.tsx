@@ -6,6 +6,7 @@ import { Presentation } from "@/routes/Presentation";
 import { ALL_SLIDES } from "@/lib/slides";
 import { LangProvider } from "@/lib/i18n";
 import { ThemeProvider } from "@/lib/theme";
+import { MotionProvider } from "@/lib/motion";
 
 const FIRST = ALL_SLIDES[0].id;
 
@@ -13,7 +14,8 @@ export function App() {
   return (
     <LangProvider>
       <ThemeProvider>
-        <HashRouter>
+        <MotionProvider>
+          <HashRouter>
           <Routes>
             <Route path="/" element={<Navigate to={`/s/${FIRST}`} replace />} />
             <Route element={<WorkshopLayout />}>
@@ -22,8 +24,9 @@ export function App() {
             <Route path="/p/:slideId" element={<Presentation />} />
             <Route path="/print" element={<Print />} />
             <Route path="*" element={<Navigate to={`/s/${FIRST}`} replace />} />
-          </Routes>
-        </HashRouter>
+            </Routes>
+          </HashRouter>
+        </MotionProvider>
       </ThemeProvider>
     </LangProvider>
   );

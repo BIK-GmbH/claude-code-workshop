@@ -55,6 +55,37 @@ code, pre {
   margin-top: 1.5rem;
 }
 
+/* ── Slide transitions ─────────────────────────────────────────────── */
+@keyframes slideInRight {
+  from { transform: translate3d(48px, 0, 0); opacity: 0; }
+  to   { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { transform: translate3d(-48px, 0, 0); opacity: 0; }
+  to   { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+
+.slide-enter-forward  { animation: slideInRight 260ms ease-out; }
+.slide-enter-backward { animation: slideInLeft 260ms ease-out; }
+
+/* Disable when motion is off (user toggle or prefers-reduced-motion in auto mode) */
+html[data-motion="off"] .slide-enter-forward,
+html[data-motion="off"] .slide-enter-backward,
+html[data-motion="off"] .slide-snap-back {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Live drag transform — applied while finger is on screen */
+.slide-dragging {
+  transition: none !important;
+  will-change: transform;
+}
+.slide-snap-back {
+  transition: transform 220ms cubic-bezier(.2,.7,.2,1);
+  will-change: transform;
+}
+
 /* Mobile: avoid horizontal page-scroll when long pre/url content shows up. */
 @media (max-width: 767px) {
   .slide-page {

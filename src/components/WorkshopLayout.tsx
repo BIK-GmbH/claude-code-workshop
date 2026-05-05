@@ -8,7 +8,10 @@ import { useLang } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useKeymap } from "@/lib/keymap";
 import { useSwipeNav } from "@/lib/useSwipeNav";
+import { useSlideDirection } from "@/lib/useSlideDirection";
+import { useMotion } from "@/lib/motion";
 import { ALL_SLIDES, findSlide, neighbours } from "@/lib/slides";
+import clsx from "clsx";
 
 export function WorkshopLayout() {
   const [lang, setLang] = useLang();
@@ -21,9 +24,12 @@ export function WorkshopLayout() {
   const current = findSlide(params.slideId ?? "") ?? ALL_SLIDES[0];
 
   const { prev, next } = neighbours(current.id);
+  const motion = useMotion();
+  const direction = useSlideDirection(current.id);
   const swipe = useSwipeNav({
     onSwipeLeft: () => next && nav(`/s/${next.id}`),
     onSwipeRight: () => prev && nav(`/s/${prev.id}`),
+    enabled: motion.enabled,
   });
 
   useKeymap({
@@ -75,11 +81,24 @@ export function WorkshopLayout() {
 
         <main
           data-workshop-content
-          className="flex-1 overflow-y-auto"
+          className="flex-1 overflow-y-auto overflow-x-hidden"
           style={{ background: "var(--bg)" }}
-          {...swipe}
+          {...swipe.handlers}
         >
-          <Outlet context={{ lang, current }} />
+          <div
+            key={current.id}
+            data-slide-stage
+            className={clsx(
+              motion.enabled && direction === "forward" && "slide-enter-forward",
+              motion.enabled && direction === "backward" && "slide-enter-backward",
+              swipe.dragging ? "slide-dragging" : "slide-snap-back",
+            )}
+            style={{
+              transform: swipe.dragX ? `translate3d(${swipe.dragX}px, 0, 0)` : undefined,
+            }}
+          >
+            <Outlet context={{ lang, current }} />
+          </div>
         </main>
       </div>
 

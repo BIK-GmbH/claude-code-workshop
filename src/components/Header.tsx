@@ -1,8 +1,9 @@
 import { Link, useParams } from "react-router-dom";
-import { Menu, Play, Search, Sun, Moon } from "lucide-react";
+import { Menu, Play, Search, Sparkles, Sun, Moon } from "lucide-react";
 import type { Lang, Theme } from "@/types/slide";
 import { t } from "@/lib/i18n";
 import { ALL_SLIDES } from "@/lib/slides";
+import { useMotion } from "@/lib/motion";
 
 interface Props {
   lang: Lang;
@@ -25,6 +26,13 @@ export function Header({
 }: Props) {
   const params = useParams<{ slideId: string }>();
   const currentId = params.slideId ?? ALL_SLIDES[0].id;
+  const motion = useMotion();
+  const motionLabel =
+    motion.mode === "auto"
+      ? lang === "de" ? "Animationen: Auto" : "Animations: Auto"
+      : motion.mode === "on"
+      ? lang === "de" ? "Animationen: An" : "Animations: On"
+      : lang === "de" ? "Animationen: Aus" : "Animations: Off";
   return (
     <header
       data-workshop-header
@@ -130,6 +138,29 @@ export function Header({
           aria-label={t("toggleLang", lang)}
         >
           {lang}
+        </button>
+
+        <button
+          onClick={motion.cycle}
+          data-testid="motion-toggle"
+          data-motion-mode={motion.mode}
+          className="size-9 grid place-items-center rounded-md transition-colors hover:bg-white/10 active:bg-white/20 relative"
+          style={{ background: "rgba(255,255,255,0.14)" }}
+          title={motionLabel}
+          aria-label={motionLabel}
+        >
+          <Sparkles
+            size={18}
+            {...ICON}
+            style={{ opacity: motion.enabled ? 1 : 0.45 }}
+          />
+          {motion.mode !== "auto" && (
+            <span
+              className="absolute -top-1 -right-1 size-2 rounded-full"
+              style={{ background: motion.enabled ? "#10b981" : "#94a3b8" }}
+              aria-hidden
+            />
+          )}
         </button>
 
         <button
