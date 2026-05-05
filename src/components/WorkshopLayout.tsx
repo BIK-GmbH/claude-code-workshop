@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 import { Footer } from "./Footer";
 import { CommandPalette } from "./CommandPalette";
+import { ProgressBar } from "./ProgressBar";
+import { PWAUpdatePrompt } from "./PWAUpdatePrompt";
 import { useLang } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useKeymap } from "@/lib/keymap";
@@ -26,6 +28,40 @@ export function WorkshopLayout() {
   const { prev, next } = neighbours(current.id);
   const motion = useMotion();
   const direction = useSlideDirection(current.id);
+
+  // Scroll-position memory: remember scrollTop of <main> per slide-id.
+  const mainRef = useRef<HTMLElement | null>(null);
+  const scrollPositions = useRef<Map<string, number>>(new Map());
+  const lastSlideId = useRef<string>(current.id);
+
+  // Save scroll position of OUTGOING slide before id changes; restore on new.
+  useLayoutEffect(() => {
+    const el = mainRef.current;
+    if (!el) return;
+    const prevId = lastSlideId.current;
+    if (prevId !== current.id) {
+      // We're rendering the new slide now; restore its previous position (or 0).
+      el.scrollTop = scrollPositions.current.get(current.id) ?? 0;
+      lastSlideId.current = current.id;
+    }
+  }, [current.id]);
+
+  useEffect(() => {
+    const el = mainRef.current;
+    if (!el) return;
+    let raf = 0;
+    function onScroll() {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        scrollPositions.current.set(lastSlideId.current, el!.scrollTop);
+      });
+    }
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
   const swipe = useSwipeNav({
     onSwipeLeft: () => next && nav(`/s/${next.id}`),
     onSwipeRight: () => prev && nav(`/s/${prev.id}`),
@@ -69,6 +105,7 @@ export function WorkshopLayout() {
         onOpenPalette={() => setPaletteOpen(true)}
         onToggleMobileSidebar={() => setMobileSidebarOpen((o) => !o)}
       />
+      <ProgressBar slideId={current.id} />
 
       <div className="flex flex-1 min-h-0">
         <Sidebar
@@ -80,6 +117,7 @@ export function WorkshopLayout() {
         />
 
         <main
+          ref={mainRef}
           data-workshop-content
           className="flex-1 overflow-y-auto overflow-x-hidden"
           style={{ background: "var(--bg)" }}
@@ -104,6 +142,7 @@ export function WorkshopLayout() {
 
       <Footer lang={lang} current={current} />
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} lang={lang} />
+      <PWAUpdatePrompt />
     </div>
   );
 }

@@ -64,6 +64,37 @@ test.describe("Phase 1 smoke", () => {
     await expect(btn).toHaveAttribute("data-motion-mode", "auto");
   });
 
+  test("Progress bar reflects current slide position", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    const bar = page.locator("[data-progress-bar] > div");
+    await expect(bar).toBeVisible();
+    const w1 = await bar.getAttribute("style");
+    expect(w1).toMatch(/width:\s*[\d.]+%/);
+    // Jump to last slide via direct route
+    await page.goto("/#/s/99.08");
+    await page.waitForURL(/99\.08/);
+    await expect(bar).toHaveAttribute("style", /width:\s*100%/);
+  });
+
+  test("Scroll memory restores position on slide back-and-forth", async ({ page }) => {
+    await page.goto("/#/s/99.08"); // long Top Skills catalog slide
+    const main = page.locator("[data-workshop-content]");
+    await main.evaluate((el) => { (el as HTMLElement).scrollTop = 600; });
+    await page.waitForTimeout(80); // let RAF save
+    // Navigate back via keyboard
+    await page.locator("body").click();
+    await page.keyboard.press("ArrowLeft");
+    await expect(page).toHaveURL(/#\/s\/99\.07/);
+    const scrollAfterBack = await main.evaluate((el) => (el as HTMLElement).scrollTop);
+    expect(scrollAfterBack).toBe(0); // new slide starts at top
+    // Forward again — restore ≈ 600
+    await page.keyboard.press("ArrowRight");
+    await expect(page).toHaveURL(/#\/s\/99\.08/);
+    await page.waitForTimeout(80);
+    const restored = await main.evaluate((el) => (el as HTMLElement).scrollTop);
+    expect(restored).toBeGreaterThan(400);
+  });
+
   test("Cmd+K opens command palette", async ({ page }) => {
     await page.goto("/#/s/00.01");
     await page.locator("body").click();
