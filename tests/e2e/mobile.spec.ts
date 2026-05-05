@@ -111,6 +111,73 @@ test.describe("Mobile layout", () => {
     await expect(page).toHaveURL(/#\/p\/00\.01/);
   });
 
+  test("swipe-left in docs view navigates to next slide", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    const main = page.locator("[data-workshop-content]");
+    await main.evaluate((el) => {
+      function ev(name: string, x: number, y: number) {
+        const t = new Touch({ identifier: 1, target: el, clientX: x, clientY: y });
+        return new TouchEvent(name, {
+          touches: name === "touchend" ? [] : [t],
+          changedTouches: [t],
+          bubbles: true,
+          cancelable: true,
+        });
+      }
+      const rect = (el as HTMLElement).getBoundingClientRect();
+      const startX = rect.right - 40;
+      const endX = rect.left + 40;
+      const y = rect.top + rect.height / 2;
+      el.dispatchEvent(ev("touchstart", startX, y));
+      el.dispatchEvent(ev("touchend", endX, y));
+    });
+    await expect(page).toHaveURL(/#\/s\/00\.02/);
+  });
+
+  test("swipe-right in docs view navigates to previous slide", async ({ page }) => {
+    await page.goto("/#/s/00.02");
+    const main = page.locator("[data-workshop-content]");
+    await main.evaluate((el) => {
+      function ev(name: string, x: number, y: number) {
+        const t = new Touch({ identifier: 1, target: el, clientX: x, clientY: y });
+        return new TouchEvent(name, {
+          touches: name === "touchend" ? [] : [t],
+          changedTouches: [t],
+          bubbles: true,
+          cancelable: true,
+        });
+      }
+      const rect = (el as HTMLElement).getBoundingClientRect();
+      const startX = rect.left + 40;
+      const endX = rect.right - 40;
+      const y = rect.top + rect.height / 2;
+      el.dispatchEvent(ev("touchstart", startX, y));
+      el.dispatchEvent(ev("touchend", endX, y));
+    });
+    await expect(page).toHaveURL(/#\/s\/00\.01/);
+  });
+
+  test("vertical swipe in docs view does not navigate (allows scroll)", async ({ page }) => {
+    await page.goto("/#/s/03.05");
+    const main = page.locator("[data-workshop-content]");
+    await main.evaluate((el) => {
+      function ev(name: string, x: number, y: number) {
+        const t = new Touch({ identifier: 1, target: el, clientX: x, clientY: y });
+        return new TouchEvent(name, {
+          touches: name === "touchend" ? [] : [t],
+          changedTouches: [t],
+          bubbles: true,
+          cancelable: true,
+        });
+      }
+      const rect = (el as HTMLElement).getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      el.dispatchEvent(ev("touchstart", x, rect.top + 40));
+      el.dispatchEvent(ev("touchend", x, rect.bottom - 40));
+    });
+    await expect(page).toHaveURL(/#\/s\/03\.05/);
+  });
+
   test("Cover slide content is reachable and not hidden behind chrome", async ({ page }) => {
     await page.goto("/#/s/00.01");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

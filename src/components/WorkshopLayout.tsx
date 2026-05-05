@@ -7,6 +7,7 @@ import { CommandPalette } from "./CommandPalette";
 import { useLang } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useKeymap } from "@/lib/keymap";
+import { useSwipeNav } from "@/lib/useSwipeNav";
 import { ALL_SLIDES, findSlide, neighbours } from "@/lib/slides";
 
 export function WorkshopLayout() {
@@ -19,15 +20,15 @@ export function WorkshopLayout() {
   const params = useParams<{ slideId: string }>();
   const current = findSlide(params.slideId ?? "") ?? ALL_SLIDES[0];
 
+  const { prev, next } = neighbours(current.id);
+  const swipe = useSwipeNav({
+    onSwipeLeft: () => next && nav(`/s/${next.id}`),
+    onSwipeRight: () => prev && nav(`/s/${prev.id}`),
+  });
+
   useKeymap({
-    onPrev: () => {
-      const { prev } = neighbours(current.id);
-      if (prev) nav(`/s/${prev.id}`);
-    },
-    onNext: () => {
-      const { next } = neighbours(current.id);
-      if (next) nav(`/s/${next.id}`);
-    },
+    onPrev: () => prev && nav(`/s/${prev.id}`),
+    onNext: () => next && nav(`/s/${next.id}`),
     onFirst: () => nav(`/s/${ALL_SLIDES[0].id}`),
     onLast: () => nav(`/s/${ALL_SLIDES[ALL_SLIDES.length - 1].id}`),
     onTogglePalette: () => setPaletteOpen((o) => !o),
@@ -76,6 +77,7 @@ export function WorkshopLayout() {
           data-workshop-content
           className="flex-1 overflow-y-auto"
           style={{ background: "var(--bg)" }}
+          {...swipe}
         >
           <Outlet context={{ lang, current }} />
         </main>

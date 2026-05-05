@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Eye, EyeOff, Moon, Sun, X } from "lucide-react";
 import { ALL_SLIDES, findSlide, neighbours } from "@/lib/slides";
 import { useLang, t, pick } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useKeymap } from "@/lib/keymap";
+import { useSwipeNav } from "@/lib/useSwipeNav";
 import { SlideRenderer } from "@/components/SlideRenderer";
 
 const ICON = { strokeWidth: 2.25 } as const;
@@ -100,27 +101,11 @@ export function Presentation() {
     onTogglePresenter: () => setNotesOpen((o) => !o),
   });
 
-  // Touch-swipe handler for mobile slide nav
-  const touchStart = useRef<{ x: number; y: number; t: number } | null>(null);
-  function onTouchStart(e: React.TouchEvent) {
-    const t0 = e.touches[0];
-    touchStart.current = { x: t0.clientX, y: t0.clientY, t: Date.now() };
-  }
-  function onTouchEnd(e: React.TouchEvent) {
-    const start = touchStart.current;
-    if (!start) return;
-    touchStart.current = null;
-    const t1 = e.changedTouches[0];
-    const dx = t1.clientX - start.x;
-    const dy = t1.clientY - start.y;
-    const dt = Date.now() - start.t;
-    // Only count fast horizontal swipes
-    if (Math.abs(dx) < 60) return;
-    if (Math.abs(dy) > Math.abs(dx)) return;     // vertical scroll
-    if (dt > 800) return;                         // too slow
-    if (dx < 0 && next) nav(`/p/${next.id}`);
-    else if (dx > 0 && prev) nav(`/p/${prev.id}`);
-  }
+  // Touch-swipe handler for mobile slide nav (shared with WorkshopLayout)
+  const swipe = useSwipeNav({
+    onSwipeLeft: () => next && nav(`/p/${next.id}`),
+    onSwipeRight: () => prev && nav(`/p/${prev.id}`),
+  });
 
   return (
     <div
@@ -132,8 +117,7 @@ export function Presentation() {
         height: "100dvh",
         minHeight: "100dvh",
       }}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
+      {...swipe}
     >
       {/* Top mini-header — sticky so it never scrolls away */}
       <div
