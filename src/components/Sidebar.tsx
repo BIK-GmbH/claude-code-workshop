@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import clsx from "clsx";
 import { MANIFEST } from "@/lib/slides";
@@ -7,11 +7,22 @@ import type { Lang } from "@/types/slide";
 
 interface Props {
   lang: Lang;
+  /** Desktop: collapsed (icon-only). Ignored on mobile. */
   collapsed: boolean;
   onToggleCollapse: () => void;
+  /** Mobile drawer open state */
+  mobileOpen: boolean;
+  /** Close drawer (called on backdrop click + slide click) */
+  onMobileClose: () => void;
 }
 
-export function Sidebar({ lang, collapsed, onToggleCollapse }: Props) {
+export function Sidebar({
+  lang,
+  collapsed,
+  onToggleCollapse,
+  mobileOpen,
+  onMobileClose,
+}: Props) {
   const params = useParams<{ slideId: string }>();
   const activeId = params.slideId;
   const activeModule = activeId ? Number(activeId.split(".")[0]) : 0;
@@ -19,6 +30,11 @@ export function Sidebar({ lang, collapsed, onToggleCollapse }: Props) {
   const [openModules, setOpenModules] = useState<Set<number>>(
     () => new Set([activeModule]),
   );
+
+  // Auto-expand active module when slide changes
+  useEffect(() => {
+    setOpenModules((prev) => new Set([...prev, activeModule]));
+  }, [activeModule]);
 
   function toggleModule(idx: number) {
     setOpenModules((prev) => {
@@ -29,17 +45,21 @@ export function Sidebar({ lang, collapsed, onToggleCollapse }: Props) {
     });
   }
 
+  // Mobile collapsed-icon view doesn't make sense; on mobile we only render
+  // when mobileOpen is true (as drawer).
+  // Desktop: render collapsed icon-strip if collapsed.
   if (collapsed) {
     return (
       <aside
         data-workshop-sidebar
-        className="border-r flex flex-col items-center py-3"
+        data-collapsed="1"
+        className="hidden md:flex border-r flex-col items-center py-3"
         style={{ borderColor: "var(--border)", background: "var(--bg-elev)", width: 48 }}
       >
         <button
           onClick={onToggleCollapse}
           className="size-8 grid place-items-center rounded hover:bg-black/5"
-          aria-label={t("toggleLang", lang) /* generic label */}
+          aria-label="Expand sidebar"
           title="Expand sidebar"
         >
           ☰
@@ -48,30 +68,41 @@ export function Sidebar({ lang, collapsed, onToggleCollapse }: Props) {
     );
   }
 
-  return (
-    <aside
-      data-workshop-sidebar
-      className="border-r overflow-y-auto"
-      style={{
-        borderColor: "var(--border)",
-        background: "var(--bg-elev)",
-        width: "var(--sidebar-width)",
-      }}
-    >
-      <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: "var(--border)" }}>
-        <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--fg-muted)" }}>
+  const sidebarBody = (
+    <>
+      <div
+        className="px-4 py-3 border-b flex items-center justify-between"
+        style={{ borderColor: "var(--border)" }}
+      >
+        <span
+          className="text-xs font-semibold uppercase tracking-wider"
+          style={{ color: "var(--fg-muted)" }}
+        >
           {t("module", lang)}e
         </span>
-        <button
-          onClick={onToggleCollapse}
-          className="size-6 grid place-items-center rounded text-sm hover:bg-black/5"
-          title="Collapse sidebar"
-        >
-          ‹
-        </button>
+        <div className="flex items-center gap-1">
+          {/* Desktop collapse */}
+          <button
+            onClick={onToggleCollapse}
+            className="hidden md:grid size-6 place-items-center rounded text-sm hover:bg-black/5"
+            title="Collapse sidebar"
+            aria-label="Collapse sidebar"
+          >
+            ‹
+          </button>
+          {/* Mobile close */}
+          <button
+            onClick={onMobileClose}
+            className="md:hidden size-8 grid place-items-center rounded text-base hover:bg-black/5"
+            title="Schließen"
+            aria-label="Schließen"
+          >
+            ✕
+          </button>
+        </div>
       </div>
 
-      <nav className="py-2">
+      <nav className="py-2 overflow-y-auto flex-1">
         {MANIFEST.map((m) => {
           const isActive = m.index === activeModule;
           const isOpen = openModules.has(m.index);
@@ -82,7 +113,7 @@ export function Sidebar({ lang, collapsed, onToggleCollapse }: Props) {
                 data-testid={`module-toggle-${m.index}`}
                 className={clsx(
                   "w-full text-left px-4 py-2 flex items-center gap-2 text-sm font-medium",
-                  "hover:bg-black/5",
+                  "hover:bg-black/5 active:bg-black/10",
                   isActive && "border-l-2",
                 )}
                 style={isActive ? { borderColor: "var(--workshop-accent)" } : undefined}
@@ -107,11 +138,12 @@ export function Sidebar({ lang, collapsed, onToggleCollapse }: Props) {
                         <Link
                           to={`/s/${s.id}`}
                           data-testid={`slide-link-${s.id}`}
+                          onClick={onMobileClose}
                           className={clsx(
-                            "block py-1.5 text-sm rounded px-2 -mx-2",
+                            "block py-2 text-sm rounded px-2 -mx-2",
                             slideActive
                               ? "font-semibold"
-                              : "hover:bg-black/5",
+                              : "hover:bg-black/5 active:bg-black/10",
                           )}
                           style={
                             slideActive
@@ -131,6 +163,47 @@ export function Sidebar({ lang, collapsed, onToggleCollapse }: Props) {
           );
         })}
       </nav>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Desktop: inline static sidebar */}
+      <aside
+        data-workshop-sidebar
+        className="hidden md:flex flex-col border-r"
+        style={{
+          borderColor: "var(--border)",
+          background: "var(--bg-elev)",
+          width: "var(--sidebar-width)",
+        }}
+      >
+        {sidebarBody}
+      </aside>
+
+      {/* Mobile: drawer + backdrop. Only mounted when open so that test-ids
+          don't collide with the desktop sidebar's identical buttons. */}
+      {mobileOpen && (
+        <>
+          <div
+            className="md:hidden fixed inset-0 z-40"
+            style={{ background: "rgba(0,0,0,0.45)" }}
+            onClick={onMobileClose}
+            data-testid="sidebar-backdrop"
+          />
+          <aside
+            data-workshop-sidebar-mobile
+            className="md:hidden fixed top-0 left-0 z-50 h-full flex flex-col shadow-xl translate-x-0"
+            style={{
+              borderRight: "1px solid var(--border)",
+              background: "var(--bg-elev)",
+              width: "min(85vw, 320px)",
+            }}
+          >
+            {sidebarBody}
+          </aside>
+        </>
+      )}
+    </>
   );
 }

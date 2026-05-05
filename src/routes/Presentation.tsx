@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { ALL_SLIDES, findSlide, neighbours } from "@/lib/slides";
 import { useLang, t, pick } from "@/lib/i18n";
@@ -97,6 +97,28 @@ export function Presentation() {
     onTogglePresenter: () => setNotesOpen((o) => !o),
   });
 
+  // Touch-swipe handler for mobile slide nav
+  const touchStart = useRef<{ x: number; y: number; t: number } | null>(null);
+  function onTouchStart(e: React.TouchEvent) {
+    const t0 = e.touches[0];
+    touchStart.current = { x: t0.clientX, y: t0.clientY, t: Date.now() };
+  }
+  function onTouchEnd(e: React.TouchEvent) {
+    const start = touchStart.current;
+    if (!start) return;
+    touchStart.current = null;
+    const t1 = e.changedTouches[0];
+    const dx = t1.clientX - start.x;
+    const dy = t1.clientY - start.y;
+    const dt = Date.now() - start.t;
+    // Only count fast horizontal swipes
+    if (Math.abs(dx) < 60) return;
+    if (Math.abs(dy) > Math.abs(dx)) return;     // vertical scroll
+    if (dt > 800) return;                         // too slow
+    if (dx < 0 && next) nav(`/p/${next.id}`);
+    else if (dx > 0 && prev) nav(`/p/${prev.id}`);
+  }
+
   return (
     <div
       data-presentation
@@ -105,39 +127,48 @@ export function Presentation() {
         background: theme === "dark" ? "#000" : "#0b1220",
         color: "var(--fg)",
       }}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
     >
-      {/* Top mini-header — minimal chrome, fades on hover-out */}
+      {/* Top mini-header */}
       <div
-        className="absolute top-0 right-0 z-10 flex items-center gap-2 px-3 py-2 text-xs no-print"
-        style={{ color: "rgba(255,255,255,0.7)" }}
+        className="absolute top-0 right-0 z-10 flex items-center gap-1.5 px-2 py-2 text-xs no-print"
+        style={{ color: "rgba(255,255,255,0.8)" }}
       >
         <button
           onClick={() => setNotesOpen((o) => !o)}
-          className="px-2 py-1 rounded hover:bg-white/10"
+          className="px-2.5 py-1.5 rounded hover:bg-white/10 active:bg-white/20"
+          style={{ background: "rgba(255,255,255,0.08)" }}
           title="Speaker-Notizen (N)"
+          aria-label="Toggle speaker notes"
         >
-          {notesOpen ? "👁 Notes ON" : "👁 Notes OFF"}
+          <span className="hidden sm:inline">{notesOpen ? "👁 Notes ON" : "👁 Notes OFF"}</span>
+          <span className="sm:hidden">👁</span>
         </button>
         <button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="px-2 py-1 rounded hover:bg-white/10"
+          className="px-2.5 py-1.5 rounded hover:bg-white/10 active:bg-white/20"
+          style={{ background: "rgba(255,255,255,0.08)" }}
           title="Theme (T)"
+          aria-label="Toggle theme"
         >
           {theme === "dark" ? "☾" : "☀"}
         </button>
         <Link
           to={`/s/${current.id}`}
-          className="px-2 py-1 rounded hover:bg-white/10"
+          className="px-2.5 py-1.5 rounded hover:bg-white/10 active:bg-white/20"
+          style={{ background: "rgba(255,255,255,0.08)" }}
           title="Doku-Ansicht (Esc)"
+          aria-label="Exit presentation"
         >
-          ✕ Esc
+          ✕ <span className="hidden sm:inline">Esc</span>
         </Link>
       </div>
 
-      {/* Slide area — centered 16:9-ish container */}
-      <div className="flex-1 flex items-center justify-center p-6 overflow-hidden">
+      {/* Slide area — 16:9 frame on tablet+, full-bleed on mobile */}
+      <div className="flex-1 flex items-center justify-center md:p-6 overflow-hidden">
         <div
-          className="relative w-full max-w-[1280px] aspect-[16/9] rounded-lg overflow-hidden shadow-2xl"
+          className="relative w-full md:max-w-[1280px] md:aspect-[16/9] md:rounded-lg overflow-hidden md:shadow-2xl h-full md:h-auto"
           style={{
             background: "var(--bg)",
             color: "var(--fg)",
@@ -153,34 +184,48 @@ export function Presentation() {
         </div>
       </div>
 
-      {/* Bottom bar — module + counter + nav */}
+      {/* Bottom bar — counter + nav. Bigger tap-targets on mobile. */}
       <div
-        className="flex items-center px-6 py-3 text-sm no-print"
+        className="flex items-center px-3 sm:px-6 py-2 sm:py-3 text-sm no-print gap-2 shrink-0"
         style={{ color: "rgba(255,255,255,0.7)" }}
       >
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-xs">{current.id}</span>
-          <span>·</span>
-          <span>
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <span className="font-mono text-xs shrink-0">{current.id}</span>
+          <span className="opacity-50 hidden sm:inline">·</span>
+          <span className="hidden sm:inline shrink-0">
             {t("module", lang)} {current.module === 99 ? "Anhang" : current.module}
           </span>
-          <span>·</span>
-          <span className="truncate max-w-md">{pick(current.title, lang)}</span>
+          <span className="opacity-50 hidden md:inline">·</span>
+          <span className="truncate hidden md:inline">{pick(current.title, lang)}</span>
         </div>
 
-        <div className="ml-auto flex items-center gap-3 font-mono text-xs">
-          {prev && (
-            <Link to={`/p/${prev.id}`} className="px-2 py-1 rounded hover:bg-white/10">
-              ← {prev.id}
+        <div className="ml-auto flex items-center gap-1 sm:gap-3 font-mono text-xs">
+          {prev ? (
+            <Link
+              to={`/p/${prev.id}`}
+              className="px-3 py-2 rounded hover:bg-white/10 active:bg-white/20"
+              style={{ background: "rgba(255,255,255,0.06)" }}
+              aria-label="Previous slide"
+            >
+              ←
             </Link>
+          ) : (
+            <span className="px-3 py-2 opacity-30">←</span>
           )}
-          <span className="opacity-60">
+          <span className="opacity-70 px-2">
             {index + 1} / {total}
           </span>
-          {next && (
-            <Link to={`/p/${next.id}`} className="px-2 py-1 rounded hover:bg-white/10">
-              {next.id} →
+          {next ? (
+            <Link
+              to={`/p/${next.id}`}
+              className="px-3 py-2 rounded hover:bg-white/10 active:bg-white/20"
+              style={{ background: "rgba(255,255,255,0.06)" }}
+              aria-label="Next slide"
+            >
+              →
             </Link>
+          ) : (
+            <span className="px-3 py-2 opacity-30">→</span>
           )}
         </div>
       </div>

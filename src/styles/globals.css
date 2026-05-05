@@ -29,16 +29,42 @@ code, pre {
   font-family: var(--font-mono);
 }
 
-/* Presentation-mode tweaks: tighter padding, scaled headings inside the 16:9 box. */
+/* Presentation-mode tweaks. */
 .presentation-slide .slide-page {
-  padding: 2.5rem 3rem !important;
+  padding: 1.25rem 1.25rem !important;
   max-width: none !important;
 }
-.presentation-slide h1 { font-size: 2.25rem !important; line-height: 1.2; }
-.presentation-slide h2 { font-size: 1.5rem !important; }
-.presentation-slide h3 { font-size: 1.25rem !important; }
-.presentation-slide pre { font-size: 0.85rem; }
-.presentation-slide table { font-size: 0.9rem; }
+@media (min-width: 768px) {
+  .presentation-slide .slide-page {
+    padding: 2.5rem 3rem !important;
+  }
+}
+.presentation-slide h1 { font-size: 1.5rem !important; line-height: 1.2; }
+.presentation-slide h2 { font-size: 1.15rem !important; }
+.presentation-slide h3 { font-size: 1rem !important; }
+.presentation-slide pre { font-size: 0.75rem; }
+.presentation-slide table { font-size: 0.85rem; }
+@media (min-width: 768px) {
+  .presentation-slide h1 { font-size: 2.25rem !important; }
+  .presentation-slide h2 { font-size: 1.5rem !important; }
+  .presentation-slide h3 { font-size: 1.25rem !important; }
+  .presentation-slide pre { font-size: 0.85rem; }
+  .presentation-slide table { font-size: 0.9rem; }
+}
 .presentation-slide [data-speaker-notes] {
   margin-top: 1.5rem;
+}
+
+/* Mobile: avoid horizontal page-scroll when long pre/url content shows up. */
+@media (max-width: 767px) {
+  .slide-page {
+    padding: 1.5rem 1rem !important;
+  }
+  .slide-page h1 { font-size: 1.75rem !important; }
+  .slide-page h2 { font-size: 1.25rem !important; }
+  .slide-page h3 { font-size: 1.05rem !important; }
+  .slide-page pre { font-size: 0.75rem; }
+  .slide-page table { font-size: 0.8rem; }
+  /* Long URLs / inline code break instead of pushing layout */
+  .slide-page a, .slide-page code { word-break: break-word; overflow-wrap: anywhere; }
 }

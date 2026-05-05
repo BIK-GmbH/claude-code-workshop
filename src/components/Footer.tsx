@@ -49,13 +49,14 @@ export function Footer({ lang, current }: Props) {
 
       <div className="mx-auto font-mono">
         {index + 1} / {total}
-        <span className="mx-3 opacity-50">·</span>
-        <span>{t("module", lang)} {current.module === 99 ? "Anhang" : current.module}</span>
+        <span className="mx-2 sm:mx-3 opacity-50">·</span>
+        <span className="hidden sm:inline">{t("module", lang)} </span>
+        <span>{current.module === 99 ? "Anh" : current.module}</span>
       </div>
 
-      <div className="ml-auto flex items-center gap-3">
+      <div className="ml-auto flex items-center gap-2 sm:gap-3">
         {current.researchedOn && (
-          <span title={t("researchedOn", lang)}>
+          <span className="hidden md:inline" title={t("researchedOn", lang)}>
             {t("researchedOn", lang)}: {current.researchedOn}
           </span>
         )}

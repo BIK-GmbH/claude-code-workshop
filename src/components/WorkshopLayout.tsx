@@ -14,6 +14,7 @@ export function WorkshopLayout() {
   const [theme, setTheme] = useTheme();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const nav = useNavigate();
   const params = useParams<{ slideId: string }>();
   const current = findSlide(params.slideId ?? "") ?? ALL_SLIDES[0];
@@ -51,6 +52,7 @@ export function WorkshopLayout() {
         theme={theme}
         setTheme={setTheme}
         onOpenPalette={() => setPaletteOpen(true)}
+        onToggleMobileSidebar={() => setMobileSidebarOpen((o) => !o)}
       />
 
       <div className="flex flex-1 min-h-0">
@@ -58,6 +60,8 @@ export function WorkshopLayout() {
           lang={lang}
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed((c) => !c)}
+          mobileOpen={mobileSidebarOpen}
+          onMobileClose={() => setMobileSidebarOpen(false)}
         />
 
         <main
