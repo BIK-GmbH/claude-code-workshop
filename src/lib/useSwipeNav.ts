@@ -12,6 +12,17 @@ interface Options {
   followFactor?: number;
   /** When false, no live drag preview (still detects the gesture for nav) */
   enabled?: boolean;
+  /** Vibrate (ms) on successful swipe trigger. 0 disables. Default 10. */
+  haptic?: number;
+}
+
+function buzz(ms: number) {
+  if (ms <= 0) return;
+  try {
+    navigator.vibrate?.(ms);
+  } catch {
+    /* iOS Safari ignores — fine */
+  }
 }
 
 interface Handlers {
@@ -43,6 +54,7 @@ export function useSwipeNav({
   maxDuration = 800,
   followFactor = 0.35,
   enabled = true,
+  haptic = 10,
 }: Options): Result {
   const start = useRef<{ x: number; y: number; t: number } | null>(null);
   const isHorizontal = useRef<boolean | null>(null);
@@ -94,6 +106,7 @@ export function useSwipeNav({
         if (!horizontal) return;
         if (Math.abs(dx) < threshold) return;
         if (dt > maxDuration) return;
+        buzz(haptic);
         if (dx < 0) onSwipeLeft?.();
         else onSwipeRight?.();
       },

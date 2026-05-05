@@ -36,6 +36,7 @@
   --sidebar-width: 280px;
   --header-height: 56px;
   --footer-height: 44px;
+  --footer-height-mobile: 56px;
 }
 
 [data-theme="dark"] {

@@ -6,6 +6,7 @@ import { Footer } from "./Footer";
 import { CommandPalette } from "./CommandPalette";
 import { ProgressBar } from "./ProgressBar";
 import { PWAUpdatePrompt } from "./PWAUpdatePrompt";
+import { SwipeHint } from "./SwipeHint";
 import { useLang } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useKeymap } from "@/lib/keymap";
@@ -142,6 +143,7 @@ export function WorkshopLayout() {
 
       <Footer lang={lang} current={current} />
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} lang={lang} />
+      <SwipeHint />
       <PWAUpdatePrompt />
     </div>
   );

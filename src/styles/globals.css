@@ -6,6 +6,11 @@ html, body, #root {
   height: 100%;
 }
 
+html, body {
+  /* Disable iOS pull-to-refresh and edge-swipe browser-back. */
+  overscroll-behavior: contain;
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -13,6 +18,21 @@ body {
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile: bigger bottom nav + respect iPhone home-indicator safe area. */
+@media (max-width: 767px) {
+  :root {
+    --footer-height: var(--footer-height-mobile);
+  }
+  footer[data-workshop-footer] {
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(var(--footer-height-mobile) + env(safe-area-inset-bottom));
+  }
+  /* Presentation bottom bar gets the same treatment */
+  [data-presentation] > div:last-child {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
+  }
 }
 
 * {
@@ -84,6 +104,14 @@ html[data-motion="off"] .slide-snap-back {
 .slide-snap-back {
   transition: transform 220ms cubic-bezier(.2,.7,.2,1);
   will-change: transform;
+}
+
+@keyframes swipeHintFadeIn {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+html[data-motion="off"] [data-swipe-hint] {
+  animation: none !important;
 }
 
 /* Mobile: avoid horizontal page-scroll when long pre/url content shows up. */

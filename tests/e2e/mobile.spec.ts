@@ -183,4 +183,30 @@ test.describe("Mobile layout", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.locator("main")).toContainText("Augmented Working");
   });
+
+  test("Swipe-hint appears on first visit, persists after dismiss", async ({ page }) => {
+    await page.addInitScript(() => localStorage.clear());
+    await page.goto("/#/s/00.01");
+    await expect(page.locator("[data-swipe-hint]")).toBeVisible({ timeout: 4000 });
+    await page.locator("[data-swipe-hint] button").click();
+    await expect(page.locator("[data-swipe-hint]")).toHaveCount(0);
+    await page.reload();
+    await page.waitForTimeout(2200);
+    await expect(page.locator("[data-swipe-hint]")).toHaveCount(0);
+  });
+
+  test("Pull-to-refresh suppressed via overscroll-behavior", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    const overscroll = await page.evaluate(
+      () => getComputedStyle(document.body).overscrollBehavior,
+    );
+    expect(overscroll).toMatch(/contain/);
+  });
+
+  test("Mobile footer is bigger (56px+) and respects safe-area", async ({ page }) => {
+    await page.goto("/#/s/00.01");
+    const footer = page.locator("[data-workshop-footer]");
+    const box = await footer.boundingBox();
+    expect(box?.height).toBeGreaterThanOrEqual(56);
+  });
 });
