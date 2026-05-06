@@ -2,8 +2,9 @@
 title:
   de: "CLAUDE.md — das Projektgedächtnis"
   en: "CLAUDE.md — the Project Memory"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
+  - https://code.claude.com/docs/en/memory
   - https://code.claude.com/docs/en/best-practices
   - https://dev.to/lizechengnet/how-to-structure-claude-code-for-production-mcp-servers-subagents-and-claudemd-2026-guide-4gjn
 ---
@@ -13,11 +14,22 @@ sources:
 <De>
 ## Was ist CLAUDE.md?
 
-- Eine Markdown-Datei im **Projekt-Root** (oder unter `~/.claude/CLAUDE.md` global / org-wide)
-- Wird beim **Session-Start automatisch in den System-Prompt geladen** und nach jeder Compaction neu eingespielt
-- Funktioniert als **Projektgedächtnis** — Codebasis-Übersicht, Konventionen, Domänenwissen, Befehle
+- Markdown-Datei mit **persistenten Anweisungen** für Claude
+- Wird beim **Session-Start automatisch geladen** und nach jeder Compaction neu eingespielt
+- Funktioniert als „Gedächtnis" auf vier verschiedenen Scopes — von **org-wide** bis **persönlich**
 
-## Was reingehört
+## Vier Scopes — wo CLAUDE.md liegen kann
+
+| Scope | Pfad | Geteilt mit | Use-Case |
+|---|---|---|---|
+| **Managed** *(IT)* | `/Library/Application Support/ClaudeCode/CLAUDE.md` (mac) · `/etc/claude-code/CLAUDE.md` (linux) | alle User der Maschine | Compliance-Regeln, Org-Coding-Standards |
+| **Project** | `./CLAUDE.md` oder `./.claude/CLAUDE.md` | das ganze Team via git | Projekt-Architektur, Befehle, Konventionen |
+| **User** | `~/.claude/CLAUDE.md` | nur du, **alle Projekte** | Persönliche Präferenzen („antworte auf Deutsch", Editor-Style) |
+| **Local** | `./CLAUDE.local.md` (gitignored) | nur du, **dieses Projekt** | Sandbox-URLs, Test-Daten, persönliche Notizen die nicht ins Repo sollen |
+
+**Reihenfolge:** alle vier werden **konkateniert** in den Context. Spezifischere Scopes überschreiben generelle nicht — sie ergänzen sie.
+
+## Project-CLAUDE.md (`./CLAUDE.md`) — die wichtigste
 
 ```markdown
 # Projektname
@@ -28,17 +40,10 @@ Ein-Satz-Beschreibung.
 ## Tech Stack
 - Frontend: React 19 + Vite + Tailwind v4
 - Backend: FastAPI + Postgres
-- Deploy: Railway
-
-## Projektstruktur (Top-Level)
-backend/  → FastAPI App, Tests
-frontend/ → React UI, hooks, components
-docs/     → Architektur-Detail (lazy)
 
 ## Befehle
 - Tests: `pytest tests/ -v`
 - Build: `npm run build`
-- Deploy: `git push origin main`
 
 ## Konventionen
 - Conventional Commits (feat/fix/chore/refactor/docs/test)
@@ -46,29 +51,58 @@ docs/     → Architektur-Detail (lazy)
 
 ## Bekannte Limitierungen
 - YouTube-Skills funktionieren nicht auf Railway (Datacenter-IPs)
-- ...
 ```
 
-## Was NICHT reingehört
+## User-CLAUDE.md (`~/.claude/CLAUDE.md`) — persönlich, alle Projekte
+
+```markdown
+# Persönliche Präferenzen
+
+- Antworte immer auf Deutsch
+- Code-Beispiele bevorzugt in TypeScript wenn Sprache offen
+- Vor jedem Diff: 1-Satz-Zusammenfassung was geändert wird
+- Kein "schließlich", "jedoch", "darüber hinaus" — direkter Stil
+- Editor: VS Code mit Vim-Bindings (Tabs vs Spaces siehe .editorconfig)
+```
+
+## Was NICHT reingehört (in keine der vier)
 
 - ❌ API-Keys, Secrets, Credentials
 - ❌ Lange Code-Listings (Claude liest die Files direkt)
 - ❌ Ausführliche Doku, die im Repo woanders liegt — verlinken statt einbetten
-- ❌ Persönliche Vorlieben („verwende immer 4 Spaces") — gehört in `~/.claude/CLAUDE.md`
+- ❌ Persönliche Vorlieben in `./CLAUDE.md` — gehört in `~/.claude/CLAUDE.md` (sonst stören sie das Team)
 
-<NoteCard variant="tip">
-**Ziel:** unter ~200 Zeilen. Größere CLAUDE.md → Detail in `docs/`-Verzeichnis auslagern und „Lies on-demand"-Hinweise setzen.
+<NoteCard variant="tip" title="Faustregel pro Scope">
+- Project = was **das ganze Team** wissen muss
+- User = was **dich persönlich** angeht (Sprache, Format-Vorlieben)
+- Local = **temporäres Projekt-Wissen** das nicht versionsverwaltet werden soll (Sandbox-URLs, eigene Test-Datasets)
+- Managed = **IT-erzwungen**, nicht überschreibbar
+</NoteCard>
+
+<NoteCard variant="hint" title="`@path/to/file` für Imports">
+CLAUDE.md kann andere Files via `@README.md` einbinden — bis zu 5 Hops tief. Nützlich für `@docs/architecture.md` oder `@~/.claude/my-prefs.md`.
 </NoteCard>
 </De>
 
 <En>
 ## What is CLAUDE.md?
 
-- A markdown file in the **project root** (or `~/.claude/CLAUDE.md` global / org-wide)
+- Markdown file with **persistent instructions** for Claude
 - Loaded into the **system prompt automatically** at session start and re-loaded after compaction
-- Functions as **project memory** — codebase overview, conventions, domain knowledge, commands
+- Acts as "memory" at four different scopes — from **org-wide** to **personal**
 
-## What goes in
+## Four scopes — where CLAUDE.md can live
+
+| Scope | Path | Shared with | Use case |
+|---|---|---|---|
+| **Managed** *(IT)* | `/Library/Application Support/ClaudeCode/CLAUDE.md` (mac) · `/etc/claude-code/CLAUDE.md` (linux) | all users on the machine | Compliance, org coding standards |
+| **Project** | `./CLAUDE.md` or `./.claude/CLAUDE.md` | the whole team via git | Project architecture, commands, conventions |
+| **User** | `~/.claude/CLAUDE.md` | only you, **all projects** | Personal prefs ("answer in English", editor style) |
+| **Local** | `./CLAUDE.local.md` (gitignored) | only you, **this project** | Sandbox URLs, test data, personal notes you don't want in git |
+
+**Order:** all four are **concatenated** into context. More specific scopes don't override general ones — they add to them.
+
+## Project CLAUDE.md (`./CLAUDE.md`) — the most important
 
 ```markdown
 # Project name
@@ -79,17 +113,10 @@ One-sentence description.
 ## Tech stack
 - Frontend: React 19 + Vite + Tailwind v4
 - Backend: FastAPI + Postgres
-- Deploy: Railway
-
-## Project layout (top-level)
-backend/  → FastAPI app, tests
-frontend/ → React UI, hooks, components
-docs/     → architecture details (lazy)
 
 ## Commands
 - Tests: `pytest tests/ -v`
 - Build: `npm run build`
-- Deploy: `git push origin main`
 
 ## Conventions
 - Conventional commits (feat/fix/chore/refactor/docs/test)
@@ -97,24 +124,42 @@ docs/     → architecture details (lazy)
 
 ## Known limitations
 - YouTube skills don't work on Railway (datacenter IPs)
-- ...
 ```
 
-## What does NOT go in
+## User CLAUDE.md (`~/.claude/CLAUDE.md`) — personal, all projects
+
+```markdown
+# Personal prefs
+
+- Always answer in English
+- Code examples in TypeScript by default if language unspecified
+- Before any diff: one-sentence summary of what changes
+- No "however", "furthermore", "in conclusion" — direct style
+- Editor: VS Code with Vim bindings (tabs vs spaces from .editorconfig)
+```
+
+## What does NOT go in (any of the four)
 
 - ❌ API keys, secrets, credentials
 - ❌ Long code listings (Claude reads files directly)
 - ❌ Verbose docs that live elsewhere in the repo — link, don't embed
-- ❌ Personal prefs ("always use 4 spaces") — goes in `~/.claude/CLAUDE.md`
+- ❌ Personal prefs in `./CLAUDE.md` — belongs in `~/.claude/CLAUDE.md` (else it bothers the team)
 
-<NoteCard variant="tip">
-**Target:** under ~200 lines. Larger CLAUDE.md → split detail into `docs/` and add "read on-demand" pointers.
+<NoteCard variant="tip" title="Rule of thumb per scope">
+- Project = what the **whole team** needs to know
+- User = what's **personal to you** (language, formatting prefs)
+- Local = **temporary project knowledge** that shouldn't be version-controlled (sandbox URLs, your test datasets)
+- Managed = **IT-enforced**, cannot be overridden
+</NoteCard>
+
+<NoteCard variant="hint" title="`@path/to/file` for imports">
+CLAUDE.md can include other files via `@README.md` — up to 5 hops deep. Useful for `@docs/architecture.md` or `@~/.claude/my-prefs.md`.
 </NoteCard>
 </En>
 
 <SpeakerNotes>
 <I18n
-  de="Live-Demo: BIK-eigenes honcho-chat-demo CLAUDE.md aufrufen — zeigt eine reale, gewachsene CLAUDE.md mit allen Mustern. Punkt 'Bekannte Limitierungen' explizit erklären — Claude vermeidet damit bekannte Sackgassen. Wichtig: CLAUDE.md ist Living Document — Claude darf sie selbst editieren."
-  en="Live demo: open BIK's own honcho-chat-demo CLAUDE.md — shows a real, grown CLAUDE.md with all patterns. Explain 'known limitations' explicitly — Claude avoids known dead-ends. Key: CLAUDE.md is a living document — Claude is allowed to edit it itself."
+  de="WICHTIG: viele TN kennen nur die Project-CLAUDE.md. Live-Demo: ~/.claude/CLAUDE.md anzeigen + erklären wie das in jedem Projekt zusätzlich greift. Plus: Managed-Scope für Enterprise-Kunden hervorheben — IT kann zentral Compliance-Regeln deployen, User können sie nicht überschreiben. CLAUDE.local.md ist der Gamechanger für persönliche Notizen die nicht ins Team-Repo sollen. Alle vier Scopes werden konkateniert — keine überschreibt eine andere."
+  en="KEY: many participants only know the project CLAUDE.md. Live demo: open ~/.claude/CLAUDE.md and explain how it additively kicks in for every project. Plus: highlight managed scope for enterprise — IT can centrally deploy compliance rules, users can't override. CLAUDE.local.md is the game-changer for personal notes you don't want in the team repo. All four scopes are concatenated — none overrides another."
 />
 </SpeakerNotes>
