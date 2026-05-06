@@ -35,6 +35,27 @@ body {
   }
 }
 
+/* PWA standalone (iOS Home-Screen, Android installed PWA, also iPad/desktop
+ * with notch / camera cutout): respect safe-area-inset-top so the sticky
+ * header doesn't slide under the status bar / Dynamic Island. */
+header[data-workshop-header] {
+  padding-top: env(safe-area-inset-top);
+  height: calc(var(--header-height) + env(safe-area-inset-top)) !important;
+}
+[data-progress-bar] {
+  top: calc(var(--header-height) + env(safe-area-inset-top)) !important;
+}
+[data-presentation] > div:first-child {
+  padding-top: calc(env(safe-area-inset-top) + 0.5rem);
+}
+/* Splash logo: shift slightly up so it's optically centred in the visible
+ * area (status bar eats some pixels at top) — minor cosmetic tweak. */
+@supports (padding-top: env(safe-area-inset-top)) {
+  #splash > .splash-inner {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
 * {
   box-sizing: border-box;
 }
