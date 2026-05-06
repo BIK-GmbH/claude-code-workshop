@@ -1,69 +1,95 @@
 ---
 title:
-  de: "Vorgehen für die Hands-on-Phase"
-  en: "Approach for the Hands-on Phase"
-researchedOn: 2026-05-04
+  de: "Vorgehen + Pfad-Wahl"
+  en: "Approach + Path Choice"
+researchedOn: 2026-05-06
 ---
 
-# <I18n de="Eigene Projekte" en="Your Projects" />
+# <I18n de="Hands-on — zwei Pfade" en="Hands-on — two paths" />
 
 <De>
 ## Worum es jetzt geht
 
-Ihr nehmt **eine echte Aufgabe aus eurem Backlog**, die ihr in den nächsten 4 Stunden mit Claude Code umsetzt — von Spec über Plan bis zum Pull Request.
+Ihr setzt im 75-min-Block (1-Tag-Format) ein **echtes Stück Software** um — von Spec über Plan bis zu lauffähigem Code. Es gibt **zwei Pfade**, beide gleichwertig:
 
-## Auswahlkriterien für die Aufgabe
+| Pfad | Wer wählt das | Was ihr braucht |
+|---|---|---|
+| **A — Eigenes Projekt** | Ihr habt ein Backlog-Item das passt | Lokales Repo, Tests, klare Aufgabe |
+| **B — Mindshift-Starter** | Kein eigenes Projekt parat ODER ihr wollt mit dem Trainer gemeinsam pacen | `git clone github.com/BIK-GmbH/mindshift-starter` (siehe nächste Slide) |
 
-- **Realistisch:** 1–4 Stunden Aufwand wenn ihr es selbst schreibt
+Beide Pfade nutzen den gleichen Spec-Driven-Workflow aus Modul 4. Der Unterschied ist nur die Aufgabe.
+
+## Pfad A — eigenes Projekt: Auswahlkriterien
+
+- **Realistisch:** 1–2 Std Aufwand wenn ihr es selbst schreibt
 - **Klar abgrenzbar:** kein „und dann auch noch das Authentifizierungs-Refactoring"
 - **Nicht zu kritisch:** kein Production-Hotfix, sondern Feature/Refactor mit Test-Sicherung
 - **Keine Geheimnisse:** nichts mit unanonymisierten Personendaten oder Production-Secrets
 
-## Ablauf
+## Pfad B — Mindshift-Starter: warum interessant
+
+- **Vorgegebene PRD** (durchdacht, MVP-scoped) — keine Spec-Schreib-Zeit verloren
+- **Trainer pacet vorne** — alle starten gleich, gemeinsame Aha-Momente
+- **Realistischer Stack** — React+Tailwind / FastAPI+Postgres / Railway
+- **Mitnehmen:** das was ihr im Workshop baut, könnt ihr danach selbst weitertreiben
+
+## Ablauf (gilt für beide Pfade)
 
 | Block | Inhalt | Dauer |
 |---|---|---|
-| 1 | Aufgabe festlegen + Spec schreiben | 30 min |
-| 2 | Plan generieren + iterieren | 30 min |
-| 3 | Implementieren (Test-First Loop) | 120 min |
-| 4 | Code-Review + Pull Request | 30 min |
-| 5 | Retro + Q&A im Plenum | 30 min |
+| 1 | Spec/PRD lesen + Plan generieren | 15 min |
+| 2 | Erste Schritte implementieren (Test-First Loop) | 45 min |
+| 3 | Code-Review + Pull Request / Commit | 10 min |
+| 4 | Kurz-Retro pro Tisch | 5 min |
 
 <NoteCard variant="tip">
-**Pair-Programming empfohlen** — zu zweit arbeiten, einer steuert Claude, einer reviewt live mit. Wechseln nach 30 Min.
+**Pair-Programming empfohlen** — zu zweit arbeiten, einer steuert Claude, einer reviewt live mit. Wechseln nach 20 Min.
 </NoteCard>
 </De>
 
 <En>
 ## What this is about
 
-You take **a real task from your backlog** and ship it with Claude Code in the next 4 hours — from spec via plan to pull request.
+In the 75-min block (1-day format) you ship a **real piece of software** — from spec via plan to working code. **Two paths**, both equivalent:
 
-## Selection criteria for the task
+| Path | Who picks it | What you need |
+|---|---|---|
+| **A — Your own project** | You have a backlog item that fits | Local repo, tests, clear task |
+| **B — Mindshift Starter** | No own project ready OR you want to pace with the trainer | `git clone github.com/BIK-GmbH/mindshift-starter` (see next slide) |
 
-- **Realistic:** 1–4 hours of work if you wrote it yourself
+Both paths use the same spec-driven workflow from Module 4. Only the task differs.
+
+## Path A — own project: selection criteria
+
+- **Realistic:** 1–2 hrs of work if you wrote it yourself
 - **Clearly bounded:** no "and also the auth refactor"
 - **Not too critical:** no production hotfix, but feature/refactor with test safety net
 - **No secrets:** nothing with un-anonymised personal data or production secrets
 
-## Schedule
+## Path B — Mindshift starter: why interesting
+
+- **Pre-baked PRD** (well-thought-through, MVP-scoped) — no spec-writing time lost
+- **Trainer paces from the front** — everyone starts together, shared aha moments
+- **Realistic stack** — React+Tailwind / FastAPI+Postgres / Railway
+- **Take it home:** what you build in the workshop, you can keep going on after
+
+## Schedule (both paths)
 
 | Block | Content | Duration |
 |---|---|---|
-| 1 | Pick task + write spec | 30 min |
-| 2 | Generate plan + iterate | 30 min |
-| 3 | Implement (test-first loop) | 120 min |
-| 4 | Code review + pull request | 30 min |
-| 5 | Retro + Q&A in plenary | 30 min |
+| 1 | Read spec/PRD + generate plan | 15 min |
+| 2 | Implement first steps (test-first loop) | 45 min |
+| 3 | Code review + pull request / commit | 10 min |
+| 4 | Quick retro per table | 5 min |
 
 <NoteCard variant="tip">
-**Pair programming recommended** — work in twos, one steers Claude, one reviews live. Swap every 30 min.
+**Pair programming recommended** — work in twos, one steers Claude, one reviews live. Swap every 20 min.
 </NoteCard>
 </En>
 
 <SpeakerNotes>
 <I18n
-  de="Wenn TN unsicher sind welche Aufgabe — bei der Vorstellrunde Tag 1 hatte ich Notizen gemacht zu typischen Backlog-Items. Daran erinnern. Wer wirklich gar nichts mitbringt: vorbereitete 'Beispiel-Tickets' aus dem honcho-chat-demo."
-  en="If participants are unsure which task — I noted typical backlog items during the day-1 round-table. Remind them. Anyone with nothing prepared: fall back to prepared 'example tickets' from honcho-chat-demo."
+  de="WICHTIG: Pfad-Wahl früh klar machen — wer kein eigenes Projekt mitgebracht hat, muss nicht improvisieren, sondern hat mit Mindshift einen sauberen Fallback. Erfahrungsgemäß wählen 30–50% der TN Pfad B beim 1-Tag-Format (zu wenig Vorbereitungszeit, oder Lust auf gemeinsames Bauen). Bei der 2-Tage-Variante eher 70% Pfad A. Nächste Slide zeigt Mindshift-Stack + Build-Reihenfolge."
+  en="KEY: clarify path choice early — anyone without their own project doesn't need to improvise, Mindshift gives them a clean fallback. Experience: 30–50% of participants pick Path B in the 1-day format (less prep time, or appetite for building together). 2-day intensive tends towards 70% Path A. Next slide shows Mindshift stack + build sequence."
 />
 </SpeakerNotes>

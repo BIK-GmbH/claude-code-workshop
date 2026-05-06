@@ -1,0 +1,162 @@
+---
+title:
+  de: "Pfad B: Mindshift-Starter"
+  en: "Path B: Mindshift Starter"
+researchedOn: 2026-05-06
+sources:
+  - https://github.com/BIK-GmbH/mindshift-starter
+  - https://www.recall.it
+---
+
+# <I18n de="Mindshift — der vorbereitete Pfad" en="Mindshift — the pre-baked path" />
+
+<De>
+## Was ist Mindshift?
+
+Eine **persönliche AI Knowledge Base** zum Sammeln, Verstehen und langfristigen Behalten von Wissen aus YouTube, Artikeln, PDFs und eigenen Notizen. Inspiriert von [Recall](https://www.recall.it/) — aber als eigenständige Anwendung gebaut, mit pragmatischem MVP und sauberer lokaler Entwicklung.
+
+## Repo clonen
+
+<CommandBox lang="bash">
+git clone https://github.com/BIK-GmbH/mindshift-starter.git mindshift
+cd mindshift
+cat docs/PRD.de.md   # oder PRD.md für englisch
+</CommandBox>
+
+Das Repo enthält **nur die PRD** — wir bauen die App im Workshop von Null aus, mit Claude Code.
+
+## Tech-Stack
+
+| Schicht | Technologie |
+|---|---|
+| **Frontend** | React + Tailwind CSS + Lucide Icons + Vite |
+| **Backend** | FastAPI + Python + SQLAlchemy + Alembic + Pydantic Settings |
+| **DB** | PostgreSQL (+ pgvector für semantische Suche) |
+| **Jobs** | FastAPI Background Tasks → später ARQ/Dramatiq |
+| **AI** | OpenAI / Anthropic (über Service-Modul gekapselt) |
+| **Deploy** | Railway (Frontend / Backend / Postgres als getrennte Services) |
+
+## MVP-Scope (Abschnitt 8 der PRD)
+
+- **Content Ingestion:** YouTube-URL → Job + Transkript-Fetching
+- **Knowledge Cards:** Title, Source, Summaries, Notizen, Tags
+- **AI-Zusammenfassungen:** kurz/lang, Key Takeaways, Quiz-Fragen
+- **Library UI:** List/Grid, Suche, Filter
+- **Notizen pro Card:** simple Markdown-Editor
+- **Suche:** Keyword-basiert, optional semantisch via pgvector
+
+**Bewusst NICHT im MVP:** Browser Extension, Mobile App, Team Workspaces, Spaced Repetition Scheduler (kommt in V1.1).
+
+## Empfohlene Workshop-Sprint-Schritte (1–5 von 15)
+
+Aus PRD-Abschnitt 19 — was wir im 75-min-Hands-on schaffen können:
+
+1. **Repo scaffolden** mit `frontend/`, `backend/`, `scripts/`, `docs/` *(via `claude --plan` + lies docs/PRD.de.md)*
+2. **FastAPI-App** mit Health-Endpoint und Pydantic-Settings
+3. **React-App** mit Tailwind und Lucide
+4. **`scripts/start.sh` + `stop.sh`** für lokalen Dev-Workflow
+5. **PostgreSQL + erste Migration** für Card/Source/Job-Datenmodell
+
+Schritte 6–15 (Ingestion, AI-Summary, Library-UI, Quiz, Deploy) sind die **Heim-Aufgabe** für die Wochen danach.
+
+## Erste Claude-Code-Session
+
+<DemoBox step={1} title="Plan generieren aus der PRD" lang="text" context="Erste 15 Min des Hands-on.">
+{`cd mindshift
+claude --plan
+
+> Lies docs/PRD.de.md. Erstelle einen Implementierungsplan für die
+> Schritte 1-5 aus Abschnitt 19 (Repository scaffolden, FastAPI Health,
+> React+Tailwind, Start/Stop-Scripts, PostgreSQL).
+>
+> Pro Schritt:
+> - welche Files entstehen
+> - welcher Test beweist dass es funktioniert
+> - geschätzte Dauer
+>
+> Halte den Plan in docs/plans/sprint-1.md fest, sobald wir uns einig sind.`}
+</DemoBox>
+
+<NoteCard variant="hint" title="Was Mindshift KEIN Workshop-Projekt-Gedanke ist">
+Es ist kein Throw-away-Demo. Wer zu Hause weiterbaut, hat einen realen Knowledge-Worker-Use-Case (eigene Recall-Alternative). Die PRD ist auf MVP runtergeschnitten, nicht auf Toy-App.
+</NoteCard>
+</De>
+
+<En>
+## What is Mindshift?
+
+A **personal AI knowledge base** to capture, understand, and retain knowledge from YouTube, articles, PDFs, and your own notes. Inspired by [Recall](https://www.recall.it/) — built as a standalone app with a pragmatic MVP and clean local development.
+
+## Clone the repo
+
+<CommandBox lang="bash">
+git clone https://github.com/BIK-GmbH/mindshift-starter.git mindshift
+cd mindshift
+cat docs/PRD.md   # or PRD.de.md for German
+</CommandBox>
+
+The repo contains **only the PRD** — we build the app from scratch in the workshop with Claude Code.
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| **Frontend** | React + Tailwind CSS + Lucide Icons + Vite |
+| **Backend** | FastAPI + Python + SQLAlchemy + Alembic + Pydantic Settings |
+| **DB** | PostgreSQL (+ pgvector for semantic search) |
+| **Jobs** | FastAPI Background Tasks → later ARQ/Dramatiq |
+| **AI** | OpenAI / Anthropic (wrapped in a service module) |
+| **Deploy** | Railway (frontend / backend / postgres as separate services) |
+
+## MVP scope (PRD section 8)
+
+- **Content ingestion:** YouTube URL → job + transcript fetching
+- **Knowledge cards:** title, source, summaries, notes, tags
+- **AI summaries:** short/long, key takeaways, quiz questions
+- **Library UI:** list/grid, search, filter
+- **Notes per card:** simple markdown editor
+- **Search:** keyword-based, optionally semantic via pgvector
+
+**Deliberately NOT in MVP:** browser extension, mobile app, team workspaces, spaced-repetition scheduler (coming in V1.1).
+
+## Recommended workshop sprint steps (1–5 of 15)
+
+From PRD section 19 — what we can ship in the 75-min hands-on:
+
+1. **Scaffold repo** with `frontend/`, `backend/`, `scripts/`, `docs/` *(via `claude --plan` + read docs/PRD.md)*
+2. **FastAPI app** with health endpoint + Pydantic settings
+3. **React app** with Tailwind + Lucide
+4. **`scripts/start.sh` + `stop.sh`** for local dev workflow
+5. **PostgreSQL + first migration** for card/source/job data model
+
+Steps 6–15 (ingestion, AI summary, library UI, quiz, deploy) are **homework** for the weeks after.
+
+## First Claude Code session
+
+<DemoBox step={1} title="Generate plan from the PRD" lang="text" context="First 15 min of the hands-on.">
+{`cd mindshift
+claude --plan
+
+> Read docs/PRD.md. Build an implementation plan for steps 1-5 in
+> section 19 (scaffold repo, FastAPI health, React+Tailwind, start/stop
+> scripts, PostgreSQL).
+>
+> For each step:
+> - which files are created
+> - which test proves it works
+> - estimated duration
+>
+> Once we agree, write the plan to docs/plans/sprint-1.md.`}
+</DemoBox>
+
+<NoteCard variant="hint" title="Mindshift is NOT throwaway demo material">
+What you build at home afterwards is a real knowledge-worker use case (your own Recall alternative). The PRD is MVP-scoped, not toy-app scoped.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Diese Slide ist nur relevant wenn TN Pfad B wählen. Mit beiden Pfaden parallel arbeiten — Trainer pacet Pfad B vorne, Pfad-A-TN rotiert wie üblich. Wichtig: nicht alle 15 Schritte versprechen — wir schaffen 5 im 1-Tag-Format. Die PRD bleibt offen, ist Leitfaden für die nächsten 4 Wochen Solo-Arbeit. Bei Q&A am Ende auf Common-Pitfalls eingehen (Async Jobs vs. blocking calls, Auth-Skip im MVP, AI-Provider-Switching)."
+  en="Slide only relevant if participants pick Path B. Run both paths in parallel — trainer paces Path B from front, Path A people rotate as usual. Key: don't promise all 15 steps — we ship 5 in the 1-day format. The PRD stays open as a guide for the next 4 weeks of solo work. In Q&A address common pitfalls (async jobs vs. blocking calls, auth-skip in MVP, AI-provider switching)."
+/>
+</SpeakerNotes>

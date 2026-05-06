@@ -12,3 +12,7 @@ dist-ssr
 playwright-report
 test-results
 /exports
+
+# Workshop-specific: kundenspezifische Materialien, Angebots-PDFs etc.
+# bleiben lokal, nicht im public Repo
+assets/
