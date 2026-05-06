@@ -34,6 +34,8 @@ export default defineConfig({
         "apple-touch-icon.png",
         "icon-192.png",
         "icon-512.png",
+        "brand/bik-logo-white.svg",
+        "brand/bik-logo-dark.svg",
       ],
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2}"],
@@ -45,7 +47,7 @@ export default defineConfig({
         short_name: "CC Workshop",
         description:
           "Claude Code Workshop — Schulungsdeck der BIK GmbH. Augmented Working für professionelle Softwareentwicklung.",
-        theme_color: "#1F4E79",
+        theme_color: "#181A27",
         background_color: "#ffffff",
         display: "standalone",
         orientation: "any",

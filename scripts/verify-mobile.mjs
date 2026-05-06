@@ -12,6 +12,8 @@ const ctx = await browser.newContext({
 const page = await ctx.newPage();
 
 await page.goto(`${URL}#/s/00.01`, { waitUntil: "networkidle" });
+await page.waitForFunction(() => !document.getElementById("splash"), { timeout: 3000 }).catch(() => {});
+await page.waitForTimeout(200);
 await page.screenshot({ path: "/tmp/mobile-1-cover.png", fullPage: false });
 
 // Open mobile sidebar

@@ -56,13 +56,14 @@ export function Header({
       </button>
 
       <div className="flex items-center gap-3 min-w-0">
-        <div
-          className="hidden sm:grid size-7 place-items-center rounded font-bold text-sm shrink-0"
-          style={{ background: "rgba(255,255,255,0.18)" }}
+        <img
+          src={`${import.meta.env.BASE_URL}brand/bik-logo-white.svg`}
+          alt="BIK"
+          width={32}
+          height={32}
+          className="hidden sm:block size-8 shrink-0"
           aria-hidden
-        >
-          B
-        </div>
+        />
         <div className="leading-tight min-w-0">
           <div className="text-sm font-semibold truncate">Claude Code Workshop</div>
           <div className="text-[11px] opacity-80 truncate hidden sm:block">
