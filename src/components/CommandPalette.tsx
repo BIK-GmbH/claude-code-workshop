@@ -18,7 +18,7 @@ export function CommandPalette({ open, onClose, lang }: Props) {
   return (
     <div
       data-command-palette-overlay
-      className="fixed inset-0 z-50 grid place-items-start pt-[12vh]"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-[12vh] px-4"
       style={{ background: "rgba(0,0,0,0.4)" }}
       onClick={onClose}
     >

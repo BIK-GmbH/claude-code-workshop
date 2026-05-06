@@ -17,7 +17,7 @@ export function Footer({ lang, current }: Props) {
   return (
     <footer
       data-workshop-footer
-      className="sticky bottom-0 z-30 border-t flex items-center px-3 sm:px-4 text-xs shrink-0"
+      className="sticky bottom-0 z-30 border-t flex items-center px-3 sm:px-4 text-xs shrink-0 gap-2"
       style={{
         height: "var(--footer-height)",
         borderColor: "var(--border)",
@@ -25,7 +25,11 @@ export function Footer({ lang, current }: Props) {
         color: "var(--fg-muted)",
       }}
     >
-      <div className="flex items-center gap-1">
+      {/* Equal-width spacer so the centre group sits at the true middle */}
+      <div className="flex-1" />
+
+      {/* Centre group: prev — counter — next */}
+      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
         {prev ? (
           <Link
             to={`/s/${prev.id}`}
@@ -40,6 +44,14 @@ export function Footer({ lang, current }: Props) {
             <ChevronLeft size={18} {...ICON} />
           </span>
         )}
+
+        <div className="font-mono select-none tabular-nums">
+          {index + 1} / {total}
+          <span className="mx-2 opacity-50">·</span>
+          <span className="hidden sm:inline">{t("module", lang)} </span>
+          <span>{current.module === 99 ? "Anh" : current.module}</span>
+        </div>
+
         {next ? (
           <Link
             to={`/s/${next.id}`}
@@ -56,14 +68,8 @@ export function Footer({ lang, current }: Props) {
         )}
       </div>
 
-      <div className="mx-auto font-mono">
-        {index + 1} / {total}
-        <span className="mx-2 sm:mx-3 opacity-50">·</span>
-        <span className="hidden sm:inline">{t("module", lang)} </span>
-        <span>{current.module === 99 ? "Anh" : current.module}</span>
-      </div>
-
-      <div className="ml-auto flex items-center gap-2 sm:gap-3">
+      {/* Right group: secondary actions, mirrors the left spacer */}
+      <div className="flex-1 flex items-center justify-end gap-3">
         {current.researchedOn && (
           <span className="hidden md:inline" title={t("researchedOn", lang)}>
             {t("researchedOn", lang)}: {current.researchedOn}
