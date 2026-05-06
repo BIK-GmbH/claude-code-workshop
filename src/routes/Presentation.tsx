@@ -34,6 +34,7 @@ export function Presentation() {
   const [theme, setTheme] = useTheme();
   const current = findSlide(params.slideId ?? "") ?? ALL_SLIDES[0];
   const { prev, next, index, total } = neighbours(current.id);
+  const progress = `${((index + 1) / total) * 100}%`;
 
   // Initialise from URL or from the data-attribute (in case parent set it)
   const [notesOpen, _setNotesOpen] = useState(() => {
@@ -106,6 +107,9 @@ export function Presentation() {
 
   const motion = useMotion();
   const direction = useSlideDirection(current.id);
+  const notesLabel = lang === "de" ? "Notizen" : "Notes";
+  const themeLabel = lang === "de" ? "Design" : "Theme";
+  const exitLabel = lang === "de" ? "Zurück" : "Back";
   // Touch-swipe handler for mobile slide nav (shared with WorkshopLayout)
   const swipe = useSwipeNav({
     onSwipeLeft: () => next && nav(`/p/${next.id}`),
@@ -125,46 +129,110 @@ export function Presentation() {
       }}
       {...swipe.handlers}
     >
-      {/* Top mini-header — sticky so it never scrolls away */}
+      {/* Audience-mode toolbar — visible, but deliberately quieter than the slide. */}
       <div
-        className="sticky top-0 z-20 flex items-center justify-end gap-1.5 px-2 py-2 text-xs no-print"
-        style={{ color: "rgba(255,255,255,0.85)" }}
+        className="sticky top-0 z-30 flex items-center justify-end px-3 py-2 text-xs no-print"
+        style={{ color: "rgba(255,255,255,0.92)" }}
       >
-        <button
-          onClick={() => setNotesOpen((o) => !o)}
-          className="inline-flex items-center gap-1.5 size-9 sm:w-auto sm:px-2.5 justify-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
-          style={{ background: "rgba(255,255,255,0.15)" }}
-          title="Speaker-Notizen (N)"
-          aria-label="Toggle speaker notes"
+        <div
+          className="flex items-center gap-1.5 rounded-lg border px-1.5 py-1 shadow-lg"
+          style={{
+            background: "rgba(12,17,28,0.78)",
+            borderColor: "rgba(255,255,255,0.16)",
+            backdropFilter: "blur(14px)",
+          }}
         >
-          {notesOpen ? <Eye size={16} {...ICON} /> : <EyeOff size={16} {...ICON} />}
-          <span className="hidden sm:inline">
-            {notesOpen ? "Notes" : "Notes"}
-          </span>
-        </button>
-        <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="size-9 grid place-items-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
-          style={{ background: "rgba(255,255,255,0.15)" }}
-          title="Theme (T)"
-          aria-label="Toggle theme"
-        >
-          {theme === "dark" ? <Moon size={18} {...ICON} /> : <Sun size={18} {...ICON} />}
-        </button>
-        <Link
-          to={`/s/${current.id}`}
-          className="inline-flex items-center gap-1.5 size-9 sm:w-auto sm:px-2.5 justify-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
-          style={{ background: "rgba(255,255,255,0.15)" }}
-          title="Doku-Ansicht (Esc)"
-          aria-label="Exit presentation"
-        >
-          <X size={18} {...ICON} />
-          <span className="hidden sm:inline">Esc</span>
-        </Link>
+          <button
+            onClick={() => setNotesOpen((o) => !o)}
+            className="inline-flex items-center gap-1.5 h-9 min-w-9 px-2.5 max-[420px]:w-9 max-[420px]:px-0 justify-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
+            style={{ background: notesOpen ? "rgba(56,182,171,0.24)" : "rgba(255,255,255,0.08)" }}
+            title={`${notesLabel} (N)`}
+            aria-label="Toggle speaker notes"
+            aria-pressed={notesOpen}
+          >
+            {notesOpen ? <Eye size={16} {...ICON} /> : <EyeOff size={16} {...ICON} />}
+            <span className="max-[420px]:hidden">{notesLabel}</span>
+          </button>
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="inline-flex items-center gap-1.5 h-9 min-w-9 px-2.5 max-[560px]:w-9 max-[560px]:px-0 justify-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
+            style={{ background: "rgba(255,255,255,0.08)" }}
+            title={`${themeLabel} (T)`}
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Moon size={18} {...ICON} /> : <Sun size={18} {...ICON} />}
+            <span className="max-[560px]:hidden">{themeLabel}</span>
+          </button>
+          <Link
+            to={`/s/${current.id}`}
+            className="inline-flex items-center gap-1.5 h-9 min-w-9 px-2.5 max-[420px]:w-9 max-[420px]:px-0 justify-center rounded-md transition-colors"
+            style={{
+              background: "rgba(255,255,255,0.92)",
+              color: "var(--workshop-accent-deep)",
+            }}
+            title={`${exitLabel} (Esc)`}
+            aria-label="Exit presentation"
+          >
+            <X size={17} {...ICON} />
+            <span className="max-[420px]:hidden">{exitLabel}</span>
+          </Link>
+        </div>
+      </div>
+
+      <div className="h-1 shrink-0 no-print" style={{ background: "rgba(255,255,255,0.08)" }}>
+        <div
+          className="h-full transition-[width] duration-300"
+          style={{
+            width: progress,
+            background: "var(--workshop-accent)",
+            boxShadow: "0 0 18px rgba(56,182,171,0.45)",
+          }}
+          aria-hidden
+        />
       </div>
 
       {/* Slide area — 16:9 frame on tablet+, full-bleed on mobile */}
-      <div className="flex-1 flex items-center justify-center md:p-6 overflow-hidden">
+      <div className="relative flex-1 flex items-center justify-center md:p-6 overflow-hidden">
+        {prev && (
+          <Link
+            to={`/p/${prev.id}`}
+            className="hidden lg:flex absolute left-0 top-16 bottom-16 z-10 w-20 items-center justify-start pl-4 opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity no-print"
+            aria-label="Previous slide"
+            title={`← ${prev.id}`}
+          >
+            <span
+              className="size-11 grid place-items-center rounded-full border"
+              style={{
+                color: "rgba(255,255,255,0.9)",
+                background: "rgba(12,17,28,0.72)",
+                borderColor: "rgba(255,255,255,0.14)",
+                backdropFilter: "blur(12px)",
+              }}
+            >
+              <ChevronLeft size={22} {...ICON} />
+            </span>
+          </Link>
+        )}
+        {next && (
+          <Link
+            to={`/p/${next.id}`}
+            className="hidden lg:flex absolute right-0 top-16 bottom-16 z-10 w-20 items-center justify-end pr-4 opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity no-print"
+            aria-label="Next slide"
+            title={`${next.id} →`}
+          >
+            <span
+              className="size-11 grid place-items-center rounded-full border"
+              style={{
+                color: "rgba(255,255,255,0.9)",
+                background: "rgba(12,17,28,0.72)",
+                borderColor: "rgba(255,255,255,0.14)",
+                backdropFilter: "blur(12px)",
+              }}
+            >
+              <ChevronRight size={22} {...ICON} />
+            </span>
+          </Link>
+        )}
         <div
           className="relative w-full md:max-w-[1280px] md:aspect-[16/9] md:rounded-lg overflow-hidden md:shadow-2xl h-full md:h-auto"
           style={{

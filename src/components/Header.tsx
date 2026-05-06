@@ -76,14 +76,18 @@ export function Header({
         <Link
           to={`/p/${currentId}`}
           data-testid="enter-presentation"
-          className="inline-flex items-center gap-1.5 px-2.5 h-9 rounded-md transition-colors hover:bg-white/10 active:bg-white/20 text-xs"
-          style={{ background: "rgba(255,255,255,0.14)" }}
+          className="inline-flex items-center gap-2 px-3 h-9 rounded-md transition-colors text-xs font-semibold shadow-sm hover:shadow-md active:scale-[0.98]"
+          style={{
+            background: "rgba(255,255,255,0.94)",
+            color: "var(--workshop-accent-deep)",
+            border: "1px solid rgba(255,255,255,0.55)",
+          }}
           title={lang === "de" ? "Präsentations-Modus" : "Presentation mode"}
           aria-label={lang === "de" ? "Präsentations-Modus" : "Presentation mode"}
         >
-          <Play size={16} {...ICON} fill="currentColor" />
-          <span className="hidden md:inline">
-            {lang === "de" ? "Präsentation" : "Present"}
+          <Play size={15} {...ICON} fill="currentColor" />
+          <span className="max-[520px]:hidden">
+            {lang === "de" ? "Präsentieren" : "Present"}
           </span>
         </Link>
 

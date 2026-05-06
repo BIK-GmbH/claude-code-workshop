@@ -75,6 +75,36 @@ code, pre {
   margin-top: 1.5rem;
 }
 
+[data-presentation] .presentation-slide[data-notes-open="1"] [data-speaker-notes] {
+  position: fixed;
+  right: 1rem;
+  bottom: 4.75rem;
+  z-index: 25;
+  width: min(420px, calc(100vw - 2rem));
+  max-height: min(42dvh, 360px);
+  overflow: auto;
+  margin: 0 !important;
+  padding: 1rem !important;
+  border: 1px solid rgba(255,255,255,0.16) !important;
+  border-radius: 0.75rem;
+  background: rgba(12,17,28,0.92);
+  color: rgba(255,255,255,0.82) !important;
+  box-shadow: 0 18px 48px rgba(0,0,0,0.36);
+  backdrop-filter: blur(16px);
+}
+[data-presentation] .presentation-slide[data-notes-open="1"] [data-speaker-notes] strong {
+  color: #fff !important;
+}
+@media (max-width: 767px) {
+  [data-presentation] .presentation-slide[data-notes-open="1"] [data-speaker-notes] {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: calc(env(safe-area-inset-bottom) + 4.5rem);
+    width: auto;
+    max-height: 34dvh;
+  }
+}
+
 /* ── Slide transitions ─────────────────────────────────────────────── */
 @keyframes slideInRight {
   from { transform: translate3d(48px, 0, 0); opacity: 0; }
