@@ -98,6 +98,35 @@ tracked via `researchedOn` and the changelog slide.
 </SkillCard>
 
 <SkillCard
+  name="/memory (native Auto Memory)"
+  tier="must-have"
+  what={<I18n de="Anthropic-shipped Auto Memory: Claude schreibt selbst Notizen über Sessions hinweg (v2.1.59+)" en="Anthropic-shipped auto memory: Claude itself takes notes across sessions (v2.1.59+)" />}
+  install={`# on by default ab v2.1.59. Prüfen:
+claude --version
+
+# Disable falls nötig:
+# in .claude/settings.json:
+{ "autoMemoryEnabled": false }
+# oder via env:
+CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`}
+  trigger={`/memory  ·  "remember that ..."  ·  Auto-invoke beim Session-Start`}
+  tags={["official", "auto-invoke"]}
+  sources={[
+    {
+      type: "docs",
+      title: "Anthropic Docs · How Claude remembers your project",
+      url: "https://code.claude.com/docs/en/memory",
+      author: "Anthropic",
+    },
+  ]}
+>
+  <I18n
+    de="Speicherort: ~/.claude/projects/<project>/memory/MEMORY.md + Topic-Files. Pro git-Repo eigener Folder, machine-local. Nicht im Repo committed. Erste 200 Zeilen / 25 KB werden in jede Session injiziert. Empfohlen: regelmäßig `/memory` aufrufen + auditieren — Claude speichert oft Build-Befehle, Workflow-Habits, manchmal sensible Patterns."
+    en="Storage: ~/.claude/projects/<project>/memory/MEMORY.md + topic files. Per git repo own folder, machine-local. Not committed. First 200 lines / 25 KB injected into every session. Recommended: open `/memory` periodically and audit — Claude often saves build commands, workflow habits, sometimes sensitive patterns."
+  />
+</SkillCard>
+
+<SkillCard
   name="skill-creator"
   tier="must-have"
   what={<I18n de="Offizielles Anthropic-Plugin: erzeugt Skills aus Plain-English-Beschreibungen oder SOPs" en="Official Anthropic plugin: generates skills from plain-English descriptions or SOPs" />}
@@ -197,8 +226,8 @@ cc-switch --help`}
 
 <SkillCard
   name="claude-context (MCP)"
-  tier="useful"
-  what={<I18n de="MCP-Server für persistente Conversation-Memory über Sessions hinweg" en="MCP server for persistent conversation memory across sessions" />}
+  tier="experimental"
+  what={<I18n de="MCP-Server für Conversation-Memory — heute weitgehend redundant mit native Auto Memory" en="MCP server for conversation memory — largely redundant with native auto memory today" />}
   install={`# in .claude/settings.json:
 {
   "mcpServers": {
@@ -220,15 +249,15 @@ cc-switch --help`}
   ]}
 >
   <I18n
-    de="Hält Kontext über Session-Grenzen hinweg, wenn /clear oder /compact zu viel verlieren würde. Achtung: Memory-Inhalte werden persistiert — keine Secrets!"
-    en="Keeps context across session boundaries when /clear or /compact would lose too much. Caution: memory contents are persisted — no secrets!"
+    de="Vor v2.1.59 war das eine sinnvolle Lösung. Heute deckt das native Auto-Memory-System (`/memory`) den Hauptanwendungsfall ab. Diese MCP bleibt nützlich für sehr spezifische Use-Cases (z.B. eigener Knowledge-Graph als Memory-Backend) — für Standard-Workflows nicht mehr nötig."
+    en="Pre v2.1.59 this was a sensible add-on. Today the native auto-memory system (`/memory`) covers the main use case. This MCP remains useful for niche cases (e.g. custom knowledge-graph backend) — not needed for standard workflows."
   />
 </SkillCard>
 
 <SkillCard
-  name="claude-mem"
-  tier="must-have"
-  what={<I18n de="Auto-Capture aller Claude-Sessions, semantische Kompression — Top-Plugin mit 71k★" en="Auto-captures every Claude session with semantic compression — top plugin with 71k★" />}
+  name="claude-mem (community)"
+  tier="useful"
+  what={<I18n de="Erweiterte Auto-Memory-Schicht mit AI-Kompression — komplementär zum nativen /memory" en="Extended auto-memory layer with AI compression — complementary to native /memory" />}
   install={`/plugin install claude-mem
 
 # oder manuell:
@@ -244,16 +273,16 @@ git clone https://github.com/thedotmack/claude-mem \\
       author: "thedotmack",
     },
     {
-      type: "youtube",
-      title: "I Tried 100+ Claude Code Skills",
-      url: "https://youtu.be/eRS3CmvrOvA",
-      author: "Nate Herk | AI Automation",
+      type: "docs",
+      title: "Native Auto Memory (Anthropic Docs)",
+      url: "https://code.claude.com/docs/en/memory",
+      author: "Anthropic",
     },
   ]}
 >
   <I18n
-    de="Eliminiert die 'Startup-Tax' jeder neuen Session — Claude erinnert sich an Entscheidungen aus früheren Sessions ohne Re-Briefing. Aktuell #1 Claude-Code-Plugin nach Stars."
-    en="Eliminates the 'startup tax' of every new session — Claude remembers decisions from earlier sessions without re-briefing. Currently #1 Claude Code plugin by stars."
+    de="WICHTIG: Seit Claude Code v2.1.59 gibt es natives Auto Memory (`/memory`-Command, on-by-default). claude-mem (Community) ergänzt das mit AI-Kompression der Session-History und semantischem Recall — sinnvoll wenn ihr lange Code-Sessions habt deren Verlauf ihr in zukünftigen Sessions wiederfinden wollt. Für die meisten Workflows reicht das native System."
+    en="IMPORTANT: Since Claude Code v2.1.59 there is native auto memory (`/memory` command, on by default). claude-mem (community) extends it with AI compression of session history and semantic recall — useful for long coding sessions where you want to retrieve history later. For most workflows the native system is enough."
   />
 </SkillCard>
 

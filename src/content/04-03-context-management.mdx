@@ -15,18 +15,20 @@ sources:
 
 > Mehr Kontext ≠ besseres Ergebnis. Zu viel Kontext **verwässert Aufmerksamkeit** und treibt Kosten.
 
-## Drei Kontext-Schichten
+## Vier Kontext-Schichten
 
-| Schicht | Quelle | Wann geladen |
-|---|---|---|
-| **System-Prompt** | `~/.claude/CLAUDE.md` + `./CLAUDE.md` | Session-Start, nach jeder Compaction |
-| **Working Memory** | `Read`-Calls, vorherige Tool-Outputs | im Verlauf der Session |
-| **On-Demand** | Subagent-Calls, MCP-Reads, Skill-Loads | bei Bedarf, eigener Context |
+| Schicht | Quelle | Wann geladen | Überlebt `/clear`? |
+|---|---|---|---|
+| **System-Prompt** | `~/.claude/CLAUDE.md` + `./CLAUDE.md` | Session-Start, nach jeder Compaction | ja |
+| **Auto Memory** *(v2.1.59+)* | `~/.claude/projects/<project>/memory/MEMORY.md` | Session-Start (200 Zeilen / 25 KB) | ja |
+| **Working Memory** | `Read`-Calls, vorherige Tool-Outputs | im Verlauf der Session | nein |
+| **On-Demand** | Subagent-Calls, MCP-Reads, Skill-Loads | bei Bedarf, eigener Context | n/a |
 
 ## Faustregeln
 
-- **`/clear` zwischen unverwandten Tasks** — verhindert Context-Pollution
+- **`/clear` zwischen unverwandten Tasks** — verhindert Context-Pollution. CLAUDE.md + Auto Memory bleiben.
 - **`/compact` statt `/clear`** wenn Verlauf wichtig bleibt
+- **`/memory` regelmäßig auditieren** — Claude schreibt selbständig Notizen, manchmal seltsame. Mit `/memory` browsen und ggf. löschen
 - **Subagents** für Recherche, die Hauptsession nicht braucht
 - **Lazy-loaded Architektur-Doku** — Detail in `docs/`, in CLAUDE.md nur Pointer
 
@@ -60,18 +62,20 @@ Claude: [liest exakt was es braucht, schreibt, testet]
 
 > More context ≠ better result. Too much context **dilutes attention** and drives cost.
 
-## Three context layers
+## Four context layers
 
-| Layer | Source | When loaded |
-|---|---|---|
-| **System prompt** | `~/.claude/CLAUDE.md` + `./CLAUDE.md` | Session start, after every compaction |
-| **Working memory** | `Read` calls, previous tool outputs | During the session |
-| **On-demand** | Subagent calls, MCP reads, skill loads | As needed, separate context |
+| Layer | Source | When loaded | Survives `/clear`? |
+|---|---|---|---|
+| **System prompt** | `~/.claude/CLAUDE.md` + `./CLAUDE.md` | Session start, after every compaction | yes |
+| **Auto memory** *(v2.1.59+)* | `~/.claude/projects/<project>/memory/MEMORY.md` | Session start (200 lines / 25 KB) | yes |
+| **Working memory** | `Read` calls, previous tool outputs | During the session | no |
+| **On-demand** | Subagent calls, MCP reads, skill loads | As needed, separate context | n/a |
 
 ## Rules of thumb
 
-- **`/clear` between unrelated tasks** — prevents context pollution
+- **`/clear` between unrelated tasks** — prevents context pollution. CLAUDE.md + auto memory persist.
 - **`/compact` instead of `/clear`** if history matters
+- **Audit `/memory` periodically** — Claude writes notes autonomously, sometimes odd ones. Browse + prune via `/memory`
 - **Subagents** for research the main session doesn't need
 - **Lazy-loaded architecture docs** — detail in `docs/`, only pointers in CLAUDE.md
 

@@ -2,7 +2,9 @@
 title:
   de: "Sicherheit & Secrets"
   en: "Security & Secrets"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
+sources:
+  - https://code.claude.com/docs/en/memory
 ---
 
 # <I18n de="Security" en="Security" />
@@ -15,7 +17,9 @@ researchedOn: 2026-05-04
 - ❌ API-Keys in `CLAUDE.md`
 - ❌ `.env`-Files in `Read`-Calls
 - ❌ DB-Connection-Strings in Prompts
+- ❌ „remember the prod-DB password is xyz" → landet in **Auto Memory** als Plain-Text
 - ✓ Env-Vars + Secrets-Manager + `.gitignore`
+- ✓ **`/memory` regelmäßig auditieren** — siehe was Claude selbständig gespeichert hat
 
 ### 2. Permissions explizit konfigurieren
 
@@ -42,6 +46,15 @@ Wenn ihr `--dangerously-skip-permissions` braucht:
 - Bei Enterprise-Setup: Bedrock/Vertex Logging einschalten — alle Prompts + Responses landen in eurem Log-Stream
 - DSGVO: Personenbezogene Daten **nicht** an Hosted-LLMs schicken (oder DPA + Region prüfen)
 
+### 6. Auto-Memory-Privacy
+
+- Auto Memory liegt **unverschlüsselt** in `~/.claude/projects/<project>/memory/` als Plain-Markdown
+- **Machine-local** — kein Cloud-Sync, kein Versions-Commit. Aber: wer Zugriff auf eure Disk hat, sieht alles
+- Inhalt: alles was Claude für „speicherwert" hält — Build-Befehle, Workflow-Habits, manchmal sensible Patterns
+- **Disable** via `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` oder `autoMemoryEnabled: false` in Settings
+- **Periodisch auditieren:** `/memory` öffnen, durchschauen, irrelevante Notizen löschen
+- **Backup-Strategie:** wer Auto Memory zwischen Maschinen sync'en will, braucht eigenen Mechanismus (Stow, Syncthing) — vorsichtig mit Multi-User-Maschinen
+
 <NoteCard variant="warning" title="Praxis-Inzident">
 Real-Story: Dev hat AWS-Credentials in CLAUDE.md geschrieben „nur kurz zum Testen". CLAUDE.md committed, Push, Public Repo. 8 Stunden später: $4k Bitcoin-Mining-Bill. Lesson: Secrets gehören NICHT in Files.
 </NoteCard>
@@ -55,7 +68,9 @@ Real-Story: Dev hat AWS-Credentials in CLAUDE.md geschrieben „nur kurz zum Tes
 - ❌ API keys in `CLAUDE.md`
 - ❌ `.env` files in `Read` calls
 - ❌ DB connection strings in prompts
+- ❌ "remember the prod DB password is xyz" → lands in **auto memory** as plain text
 - ✓ Env vars + secrets manager + `.gitignore`
+- ✓ **Audit `/memory` regularly** — see what Claude autonomously saved
 
 ### 2. Configure permissions explicitly
 
@@ -81,6 +96,15 @@ If you need `--dangerously-skip-permissions`:
 
 - Enterprise: enable Bedrock/Vertex logging — all prompts + responses in your log stream
 - GDPR: do **not** send personal data to hosted LLMs (or check DPA + region)
+
+### 6. Auto-memory privacy
+
+- Auto memory lives **unencrypted** in `~/.claude/projects/<project>/memory/` as plain markdown
+- **Machine-local** — no cloud sync, no version-control commit. But: anyone with disk access reads it all
+- Content: whatever Claude considers "worth remembering" — build commands, workflow habits, sometimes sensitive patterns
+- **Disable** via `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` or `autoMemoryEnabled: false` in settings
+- **Audit periodically:** open `/memory`, browse, delete irrelevant notes
+- **Backup strategy:** want auto memory synced across machines? roll your own (Stow, Syncthing) — careful on multi-user boxes
 
 <NoteCard variant="warning" title="Real incident">
 True story: dev wrote AWS credentials into CLAUDE.md "just to test". CLAUDE.md committed, push, public repo. 8 hours later: $4k bitcoin mining bill. Lesson: secrets do NOT go in files.

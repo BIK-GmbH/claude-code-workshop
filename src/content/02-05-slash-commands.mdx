@@ -21,12 +21,17 @@ sources:
 | `/cost` | Kosten dieser Session |
 | `/model` | Modell wechseln |
 | `/init` | Initiale `CLAUDE.md` für ein Repo generieren |
+| `/memory` | **Auto-Memory** browsen + on/off togglen + CLAUDE.md-Files öffnen *(v2.1.59+)* |
 | `/review` | KI prüft euren ausstehenden Pull Request |
 | `/permissions` | Berechtigungs-Übersicht & -Einstellungen |
 | `/skills` | installierte Skills auflisten |
 | `/agents` | verfügbare Subagents |
 | `/mcp` | MCP-Server-Status |
 | `/login` / `/logout` | Auth-Wechsel |
+
+<NoteCard variant="tip" title="`/memory` ist neuer als ihr denkt">
+Seit v2.1.59 schreibt Claude **selbständig** Notizen unter `~/.claude/projects/<project>/memory/`. `/memory` öffnet diese Folder zum Inspizieren oder Editieren. Wer aktiv prüfen will was Claude gespeichert hat: einfach `/memory` aufrufen.
+</NoteCard>
 
 ## Eigene Commands (Custom Slash Commands)
 
@@ -62,12 +67,17 @@ Aufruf: `/skill-name` (z.B. `/find-todo`).
 | `/cost` | Cost of this session |
 | `/model` | Switch model |
 | `/init` | Generate an initial `CLAUDE.md` for a repo |
+| `/memory` | Browse **auto memory** + toggle on/off + open CLAUDE.md files *(v2.1.59+)* |
 | `/review` | AI reviews your pending pull request |
 | `/permissions` | Permissions overview & settings |
 | `/skills` | List installed skills |
 | `/agents` | Available subagents |
 | `/mcp` | MCP server status |
 | `/login` / `/logout` | Auth switch |
+
+<NoteCard variant="tip" title="`/memory` is newer than you think">
+Since v2.1.59 Claude **autonomously** writes notes under `~/.claude/projects/<project>/memory/`. `/memory` opens that folder to inspect or edit. To audit what Claude has saved: just run `/memory`.
+</NoteCard>
 
 ## Custom commands
 

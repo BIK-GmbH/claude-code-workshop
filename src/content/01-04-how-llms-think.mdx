@@ -2,16 +2,17 @@
 title:
   de: "Wie LLMs denken"
   en: "How LLMs Think"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
   - https://code.claude.com/docs/en/best-practices
+  - https://code.claude.com/docs/en/memory
   - https://addyosmani.com/blog/good-spec/
 ---
 
 # <I18n de="Mentalmodell: Wie Claude Code denkt" en="Mental Model: How Claude Code Thinks" />
 
 <De>
-## Drei Konzepte, die alles erklären
+## Vier Konzepte, die alles erklären
 
 ### 1. Token & Kontextfenster
 
@@ -20,13 +21,29 @@ sources:
 - **Alles, was im Kontext liegt, kostet Geld + Zeit + Aufmerksamkeit**
 - → „Mehr Kontext rein" ist nicht automatisch besser
 
-### 2. Statelessness pro Turn
+### 2. Statelessness pro Turn — und wie Claude Code sie aufhebt
 
-- Jeder LLM-Call startet **bei Null** — Erinnerung gibt's nur durch erneutes Mitsenden
-- Claude Code merkt sich Sessions, weil es Verlauf + `CLAUDE.md` automatisch wieder mitschickt
-- → Wenn ihr `/clear` macht, ist die Erinnerung weg (außer was in Files steht)
+- Auf **Modell-Ebene**: jeder LLM-Call startet bei Null
+- Claude Code **schiebt drumherum vier Persistenz-Schichten**, sodass es sich für euch wie ein Gedächtnis anfühlt:
 
-### 3. Halluzination ist Default
+| Schicht | Wer schreibt | Wann geladen |
+|---|---|---|
+| **System-Prompt + CLAUDE.md** | Du | Jeder Session-Start, voll |
+| **Auto Memory** *(NEU ab v2.1.59)* | **Claude selbst** | Jeder Session-Start, erste 200 Zeilen / 25 KB |
+| **Working Memory** | Tool-Outputs, `Read`-Calls | Im Verlauf der Session |
+| **On-Demand** | Subagents, MCP-Reads, Skills | Bei Bedarf, eigener Context |
+
+→ `/clear` löscht **Working Memory**. CLAUDE.md + Auto Memory bleiben.
+
+### 3. Auto Memory — Claude lernt mit
+
+- Claude entscheidet **selbst** was Speicher­wert hat: Build-Befehle, Debug-Insights, Workflow-Habits
+- Speicherort: `~/.claude/projects/<project>/memory/MEMORY.md` + Topic-Files
+- **`/memory`** in der Session öffnet, browse, toggle on/off
+- „remember that the API tests need Redis" → wird automatisch gespeichert
+- Pro git-Repo eigener Memory-Folder, **machine-local** (kein Cloud-Sync, nicht versionsverwaltet)
+
+### 4. Halluzination ist Default
 
 - LLMs **erfinden plausibel klingende Fakten**, wenn sie keine haben
 - API-Endpoints, Funktionsnamen, Imports — alles potenziell halluziniert
@@ -36,10 +53,14 @@ sources:
 <NoteCard variant="warning" title="Anti-Pattern">
 „Schreib mir einen Test, der die `userService.getUserById()`-Funktion testet" — wenn diese Funktion nicht im Kontext ist, halluziniert Claude einen plausiblen Stub. Besser: erst `Read userService.ts`, dann fragen.
 </NoteCard>
+
+<NoteCard variant="hint" title="Wann wurde das eingeführt">
+Auto Memory ist standardmäßig **on ab Claude Code v2.1.59**. `claude --version` prüfen — bei älteren Versionen funktioniert nur Schicht 1 + 3 + 4.
+</NoteCard>
 </De>
 
 <En>
-## Three concepts that explain everything
+## Four concepts that explain everything
 
 ### 1. Tokens & context window
 
@@ -48,13 +69,29 @@ sources:
 - **Everything in the context costs money + time + attention**
 - → "More context in" is not automatically better
 
-### 2. Statelessness per turn
+### 2. Statelessness per turn — and how Claude Code overrides it
 
-- Every LLM call **starts from zero** — memory only via re-sending history
-- Claude Code remembers sessions because it auto-resends transcript + `CLAUDE.md`
-- → If you `/clear`, the memory is gone (except what's in files)
+- At the **model level**: every LLM call starts from zero
+- Claude Code wraps **four persistence layers** around it so it *feels* like memory:
 
-### 3. Hallucination is the default
+| Layer | Who writes | When loaded |
+|---|---|---|
+| **System prompt + CLAUDE.md** | You | Every session start, full |
+| **Auto Memory** *(NEW since v2.1.59)* | **Claude itself** | Every session start, first 200 lines / 25 KB |
+| **Working memory** | Tool outputs, `Read` calls | During the session |
+| **On-demand** | Subagents, MCP reads, skills | As needed, separate context |
+
+→ `/clear` wipes **working memory**. CLAUDE.md + auto memory survive.
+
+### 3. Auto Memory — Claude learns with you
+
+- Claude decides **itself** what's worth remembering: build commands, debug insights, workflow habits
+- Storage: `~/.claude/projects/<project>/memory/MEMORY.md` + topic files
+- **`/memory`** in the session opens, browses, toggles on/off
+- "remember that the API tests need Redis" → gets saved automatically
+- Per git repo own memory folder, **machine-local** (no cloud sync, not version-controlled)
+
+### 4. Hallucination is the default
 
 - LLMs **invent plausible-sounding facts** when they lack them
 - API endpoints, function names, imports — all potentially hallucinated
@@ -64,11 +101,15 @@ sources:
 <NoteCard variant="warning" title="Anti-pattern">
 "Write me a test for the `userService.getUserById()` function" — if that function isn't in context, Claude will hallucinate a plausible stub. Better: `Read userService.ts` first, then ask.
 </NoteCard>
+
+<NoteCard variant="hint" title="When was this introduced">
+Auto memory is on by default **from Claude Code v2.1.59**. Check via `claude --version` — older versions only have layers 1 + 3 + 4.
+</NoteCard>
 </En>
 
 <SpeakerNotes>
 <I18n
-  de="Optional Live-Demo: in einer leeren Shell `claude` starten, fragen 'wie heißt unsere Funktion zum User-Lookup' — Claude gibt einen erfundenen Namen. Dann CLAUDE.md mit echtem Funktionsnamen ergänzen, neu fragen, korrekte Antwort. Sichtbar machen, wie viel Kontext-Setup ausmacht."
-  en="Optional live demo: open empty shell, run `claude`, ask 'what's our user lookup function called' — Claude makes one up. Add real function name to CLAUDE.md, ask again, correct answer. Demonstrates how much context setup matters."
+  de="Wichtigster Punkt der Slide ist die Tabelle der vier Schichten — TN müssen verstehen dass Claude Code mehr Persistenz hat als naive Prompt-Engineering-Sicht erwarten lässt. Live-Demo: `/memory` aufrufen, Folder zeigen, eine 'remember X'-Note dropppen, neue Session starten, sehen wie sie geladen wird. Auto-Memory ist Modell-agnostisch (funktioniert auch mit GPT-Backend wenn jemand das nutzt). Bei älteren Claude-Code-Versionen Hinweis geben — viele Teams hängen auf 1.x fest und merken nichts davon."
+  en="Key point of the slide is the four-layer table — participants need to grasp that Claude Code carries more persistence than naive prompt-engineering thinking suggests. Live demo: open `/memory`, show the folder, drop a 'remember X' note, start a new session, watch it load in. Auto-memory is model-agnostic (works with GPT backend too if someone uses that). For older Claude Code versions, warn participants — many teams stuck on 1.x miss this entirely."
 />
 </SpeakerNotes>

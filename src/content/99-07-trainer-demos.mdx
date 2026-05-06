@@ -378,6 +378,31 @@ chmod +x .git/hooks/pre-commit`}
 > /cost`}
 </DemoBox>
 
+---
+
+## <I18n de="Bonus — Auto Memory" en="Bonus — Auto Memory" />
+
+<DemoBox step={17} title="Auto Memory live zeigen (v2.1.59+)" lang="text" context="Eindrucksvoll für Modul 1 oder Modul 4 — Claude lernt während ihr zuschaut.">
+{`claude
+
+# 1. Status anzeigen
+> /memory
+# (öffnet die Memory-Oberfläche, Folder-Link)
+
+# 2. Eine Notiz droppen, beobachten dass Claude sie speichert
+> remember that this demo repo uses pytest with the marker 'slow' to skip
+> long integration tests by default
+
+# 3. Folder im Terminal anschauen (zweites Fenster oder neue Session)
+ls ~/.claude/projects/*demo-repo*/memory/
+cat ~/.claude/projects/*demo-repo*/memory/MEMORY.md
+
+# 4. Neue Session starten — die Notiz wird automatisch geladen
+> /clear
+> wie überspringe ich slow tests?
+# (Claude kennt die Antwort aus der Auto Memory)`}
+</DemoBox>
+
 <NoteCard variant="tip">
 <I18n
   de="Wenn ihr eine Demo nicht im Voraus durchgespielt habt — NICHT live ausprobieren. Lieber: 'Hier wäre der Code, ich zeige euch den Output' und Screenshot/Recording vorbereiten."
@@ -387,7 +412,7 @@ chmod +x .git/hooks/pre-commit`}
 
 <SpeakerNotes>
 <I18n
-  de="Vor jedem Workshop dieses Slide einmal komplett durchgehen — Demos 0+1 als Setup, dann nach Bedarf 5/7/11/16. Demo 14 (Pre-Commit) und 15 (Halluzination) sind die mit dem höchsten Aha-Effekt."
-  en="Before each workshop, walk through this slide once — demos 0+1 as setup, then 5/7/11/16 as needed. Demo 14 (pre-commit) and 15 (hallucination) have the highest aha effect."
+  de="Vor jedem Workshop dieses Slide einmal komplett durchgehen — Demos 0+1 als Setup, dann nach Bedarf 5/7/11/16/17. Demo 14 (Pre-Commit), 15 (Halluzination) und 17 (Auto Memory) sind die mit dem höchsten Aha-Effekt."
+  en="Before each workshop, walk through this slide once — demos 0+1 as setup, then 5/7/11/16/17 as needed. Demo 14 (pre-commit), 15 (hallucination) and 17 (auto memory) have the highest aha effect."
 />
 </SpeakerNotes>
