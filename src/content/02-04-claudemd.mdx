@@ -29,6 +29,16 @@ sources:
 
 **Reihenfolge:** alle vier werden **konkateniert** in den Context. Spezifischere Scopes überschreiben generelle nicht — sie ergänzen sie.
 
+<NoteCard variant="tip" title="Bei bestehenden Projekten: `/init`">
+Nicht von Null anfangen — in einer Session im Projekt einfach **`/init`** aufrufen.
+Claude scannt das Repo (Tech-Stack, Build-Befehle, Test-Setup, Architektur)
+und schlägt eine **erste `CLAUDE.md` vor**. Danach manuell verfeinern statt
+leeres Markdown-File starren.
+
+Existiert bereits eine CLAUDE.md, schlägt `/init` Verbesserungen vor —
+überschreibt nichts.
+</NoteCard>
+
 ## Project-CLAUDE.md (`./CLAUDE.md`) — die wichtigste
 
 ```markdown
@@ -101,6 +111,15 @@ CLAUDE.md kann andere Files via `@README.md` einbinden — bis zu 5 Hops tief. N
 | **Local** | `./CLAUDE.local.md` (gitignored) | only you, **this project** | Sandbox URLs, test data, personal notes you don't want in git |
 
 **Order:** all four are **concatenated** into context. More specific scopes don't override general ones — they add to them.
+
+<NoteCard variant="tip" title="Existing project: just run `/init`">
+Don't start from blank — in a session inside the project, just run **`/init`**.
+Claude scans the repo (tech stack, build commands, test setup, architecture)
+and proposes a **first `CLAUDE.md`**. Refine from there instead of staring
+at an empty markdown file.
+
+If a CLAUDE.md already exists, `/init` suggests improvements — never overwrites.
+</NoteCard>
 
 ## Project CLAUDE.md (`./CLAUDE.md`) — the most important
 

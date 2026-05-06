@@ -261,10 +261,10 @@ export function Presentation() {
 
       {/* Bottom bar — sticky so it never scrolls away on mobile. */}
       <div
-        className="sticky bottom-0 z-20 flex items-center px-3 sm:px-6 py-2 sm:py-3 text-sm no-print gap-2 shrink-0"
+        className="sticky bottom-0 z-20 grid grid-cols-[1fr_auto_1fr] items-center px-3 sm:px-6 py-2 sm:py-3 text-sm no-print gap-2 shrink-0"
         style={{ color: "rgba(255,255,255,0.85)" }}
       >
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0 justify-self-start">
           <span className="font-mono text-xs shrink-0 opacity-70">{current.id}</span>
           <span className="opacity-50 hidden sm:inline">·</span>
           <span className="hidden sm:inline shrink-0 opacity-90">
@@ -274,12 +274,19 @@ export function Presentation() {
           <span className="truncate hidden md:inline opacity-90">{pick(current.title, lang)}</span>
         </div>
 
-        <div className="ml-auto flex items-center gap-1 sm:gap-2 font-mono text-xs">
+        <div
+          className="justify-self-center flex items-center gap-1.5 sm:gap-2 rounded-lg border px-1.5 py-1 font-mono text-xs"
+          style={{
+            background: "rgba(12,17,28,0.72)",
+            borderColor: "rgba(255,255,255,0.12)",
+            backdropFilter: "blur(12px)",
+          }}
+        >
           {prev ? (
             <Link
               to={`/p/${prev.id}`}
               className="size-9 grid place-items-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
-              style={{ background: "rgba(255,255,255,0.15)" }}
+              style={{ background: "rgba(255,255,255,0.08)" }}
               aria-label="Previous slide"
               title={`← ${prev.id}`}
             >
@@ -297,7 +304,7 @@ export function Presentation() {
             <Link
               to={`/p/${next.id}`}
               className="size-9 grid place-items-center rounded-md hover:bg-white/10 active:bg-white/20 transition-colors"
-              style={{ background: "rgba(255,255,255,0.15)" }}
+              style={{ background: "rgba(255,255,255,0.08)" }}
               aria-label="Next slide"
               title={`${next.id} →`}
             >
@@ -308,6 +315,10 @@ export function Presentation() {
               <ChevronRight size={18} {...ICON} />
             </span>
           )}
+        </div>
+
+        <div className="justify-self-end hidden sm:block font-mono text-xs opacity-70 tabular-nums">
+          {Math.round(((index + 1) / total) * 100)}%
         </div>
       </div>
     </div>
