@@ -4,7 +4,9 @@ title:
   en: "What Are Skills?"
 researchedOn: 2026-05-06
 sources:
-  - https://code.claude.com/docs/en/slash-commands
+  - https://code.claude.com/docs/en/features-overview
+  - https://code.claude.com/docs/en/skills
+  - https://code.claude.com/docs/en/plugins
   - https://agentskills.io
 ---
 
@@ -57,6 +59,37 @@ description: Generate a daily standup summary from recent git activity.
 <NoteCard variant="tip">
 **2026-Update:** Custom Slash Commands wurden in Skills integriert. `.claude/commands/` funktioniert weiter; für neue Routinen `.claude/skills/` verwenden.
 </NoteCard>
+
+## Skill vs. Plugin — der Unterschied
+
+Wichtige Begriffsklärung, weil oft verwechselt:
+
+| | **Skill** | **Plugin** |
+|---|---|---|
+| Was es ist | **Inhalt** — eine `SKILL.md` mit Anweisungen / Workflow | **Container** — bündelt Skills, Subagents, MCP-Server, Hooks, Slash-Commands in EIN installierbares Paket |
+| Granularität | Eine Aufgabe (`release-notes`, `code-review`) | Setup für einen ganzen Use-Case oder Tech-Stack |
+| Distribution | Manuell ins `.claude/skills/`-Verzeichnis kopieren | `/plugin install <name>` aus einem **Marketplace** |
+| Namespacing | Skill-Name global in der Session | Plugin-Skills sind namespaced: `/my-plugin:review` |
+| Wann nutzen | Eine Routine die du selbst brauchst | **Setup-Reuse über mehrere Repos** oder **Distribution an andere** |
+
+> **Ein Plugin enthält Null oder mehrere Skills.** Skill ist nicht eine Alternative zu Plugin — Skill ist ein Baustein **innerhalb** eines Plugins.
+
+**Praxis-Trigger** (laut Anthropic):
+- *Eine wiederkehrende Routine* → schreib einen **Skill**
+- *Zweites Repo braucht das gleiche Setup* → pack es als **Plugin**
+- *Mehrere Plugins teilen wollen* → Plugin in einem **Marketplace** hosten
+
+Die meisten Cards in unserem **Top-Skills-Katalog** (Anhang 99.08) sind eigentlich **Plugins** — sie bringen mehrere Skills + oft MCP-Server + Hooks mit. Standalone-Skills (z.B. unser eigener `release-notes` oder `find-todo`) bleiben einzelne `SKILL.md`-Files.
+
+<NoteCard variant="hint" title="Anthropic Plugin Marketplace">
+Offizielle BIK-Empfehlung: `anthropics/claude-plugins-official` als Marketplace einbinden — kuratierte Plugins mit höherer Quality-Bar als zufällige Community-Funde.
+
+```bash
+/plugin marketplace add anthropics/claude-plugins-official
+/plugin list
+/plugin install <name>
+```
+</NoteCard>
 </De>
 
 <En>
@@ -106,11 +139,42 @@ description: Generate a daily standup summary from recent git activity.
 <NoteCard variant="tip">
 **2026 update:** Custom slash commands were merged into skills. `.claude/commands/` still works; use `.claude/skills/` for new routines.
 </NoteCard>
+
+## Skill vs. Plugin — the difference
+
+Often confused — clarify upfront:
+
+| | **Skill** | **Plugin** |
+|---|---|---|
+| What it is | **Content** — one `SKILL.md` with instructions / workflow | **Container** — bundles skills, subagents, MCP servers, hooks, slash commands into ONE installable package |
+| Granularity | One task (`release-notes`, `code-review`) | Setup for a whole use case or tech stack |
+| Distribution | Manually copied into `.claude/skills/` | `/plugin install <name>` from a **marketplace** |
+| Namespacing | Skill name is global in the session | Plugin skills are namespaced: `/my-plugin:review` |
+| When to use | A routine you need yourself | **Setup reuse across repos** or **distribution to others** |
+
+> **A plugin contains zero or more skills.** "Skill" is never an alternative to "plugin" — skill is a building block **inside** a plugin.
+
+**Practical triggers** (per Anthropic):
+- *A recurring routine* → write a **skill**
+- *A second repo needs the same setup* → package it as a **plugin**
+- *Want to share multiple plugins* → host the plugin in a **marketplace**
+
+Most cards in our **Top Skills catalog** (appendix 99.08) are actually **plugins** — they ship multiple skills + often MCP servers + hooks. Standalone skills (e.g. our own `release-notes` or `find-todo`) stay as single `SKILL.md` files.
+
+<NoteCard variant="hint" title="Anthropic Plugin Marketplace">
+Official BIK recommendation: add `anthropics/claude-plugins-official` as a marketplace — curated plugins with a higher quality bar than random community finds.
+
+```bash
+/plugin marketplace add anthropics/claude-plugins-official
+/plugin list
+/plugin install <name>
+```
+</NoteCard>
 </En>
 
 <SpeakerNotes>
 <I18n
-  de="Wichtige Unterscheidung: Skills sind 'leichtgewichtige Routinen' — der Skill SAGT Claude was zu tun ist, das Modell tut es. Subagents (kommt in 03.04) sind 'eigenständige Workers' mit eigenem Context-Fenster. Skills = was, Subagents = wer."
-  en="Important distinction: skills are 'lightweight routines' — the skill TELLS Claude what to do, the model does it. Subagents (coming up in 03.04) are 'independent workers' with their own context window. Skills = what, subagents = who."
+  de="Zwei Begriffsklärungen explizit machen: (1) Skills vs Subagents — Skill SAGT Claude was zu tun ist, Subagent ist eigenständiger Worker mit eigenem Context. Skills = was, Subagents = wer. (2) Skills vs Plugins — Skill ist EIN Inhalt, Plugin ist der Container der mehrere Skills + Subagents + MCP + Hooks bündelt. TN verwechseln das oft, weil Top-Listen wie unsere 99.08 manchmal beides mischen. Live: `/plugin marketplace add anthropics/claude-plugins-official` zeigen, dann `/plugin list` — TN sehen direkt was zu installieren ist."
+  en="Make two distinctions explicit: (1) Skills vs subagents — skill TELLS Claude what to do, subagent is an independent worker with its own context. Skills = what, subagents = who. (2) Skills vs plugins — skill is ONE piece of content, plugin is a container bundling multiple skills + subagents + MCP + hooks. Participants confuse this often because top lists like our 99.08 sometimes mix both. Live: show `/plugin marketplace add anthropics/claude-plugins-official` then `/plugin list` — participants see directly what's installable."
 />
 </SpeakerNotes>
