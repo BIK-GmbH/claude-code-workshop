@@ -11,9 +11,77 @@
     <meta name="apple-mobile-web-app-title" content="CC Workshop" />
     <meta name="description" content="Claude Code Workshop · BIK GmbH · Augmented Working für professionelle Softwareentwicklung" />
     <title>Claude Code Workshop · BIK GmbH</title>
+    <style>
+      /* Splash — inlined so it shows BEFORE any JS/CSS bundles parse. */
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        background: #1F4E79;
+        color: #ffffff;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        opacity: 1;
+        transition: opacity 420ms cubic-bezier(.2,.7,.2,1);
+        will-change: opacity;
+      }
+      #splash[data-leaving="1"] { opacity: 0; pointer-events: none; }
+      #splash > .splash-inner {
+        text-align: center;
+        animation: splashRise 520ms cubic-bezier(.2,.7,.2,1) both;
+      }
+      #splash .splash-mark {
+        width: 88px;
+        height: 88px;
+        margin: 0 auto 18px;
+        border-radius: 18px;
+        background: rgba(255,255,255,0.16);
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 48px;
+        line-height: 1;
+        box-shadow: 0 6px 30px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(255,255,255,0.12);
+        animation: splashPulse 1.6s ease-in-out infinite;
+      }
+      #splash .splash-title  { font-weight: 700; font-size: 18px; letter-spacing: 0.2px; }
+      #splash .splash-sub    { font-weight: 400; font-size: 13px; opacity: 0.78; margin-top: 4px; }
+      #splash .splash-spinner {
+        margin: 22px auto 0;
+        width: 28px; height: 28px;
+        border: 2.5px solid rgba(255,255,255,0.22);
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        animation: splashSpin 0.85s linear infinite;
+      }
+      @keyframes splashRise {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes splashPulse {
+        0%, 100% { transform: scale(1);   box-shadow: 0 6px 30px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(255,255,255,0.12); }
+        50%      { transform: scale(1.04); box-shadow: 0 8px 36px rgba(0,0,0,0.22), inset 0 0 0 1px rgba(255,255,255,0.18); }
+      }
+      @keyframes splashSpin { to { transform: rotate(360deg); } }
+      @media (prefers-reduced-motion: reduce) {
+        #splash, #splash > .splash-inner { animation: none !important; transition: none !important; }
+        #splash .splash-mark, #splash .splash-spinner { animation: none !important; }
+      }
+    </style>
   </head>
   <body>
+    <div id="splash" aria-label="Loading" role="status">
+      <div class="splash-inner">
+        <div class="splash-mark" aria-hidden="true">B</div>
+        <div class="splash-title">Claude Code Workshop</div>
+        <div class="splash-sub">BIK GmbH · Augmented Working</div>
+        <div class="splash-spinner" aria-hidden="true"></div>
+      </div>
+    </div>
     <div id="root"></div>
+    <script>window.__splashStart = performance.now();</script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

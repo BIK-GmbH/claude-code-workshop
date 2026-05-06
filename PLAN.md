@@ -4,7 +4,14 @@
 
 ## Zweck
 
-Interaktive HTML-Schulungsunterlagen für den **Claude Code Workshop** der BIK GmbH (Trainer: Christian Hubmann, Kunde: mind2move GmbH). Quelldokument: `assets/Angebot_Konzept_Claude_Code_Workshop_mind2move_05_2026 (1).pdf`.
+Interaktive HTML-Schulungsunterlagen für den **Claude Code Workshop** der BIK
+GmbH (Trainer: Christian Hubmann). Generisches Deck — wird für alle Kunden
+genutzt, kein kundenspezifisches Branding im Content. Quelldokument
+(historische Vorlage): `assets/` (kundenspezifisches Original-Angebot, dient
+nur als Strukturvorlage).
+
+Standard-Format: **1 Tag (8 Std), online oder inhouse**. Optional auf Anfrage
+2-Tage-Intensiv (16 Std) für tiefere Vertiefung.
 
 Output:
 - Single-Page-App mit Sidebar-Navigation + Slide-Content
@@ -155,7 +162,7 @@ claude_code_workshop/
 ├── scripts/
 │   └── export-pdf.ts
 └── assets/
-    └── Angebot_Konzept_Claude_Code_Workshop_mind2move_05_2026 (1).pdf
+    └── (historische Angebots-Vorlage, intern, nicht im Repo verlinkt)
 ```
 
 ## Phasen-Plan (Resume-fähig)
@@ -194,7 +201,7 @@ Da der User „leg los" sagte, ohne die offenen Fragen zu beantworten:
 
 ## Quellen-Material
 
-- `assets/Angebot_Konzept_Claude_Code_Workshop_mind2move_05_2026 (1).pdf` — Quelldokument, basiert die Inhaltsstruktur und die Modul-Kapitel
+- `assets/` — historisches Angebots-PDF als Strukturvorlage (kundenspezifisch, nicht öffentlich)
 - Externe Recherche pro Modul: Anthropic Docs, Claude Code Docs, MCP-Spec, aktuelle Tool-Landscape (Cursor, Codex, OpenCode, Aider) — Stand-Datum jeweils im Slide-Frontmatter
 
 ## Kontakt im PDF
