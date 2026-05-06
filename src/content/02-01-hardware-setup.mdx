@@ -1,0 +1,89 @@
+---
+title:
+  de: "Hardware-Setup"
+  en: "Hardware Setup"
+researchedOn: 2026-05-06
+---
+
+# <I18n de="Hardware — was funktioniert wirklich" en="Hardware — what actually works" />
+
+<De>
+## Betriebssystem: Mac oder Linux bevorzugt
+
+AI-Coding-Tools werden **Unix-first** entwickelt. macOS und Linux sind die Plattformen wo neue Releases zuerst landen, MCP-Server und CLI-Tools sind dort am stabilsten. Windows funktioniert via WSL2, hat aber in der täglichen Arbeit mehr Edge-Cases (Pfade, Permissions, Shell-Inkompatibilitäten).
+
+> **Empfehlung: macOS auf Apple Silicon (M-Prozessoren).** Linux als gleichwertige Alternative für Cloud-Native-Setups.
+
+## Apple Silicon (M-Serie) — warum
+
+- **Performance** seit M1: Compile-Zeiten und Local-LLM-Inferenz auf einem anderen Niveau als x86-Notebooks
+- **Akkulaufzeit** 12–18 Std reale Arbeit, nicht Marketing-Zahlen
+- **Hitze + Lautstärke** — die meisten M-Modelle sind passiv-gekühlt oder fast lautlos
+- **Native ARM-Builds** für fast alle relevanten AI-Tools verfügbar
+
+## RAM: mindestens 32 GB, ideal 36–48 GB
+
+Wer **lokale LLM-Modelle** (Ollama, llama.cpp, LM Studio) ausprobieren will, braucht RAM. 16 GB ist Mindestmaß für reine API-Nutzung, **aber bei Local-LLMs sofort zu wenig**. 32 GB Minimum, 36/48 GB Sweet Spot, 64+ GB für Power-User mit großen Modellen (70B-Class).
+
+## Preis-Tipp: Vorgänger-Pro-Generation
+
+Aktuelles M-Pro-Modell ist meist deutlich teurer als der direkte Vorgänger, der bei realer Workload nur 10–15 % langsamer ist. **Vorgänger-Pro mit 36/48 GB RAM** schlägt das Top-Air mit 16 GB jeden Tag.
+
+## Workspace-Setup
+
+| Komponente | Empfehlung |
+|---|---|
+| **Externe Monitore** | 1–2 zusätzliche, idealerweise 27" 4K oder 32" QHD/4K |
+| **Maus + Tastatur** | Logitech MX-Serie (MX Master, MX Keys) — kabellos, Multi-Device-Switch |
+| **Dock** | **iVANKY Pro Fusion** — ein USB-C-Kabel, alles dran, stabile Verbindung |
+| **Audio** | Vernünftiges Headset (z. B. AirPods Pro / Sony WH-1000XM) — wegen Audio-zu-Text-Tools |
+
+<NoteCard variant="hint" title="Was bewusst NICHT auf der Liste steht">
+- Gaming-Laptop mit RTX-GPU: nice für Local-LLMs, aber Akku/Lautstärke/Software-Reife kein Match für M-Mac für Coding-Workflows
+- iPad: kein Daily-Driver für ernsthafte Entwicklung, höchstens als zweiter Screen via Sidecar
+</NoteCard>
+</De>
+
+<En>
+## Operating system: Mac or Linux preferred
+
+AI coding tools ship **Unix-first**. macOS and Linux get new releases first, MCP servers and CLI tools are most stable there. Windows works via WSL2, but in daily work has more edge cases (paths, permissions, shell incompatibilities).
+
+> **Recommendation: macOS on Apple Silicon (M-series).** Linux as an equal alternative for cloud-native setups.
+
+## Apple Silicon (M-series) — why
+
+- **Performance** since M1: compile times and local-LLM inference on another level than x86 laptops
+- **Battery** 12–18 hours real work, not marketing numbers
+- **Heat + noise** — most M models are passively cooled or near-silent
+- **Native ARM builds** available for almost every relevant AI tool
+
+## RAM: at least 32 GB, ideal 36–48 GB
+
+Anyone who wants to try **local LLM models** (Ollama, llama.cpp, LM Studio) needs RAM. 16 GB is bare minimum for pure API use, **but immediately too little for local LLMs**. 32 GB minimum, 36/48 GB sweet spot, 64+ GB for power users with large models (70B class).
+
+## Price tip: previous Pro generation
+
+Latest M-Pro is usually significantly more expensive than the direct predecessor, which is only 10–15 % slower in real workloads. **Previous-gen Pro with 36/48 GB RAM** beats top-spec Air with 16 GB any day.
+
+## Workspace setup
+
+| Component | Recommendation |
+|---|---|
+| **External monitors** | 1–2 extras, ideally 27" 4K or 32" QHD/4K |
+| **Mouse + keyboard** | Logitech MX series (MX Master, MX Keys) — wireless, multi-device switching |
+| **Dock** | **iVANKY Pro Fusion** — one USB-C cable, everything connected, rock-solid |
+| **Audio** | Decent headset (e.g. AirPods Pro / Sony WH-1000XM) — needed for audio-to-text tools |
+
+<NoteCard variant="hint" title="What's deliberately NOT on the list">
+- Gaming laptop with RTX GPU: nice for local LLMs, but battery/noise/software maturity is no match for M-Mac in coding workflows
+- iPad: not a daily driver for serious dev work, at best a second screen via Sidecar
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Hardware-Slide kommt vor Software-Stack weil sie die Grundlage definiert. Bei Workshop-TN auf Windows-Laptops vorsichtig sein — keine Mac-Religion verkaufen, aber ehrlich sein dass WSL2 mehr Setup-Frust bedeutet. iVANKY Pro Fusion ist mein persönlicher Favorit, andere docks gehen auch — der Punkt ist 'ein Kabel, alles dran'. Bei der Vorgänger-Pro-Empfehlung explizit Preisvergleich machen (M3 Pro vs M4 Pro Differenz oft 600–1000 EUR bei +10% Performance)."
+  en="Hardware slide comes before software stack because it sets the foundation. With Windows-laptop workshop participants be careful — no Mac religion, but be honest that WSL2 means more setup friction. iVANKY Pro Fusion is my personal favourite, other docks work too — the point is 'one cable, everything attached'. With the previous-Pro tip make the price comparison explicit (M3 Pro vs M4 Pro often 600–1000 EUR difference for +10% performance)."
+/>
+</SpeakerNotes>

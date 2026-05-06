@@ -18,7 +18,7 @@ test.describe("Content coverage", () => {
   });
 
   test("module 2 — installation slide shows install command", async ({ page }) => {
-    await page.goto("/#/s/02.01");
+    await page.goto("/#/s/02.03");
     await page.locator("main pre").first().waitFor();
     await expect(page.locator("main")).toContainText("@anthropic-ai/claude-code");
   });

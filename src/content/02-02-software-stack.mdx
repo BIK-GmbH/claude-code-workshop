@@ -1,0 +1,121 @@
+---
+title:
+  de: "Software-Stack"
+  en: "Software Stack"
+researchedOn: 2026-05-06
+---
+
+# <I18n de="Software — was wir installieren" en="Software — what we install" />
+
+<De>
+## Coding-AI-Layer (Pflicht)
+
+| Tool | Was | Warum |
+|---|---|---|
+| **Claude Desktop App** | GUI für Chat + Skills + MCP | Bestes Daily-Workhorse für nicht-Code-Aufgaben |
+| **Claude Code (CLI)** | Terminal-Agent | Worum es heute geht |
+| **Codex Desktop App** | GUI von OpenAI Codex | Async Cloud-Tasks fire-and-forget |
+| **Codex CLI** | Terminal-Variante | Komplementär zu Claude Code |
+
+> **Account-Empfehlung:** mindestens **Claude Max-Plan (~90 €/Monat)** + ChatGPT Plus für Codex. Pro reicht für Claude Code technisch, aber Max gibt Reserven für lange Sessions + Subagents.
+
+## Container & lokale Server
+
+| Tool | Was | Warum |
+|---|---|---|
+| **Docker Desktop** | Container-Runtime | Pflicht — alle ernsthaften MCP-Server laufen darin |
+| **MCP: Playwright** | Browser-Automation | E2E-Tests, Web-Inspect, Screenshots |
+| **MCP: Brave Search** | Web-Suche | Quellen recherchieren ohne den Hauptsession-Context zu fluten |
+| **MCP: Firecrawl** | Web-Scraping | Strukturierte Inhalte aus Webseiten ziehen |
+
+Diese drei MCPs als Docker-Container laufen lassen — saubere Isolation, kein Pollution der Host-Pakete.
+
+## Audio-zu-Text (Game-Changer)
+
+| Tool | Plattform | Warum |
+|---|---|---|
+| **SuperWhisper** | macOS | Diktieren statt tippen — Faktor-3-Speed-up bei langen Prompts |
+| **WhisperFlow** | macOS + Windows | Cross-Platform-Alternative |
+
+In der täglichen Claude-Code-Nutzung beschleunigt das **alles** — von Spec-Schreiben bis Subagent-Anweisungen.
+
+## Terminal & Tooling
+
+| Tool | Was | Warum |
+|---|---|---|
+| **warp.dev** | Modernes Terminal mit AI-Features | Block-basierte History, AI-Command-Suggestions, gute Sharing-Features |
+| **GitHub Account** | Pflicht | Für `gh`-CLI, MCP-Server-Integration, Plugin-Marketplaces |
+
+<NoteCard variant="tip" title="Was zusätzlich helfen kann">
+**Optional aber nützlich:** Raycast (macOS-Launcher mit AI-Workflows), 1Password CLI (Secret-Injection ohne `.env`-Files), Tailscale (sicherer Remote-Zugriff auf Dev-Maschinen). Werden im Lauf des Workshops bei Bedarf erwähnt.
+</NoteCard>
+
+<NoteCard variant="warning" title="Account-Kosten realistisch">
+Setup-Mindestkosten/Monat für ernsthafte Arbeit:
+- Anthropic Max 5x: **~90 € / 100 $**
+- ChatGPT Plus (für Codex): ~20 €
+- Optional: GitHub Copilot Business (~17 €), Cursor Pro (~18 €)
+
+→ Realistisches Tooling-Budget pro Person: **~120–150 €/Monat**. ROI kommt aus eingesparter Engineering-Zeit zurück.
+</NoteCard>
+</De>
+
+<En>
+## Coding-AI layer (mandatory)
+
+| Tool | What | Why |
+|---|---|---|
+| **Claude Desktop App** | GUI for chat + skills + MCP | Best daily workhorse for non-code tasks |
+| **Claude Code (CLI)** | Terminal agent | What today is about |
+| **Codex Desktop App** | OpenAI Codex GUI | Async cloud tasks, fire-and-forget |
+| **Codex CLI** | Terminal variant | Complementary to Claude Code |
+
+> **Account recommendation:** at least **Claude Max plan (~$100/month)** + ChatGPT Plus for Codex. Pro is technically enough for Claude Code, but Max gives headroom for long sessions + subagents.
+
+## Containers & local servers
+
+| Tool | What | Why |
+|---|---|---|
+| **Docker Desktop** | Container runtime | Mandatory — all serious MCP servers run inside |
+| **MCP: Playwright** | Browser automation | E2E tests, web inspection, screenshots |
+| **MCP: Brave Search** | Web search | Research sources without flooding the main session context |
+| **MCP: Firecrawl** | Web scraping | Pull structured content from web pages |
+
+Run these three MCPs as Docker containers — clean isolation, no host-package pollution.
+
+## Audio-to-text (game-changer)
+
+| Tool | Platform | Why |
+|---|---|---|
+| **SuperWhisper** | macOS | Dictate instead of type — 3× speedup on long prompts |
+| **WhisperFlow** | macOS + Windows | Cross-platform alternative |
+
+In daily Claude Code use this accelerates **everything** — from writing specs to subagent instructions.
+
+## Terminal & tooling
+
+| Tool | What | Why |
+|---|---|---|
+| **warp.dev** | Modern terminal with AI features | Block-based history, AI command suggestions, good sharing |
+| **GitHub account** | Mandatory | For `gh` CLI, MCP server integration, plugin marketplaces |
+
+<NoteCard variant="tip" title="Optional add-ons that help">
+**Optional but useful:** Raycast (macOS launcher with AI workflows), 1Password CLI (secret injection without `.env` files), Tailscale (secure remote access to dev machines). Mentioned during the workshop where relevant.
+</NoteCard>
+
+<NoteCard variant="warning" title="Realistic account costs">
+Minimum setup costs/month for serious work:
+- Anthropic Max 5x: **~$100 / €90**
+- ChatGPT Plus (for Codex): ~$20
+- Optional: GitHub Copilot Business (~$19), Cursor Pro (~$20)
+
+→ Realistic tooling budget per person: **~$130–160/month**. ROI comes back from saved engineering time.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Software-Stack-Slide ist BIK-spezifische Empfehlung — nicht alles davon ist Pflicht für jeden Workshop-TN. Drei Tier-Aussagen machen: (1) Claude Code + Max-Plan = absolutes Minimum, (2) Docker + 1 MCP-Server = direkt im Workshop nutzbar, (3) SuperWhisper + warp.dev = Productivity-Boost den TN selbst entdecken können. Bei Account-Kosten: realistisch nicht runterrechnen — wenn jemand sagt 'ist viel', erinnern dass eingesparte 5 Std/Woche bei 80 €/h gerechnet 400 €/Woche zurückbringt."
+  en="Software stack slide is BIK-specific recommendation — not everything is mandatory for every participant. Make three tier statements: (1) Claude Code + Max plan = absolute minimum, (2) Docker + 1 MCP server = usable directly in the workshop, (3) SuperWhisper + warp.dev = productivity boost participants can discover themselves. On account costs: don't downplay — if someone says 'expensive', remind them that 5 hours/week saved at €80/h is €400/week back."
+/>
+</SpeakerNotes>
