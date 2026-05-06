@@ -48,6 +48,12 @@ header[data-workshop-header] {
 [data-presentation] > div:first-child {
   padding-top: calc(env(safe-area-inset-top) + 0.5rem);
 }
+/* Mobile drawer: also dodges the Dynamic Island / status bar at the top,
+ * AND respects the home-indicator at the bottom for long module lists. */
+[data-drawer] {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
 /* Splash logo: shift slightly up so it's optically centred in the visible
  * area (status bar eats some pixels at top) — minor cosmetic tweak. */
 @supports (padding-top: env(safe-area-inset-top)) {

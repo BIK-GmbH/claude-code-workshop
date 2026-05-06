@@ -94,8 +94,12 @@ export function WorkshopLayout() {
       style={{
         background: "var(--bg)",
         color: "var(--fg)",
-        height: "100dvh",
-        minHeight: "100dvh",
+        // 100svh = "small viewport height": stable across initial paint on
+        // iOS PWA, where 100dvh occasionally measures 0 before safe-area
+        // insets settle, causing the footer to slide off-screen until the
+        // first scroll triggers a re-measure.
+        height: "100svh",
+        minHeight: "100svh",
       }}
     >
       <Header

@@ -1,0 +1,180 @@
+---
+title:
+  de: "Scheduled Tasks: /loop"
+  en: "Scheduled Tasks: /loop"
+researchedOn: 2026-05-06
+sources:
+  - https://code.claude.com/docs/en/scheduled-tasks
+  - https://code.claude.com/docs/en/routines
+---
+
+# <I18n de="Wiederkehrende Prompts mit `/loop`" en="Recurring prompts with `/loop`" />
+
+<De>
+## Was ist `/loop`?
+
+Ab **Claude Code v2.1.72** ein **eingebauter Slash-Command** (Bundled Skill), der einen Prompt **automatisch in einem Intervall** wieder feuert — solange die Session offen ist.
+
+Use-Cases: Build babysitten, PR-CI pollen, Long-Running-Tasks im Auge behalten, sich an etwas erinnern lassen, Cleanup-Passes laufen lassen.
+
+## Drei Varianten
+
+| Eingabe | Was passiert |
+|---|---|
+| `/loop 5m check the deploy` | **Festes Intervall** — alle 5 Minuten den Prompt feuern |
+| `/loop check the deploy` | **Claude wählt Intervall dynamisch** (1 Min – 1 Std) je nach Lage — kurze Wartezeiten wenn Action passiert, lange wenn nichts los ist |
+| `/loop` | Built-in **Maintenance-Prompt**: PR aufräumen, CI-Failures prüfen, Cleanup-Passes |
+
+## Beispiele
+
+<CommandBox lang="text">
+{`# Festes Intervall, fester Prompt
+/loop 5m check whether the deployment finished and tell me what happened
+
+# Skill als Loop-Target
+/loop 20m /review-pr 1234
+
+# Dynamisch — Claude entscheidet je Iteration
+/loop check whether CI passed and address any review comments
+
+# Bare /loop = Maintenance-Modus (laufende Arbeit + PR-Pflege)
+/loop`}
+</CommandBox>
+
+## Mechanik
+
+- **Session-scoped:** Tasks leben nur in der aktuellen Session. Bei `claude --resume` werden noch nicht abgelaufene Tasks wiederhergestellt.
+- **Min-Intervall:** 1 Minute (Sekunden werden hochgerundet).
+- **Max-Laufzeit:** **7 Tage** automatischer Expiry — danach feuert der Task ein letztes Mal und löscht sich.
+- **Stop:** **`Esc` drücken** während der Task auf die nächste Iteration wartet.
+- **Concurrency:** Bis zu **50 parallele Tasks pro Session** möglich.
+- **Jitter:** Recurring-Tasks haben deterministischen Offset (bis 30 Min nach geplant) damit nicht alle Sessions gleichzeitig API-hammern.
+
+## Einmal-Reminder ohne `/loop`
+
+Für One-Shot-Reminder einfach in natürlicher Sprache fragen — Claude scheduled einen Single-Fire-Task der sich nach Ausführung selbst löscht:
+
+<CommandBox lang="text">
+{`> remind me at 3pm to push the release branch
+> in 45 minutes, check whether the integration tests passed`}
+</CommandBox>
+
+## `loop.md` — Default-Prompt überschreiben
+
+`/loop` ohne Prompt sucht nach `.claude/loop.md` (Projekt) oder `~/.claude/loop.md` (User) und nimmt den Inhalt als Default-Prompt:
+
+<CommandBox lang="markdown" caption=".claude/loop.md">
+{`Check the \`release/next\` PR. If CI is red, pull the failing job log,
+diagnose, and push a minimal fix. If new review comments have arrived,
+address each one and resolve the thread. If everything is green and
+quiet, say so in one line.`}
+</CommandBox>
+
+## Drei Scheduling-Optionen — wann welche?
+
+| | **/loop** *(diese Slide)* | **Desktop Tasks** | **Routines (Cloud)** |
+|---|---|---|---|
+| Läuft auf | eurem Rechner | eurem Rechner | Anthropic-Cloud |
+| Maschine an? | ja | ja | nein |
+| Session offen? | **ja** | nein | nein |
+| Persistent über Restarts | nur via `--resume` | ja | ja |
+| Min-Intervall | 1 Min | 1 Min | 1 Std |
+
+> **Faustregel:** `/loop` für **Polling während ihr eh in der Session seid** (Build, PR, Test). **Routines** für unattended-Automation (täglich, ohne dass jemand vor dem Rechner sitzt). **Desktop Tasks** wenn lokale Files nötig sind aber niemand am Computer.
+
+<NoteCard variant="tip" title="Killer-Use-Case für Workshops">
+„Während ich Modul X erkläre, läuft im Hintergrund `/loop 3m check if my Railway deploy succeeded` — sobald grün, weiß ich Bescheid ohne Tab-Switching."
+</NoteCard>
+
+<NoteCard variant="warning" title="Disable">
+Komplett abschalten: `CLAUDE_CODE_DISABLE_CRON=1` in der Env. `/loop` und Cron-Tools werden unverfügbar, laufende Tasks stoppen.
+</NoteCard>
+</De>
+
+<En>
+## What is `/loop`?
+
+Since **Claude Code v2.1.72**, a **built-in slash command** (bundled skill) that **re-fires a prompt on an interval** for as long as the session stays open.
+
+Use cases: babysit a build, poll PR CI, keep an eye on long-running tasks, set yourself reminders, run cleanup passes.
+
+## Three variants
+
+| Input | What happens |
+|---|---|
+| `/loop 5m check the deploy` | **Fixed interval** — fires every 5 min |
+| `/loop check the deploy` | **Claude picks interval dynamically** (1 min – 1 hr) per iteration — short waits during action, long when quiet |
+| `/loop` | Built-in **maintenance prompt**: clean up the PR, check CI failures, run cleanup passes |
+
+## Examples
+
+<CommandBox lang="text">
+{`# Fixed interval, fixed prompt
+/loop 5m check whether the deployment finished and tell me what happened
+
+# Skill as the loop target
+/loop 20m /review-pr 1234
+
+# Dynamic — Claude decides each iteration
+/loop check whether CI passed and address any review comments
+
+# Bare /loop = maintenance mode (in-flight work + PR upkeep)
+/loop`}
+</CommandBox>
+
+## Mechanics
+
+- **Session-scoped:** tasks live only in the current session. `claude --resume` restores tasks that haven't expired.
+- **Min interval:** 1 minute (seconds are rounded up).
+- **Max lifetime:** **7-day** auto-expiry — the task fires one last time and deletes itself.
+- **Stop:** press **`Esc`** while the task waits for the next iteration.
+- **Concurrency:** up to **50 parallel tasks per session**.
+- **Jitter:** recurring tasks get a deterministic offset (up to 30 min after scheduled) so sessions don't all hit the API on the same wall-clock minute.
+
+## One-shot reminder without `/loop`
+
+For one-off reminders just ask in natural language — Claude schedules a single-fire task that deletes itself after running:
+
+<CommandBox lang="text">
+{`> remind me at 3pm to push the release branch
+> in 45 minutes, check whether the integration tests passed`}
+</CommandBox>
+
+## `loop.md` — override the default prompt
+
+`/loop` with no prompt looks for `.claude/loop.md` (project) or `~/.claude/loop.md` (user) and uses it as the default:
+
+<CommandBox lang="markdown" caption=".claude/loop.md">
+{`Check the \`release/next\` PR. If CI is red, pull the failing job log,
+diagnose, and push a minimal fix. If new review comments have arrived,
+address each one and resolve the thread. If everything is green and
+quiet, say so in one line.`}
+</CommandBox>
+
+## Three scheduling options — when which?
+
+| | **/loop** *(this slide)* | **Desktop tasks** | **Routines (cloud)** |
+|---|---|---|---|
+| Runs on | your machine | your machine | Anthropic cloud |
+| Machine on? | yes | yes | no |
+| Session open? | **yes** | no | no |
+| Persistent across restarts | only via `--resume` | yes | yes |
+| Min interval | 1 min | 1 min | 1 hour |
+
+> **Rule of thumb:** `/loop` for **polling while you're in the session anyway** (build, PR, test). **Routines** for unattended automation. **Desktop tasks** when you need local files but nobody is sitting at the machine.
+
+<NoteCard variant="tip" title="Killer use case for workshops">
+"While I'm explaining module X, in the background `/loop 3m check if my Railway deploy succeeded` is running — the moment it goes green, I know without tab-switching."
+</NoteCard>
+
+<NoteCard variant="warning" title="Disable">
+Turn off completely: `CLAUDE_CODE_DISABLE_CRON=1` in env. `/loop` and cron tools become unavailable, running tasks stop.
+</NoteCard>
+</En>
+
+<SpeakerNotes>
+<I18n
+  de="Live-Demo: `/loop 1m what time is it?` aufrufen, sehen wie Claude das in eine cron-expression umwandelt + Job-ID zurückgibt. Nach 2 Iterationen `Esc` drücken, sehen wie der Loop endet. Dann zeigen: `/loop 5m /review-pr 42` als Beispiel für Skill-Loop. Wichtig: TN auf Session-Scope hinweisen — neue Session = alles weg, ausser bei `claude --resume`. Bei Enterprise-Kunden Routines/Cloud erwähnen für unattended-Use-Cases."
+  en="Live demo: run `/loop 1m what time is it?`, watch Claude turn it into a cron expression + return a job ID. After 2 iterations press `Esc`, watch the loop end. Then show `/loop 5m /review-pr 42` as a skill-loop example. Key: remind participants of session scope — new session = everything gone, except via `claude --resume`. With enterprise clients mention Routines/Cloud for unattended use cases."
+/>
+</SpeakerNotes>

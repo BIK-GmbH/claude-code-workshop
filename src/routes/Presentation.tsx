@@ -124,8 +124,8 @@ export function Presentation() {
       style={{
         background: theme === "dark" ? "#000" : "#0b1220",
         color: "var(--fg)",
-        height: "100dvh",
-        minHeight: "100dvh",
+        height: "100svh",
+        minHeight: "100svh",
       }}
       {...swipe.handlers}
     >

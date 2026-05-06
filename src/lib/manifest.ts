@@ -37,9 +37,10 @@ export const MANIFEST: ModuleMeta[] = [
       { id: "02.05", module: 2, slide: 5, title: { de: "Modellauswahl", en: "Model selection" } },
       { id: "02.06", module: 2, slide: 6, title: { de: "CLAUDE.md", en: "CLAUDE.md" } },
       { id: "02.07", module: 2, slide: 7, title: { de: "Slash Commands", en: "Slash commands" } },
-      { id: "02.08", module: 2, slide: 8, title: { de: "Plan Mode", en: "Plan Mode" } },
-      { id: "02.09", module: 2, slide: 9, title: { de: "Permissions", en: "Permissions" } },
-      { id: "02.10", module: 2, slide: 10, title: { de: "Hands-on: erste CLAUDE.md", en: "Hands-on: first CLAUDE.md" } },
+      { id: "02.08", module: 2, slide: 8, title: { de: "Scheduled Tasks (/loop)", en: "Scheduled tasks (/loop)" } },
+      { id: "02.09", module: 2, slide: 9, title: { de: "Plan Mode", en: "Plan Mode" } },
+      { id: "02.10", module: 2, slide: 10, title: { de: "Permissions", en: "Permissions" } },
+      { id: "02.11", module: 2, slide: 11, title: { de: "Hands-on: erste CLAUDE.md", en: "Hands-on: first CLAUDE.md" } },
     ],
   },
   {

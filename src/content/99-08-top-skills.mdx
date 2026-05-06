@@ -265,32 +265,41 @@ cc-switch --help`}
 <SkillCard
   name="claude-mem (community)"
   tier="useful"
-  what={<I18n de="Erweiterte Auto-Memory-Schicht mit AI-Kompression — komplementär zum nativen /memory" en="Extended auto-memory layer with AI compression — complementary to native /memory" />}
-  install={`/plugin install claude-mem
+  what={<I18n de="Persistente Cross-Session-Memory mit AI-Kompression + 5 Hooks — 72k★ (v12.6.4)" en="Persistent cross-session memory with AI compression + 5 hooks — 72k★ (v12.6.4)" />}
+  install={`# Korrekter Install (NICHT 'npm install -g'):
+npx claude-mem install
 
-# oder manuell:
-git clone https://github.com/thedotmack/claude-mem \\
-  ~/.claude/plugins/claude-mem`}
-  trigger={`Auto-invoke beim Session-Start, "what did we decide about ..."`}
+# Für andere CLIs:
+npx claude-mem install --ide gemini-cli
+npx claude-mem install --ide opencode
+
+# Oder via plugin manager:
+/plugin install claude-mem`}
+  trigger={`Auto-invoke beim Session-Start (5 Hooks: SessionStart, Stop, PostToolUse, UserPromptSubmit, SessionEnd)`}
   tags={["community", "auto-invoke", "personal"]}
   sources={[
     {
       type: "repo",
-      title: "thedotmack/claude-mem (71k★)",
+      title: "thedotmack/claude-mem (72k★)",
       url: "https://github.com/thedotmack/claude-mem",
       author: "thedotmack",
     },
     {
       type: "docs",
-      title: "Native Auto Memory (Anthropic Docs)",
+      title: "docs.claude-mem.ai/installation",
+      url: "https://docs.claude-mem.ai/installation",
+    },
+    {
+      type: "docs",
+      title: "Native Auto Memory (Anthropic)",
       url: "https://code.claude.com/docs/en/memory",
       author: "Anthropic",
     },
   ]}
 >
   <I18n
-    de="WICHTIG: Seit Claude Code v2.1.59 gibt es natives Auto Memory (`/memory`-Command, on-by-default). claude-mem (Community) ergänzt das mit AI-Kompression der Session-History und semantischem Recall — sinnvoll wenn ihr lange Code-Sessions habt deren Verlauf ihr in zukünftigen Sessions wiederfinden wollt. Für die meisten Workflows reicht das native System."
-    en="IMPORTANT: Since Claude Code v2.1.59 there is native auto memory (`/memory` command, on by default). claude-mem (community) extends it with AI compression of session history and semantic recall — useful for long coding sessions where you want to retrieve history later. For most workflows the native system is enough."
+    de="WANN sinnvoll: das native /memory speichert Notizen + injiziert sie. claude-mem geht weiter — komprimiert die ganze Session-History via Claude Agent-SDK, erlaubt semantisches Recall, hat Local-Dashboard auf :37777, und mit `<private>…</private>`-Tags Inhalts-Excludes. WANN NICHT: Sicherheits-Audit Feb 2026 = HIGH RISK (HTTP-API auf :37777 ohne Auth — jeder Prozess auf eurer Maschine kann lesen + manipulieren). Nur auf persönlichen Dev-Maschinen, nicht Shared/Multi-User-Boxen."
+    en="WHEN useful: native /memory saves notes + injects them. claude-mem goes further — compresses entire session history via Claude Agent SDK, supports semantic recall, runs a local dashboard on :37777, and you can exclude content with `<private>…</private>` tags. WHEN NOT: Feb 2026 security audit = HIGH RISK (HTTP API on :37777 has no auth — any process on your machine can read + inject memories). Personal dev machines only, not shared/multi-user boxes."
   />
 </SkillCard>
 
