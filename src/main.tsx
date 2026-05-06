@@ -28,10 +28,10 @@ function hideSplash() {
 }
 
 requestAnimationFrame(() => {
-  // Wait at least 500ms (so logo can breathe), then hide.
+  // Wait at least 1500ms so the BIK logo can breathe + the brand registers.
   const startedAt = Number(window.__splashStart ?? performance.now());
   const elapsed = performance.now() - startedAt;
-  const wait = Math.max(0, 500 - elapsed);
+  const wait = Math.max(0, 1500 - elapsed);
   setTimeout(hideSplash, wait);
 });
 
