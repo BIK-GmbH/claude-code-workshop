@@ -20,18 +20,31 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Mobile: bigger bottom nav + respect iPhone home-indicator safe area. */
+/* Mobile: bigger bottom nav + respect iPhone home-indicator safe area.
+ *
+ * The trick: extend the footer's HEIGHT to include the safe-area-inset-bottom
+ * but DO NOT add padding-bottom on top of it. Otherwise we double-account —
+ * border-box subtracts the padding from the content area, items-center
+ * centres in the (height - padding) region, and the safe-area band ends up
+ * empty below the icons. Looks like the footer "floats" above a void.
+ *
+ * Solution: extended height + nothing else. flex items-center now centres
+ * the icons across the full visible footer band, so they sit slightly above
+ * the home indicator instead of pinned to the top of an oversized box.
+ */
 @media (max-width: 767px) {
   :root {
     --footer-height: var(--footer-height-mobile);
   }
   footer[data-workshop-footer] {
-    padding-bottom: env(safe-area-inset-bottom);
+    /* height grows with safe area; no padding-bottom (would double-count) */
     height: calc(var(--footer-height-mobile) + env(safe-area-inset-bottom));
   }
-  /* Presentation bottom bar gets the same treatment */
+  /* Presentation bottom bar: same idea — symmetric padding so the icons
+   * stay vertically centred even as the bar grows for the safe area. */
   [data-presentation] > div:last-child {
-    padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
+    padding-top: env(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 
