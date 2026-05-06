@@ -2,7 +2,7 @@
 title:
   de: "Top Skills — Living Catalog"
   en: "Top Skills — Living Catalog"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
   - https://github.com/modelcontextprotocol/servers
   - https://github.com/anthropics/skills
@@ -31,6 +31,10 @@ dokumentiert.
 - ★ **Must-have** — würden wir in jeder Demo-Setup empfehlen
 - ✓ **Useful** — situativ stark, lohnt sich anzuschauen
 - ⚗ **Experimental** — frisch, vielversprechend, noch nicht produktionsbewährt
+
+<NoteCard variant="warning" title="Volatile Angaben">
+Star-Zahlen, Plugin-Namen, Install-Befehle und Marketplace-Verfügbarkeit sind Momentaufnahmen. Vor Live-Demos: Repo/Marketplace öffnen, `README` prüfen, dann erst empfehlen.
+</NoteCard>
 </De>
 
 <En>
@@ -49,6 +53,10 @@ tracked via `researchedOn` and the changelog slide.
 - ★ **Must-have** — we'd recommend in every demo setup
 - ✓ **Useful** — situational, worth a look
 - ⚗ **Experimental** — fresh, promising, not yet production-proven
+
+<NoteCard variant="warning" title="Volatile details">
+Star counts, plugin names, install commands, and marketplace availability are snapshots. Before live demos: open the repo/marketplace, check the `README`, then recommend.
+</NoteCard>
 </En>
 
 ---
@@ -77,23 +85,23 @@ tracked via `researchedOn` and the changelog slide.
 </SkillCard>
 
 <SkillCard
-  name="/review"
+  name="/ultrareview"
   tier="must-have"
-  what={<I18n de="Anthropic-shipped PR-Review für offene Pull Requests" en="Anthropic-shipped PR review for open pull requests" />}
-  trigger="/review"
+  what={<I18n de="Anthropic-shipped Multi-Agent-Code-Review für PRs und Branches" en="Anthropic-shipped multi-agent code review for PRs and branches" />}
+  trigger="/ultrareview"
   tags={["official", "manual", "ci"]}
   sources={[
     {
       type: "docs",
-      title: "Claude Code CLI Guide",
-      url: "https://code.claude.com/docs",
+      title: "Claude Code Commands",
+      url: "https://code.claude.com/docs/en/commands",
       author: "Anthropic",
     },
   ]}
 >
   <I18n
-    de="Funktioniert direkt gegen GitHub-PRs wenn `gh` authentifiziert ist. Kombiniert mit eigenem `code-reviewer`-Subagent für tiefere Pässe."
-    en="Works directly against GitHub PRs when `gh` is authenticated. Combine with own `code-reviewer` subagent for deeper passes."
+    de="Gut als zweiter Review-Pass vor Merge. Nicht als Ersatz für menschliche Verantwortung verwenden; Findings priorisieren und verifizieren."
+    en="Useful as a second review pass before merge. Do not use as a replacement for human responsibility; prioritize and verify findings."
   />
 </SkillCard>
 
@@ -153,7 +161,7 @@ CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`}
   name="/ultrareview (cloud)"
   tier="useful"
   what={<I18n de="Multi-Agent-Cloud-Review des aktuellen Branches mit parallelen Agents in Sandbox" en="Multi-agent cloud review of the current branch with parallel agents in sandbox" />}
-  install={`# in claude-code v2.1.86+:
+  install={`# wenn in eurem Account/Plan verfügbar:
 /ultrareview              # local branch
 /ultrareview 42           # GitHub PR by number`}
   trigger={`/ultrareview / /ultrareview 42`}
@@ -521,18 +529,12 @@ git clone https://github.com/JuliusBrussee/caveman \\
 ## <I18n de="MCP-Server (offizielle Registry)" en="MCP servers (official registry)" />
 
 <SkillCard
-  name="@modelcontextprotocol/server-github"
+  name="GitHub MCP"
   tier="must-have"
   what={<I18n de="Issues, PRs, Code-Search, Repo-Metadata aus GitHub" en="Issues, PRs, code search, repo metadata from GitHub" />}
-  install={`{
-  "mcpServers": {
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": { "GITHUB_TOKEN": "$GITHUB_TOKEN" }
-    }
-  }
-}`}
+  install={`claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \\
+  --header "Authorization: Bearer $GITHUB_TOKEN" \\
+  --scope project`}
   tags={["official", "mcp", "auto-invoke"]}
   sources={[
     {

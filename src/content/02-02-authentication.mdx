@@ -2,38 +2,47 @@
 title:
   de: "Authentifizierung & Provider"
   en: "Authentication & Providers"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
-  - https://code.claude.com/docs/en/best-practices
+  - https://code.claude.com/docs/en/authentication
+  - https://code.claude.com/docs/en/amazon-bedrock
+  - https://code.claude.com/docs/en/data-usage
 ---
 
 # <I18n de="Authentifizierung" en="Authentication" />
 
 <De>
-## Drei Auth-Pfade
+## Auth-Pfade
 
 | Pfad | Wer | Vorteil | Nachteil |
 |---|---|---|---|
 | **Claude Pro / Max** | Einzel-Devs | Flatrate, kein Cost-Schock | Persönlicher Account, kein Multi-User |
-| **Anthropic API-Key** | Teams, CI/CD | Pay-per-use, gemeinsam nutzbar | Cost-Monitoring nötig |
+| **Claude Team / Enterprise** | Teams | Zentrale Abrechnung, Admin, Policies | Plan-/Org-Setup nötig |
+| **Claude Console / API-Key** | Teams, CI/CD | Pay-per-use, Rollen, SSO möglich | Cost-Monitoring nötig |
 | **Bedrock / Vertex** | Enterprise | Compliance, eigene Region, SSO | Setup-Aufwand, langsamer Roll-Out neuer Modelle |
+| **Microsoft Foundry** | Azure-nahe Enterprise-Setups | Azure Auth + Governance | Provider-Setup nötig |
 
 ## Wechsel zwischen Konten
 
 <CommandBox lang="bash">
-claude --logout            # aktuelle Session beenden
+/logout                    # in der Session abmelden
+claude auth logout         # per CLI abmelden
 claude                     # neuer Login-Flow
 
 # Mehrere Provider parallel nutzen — über Env-Vars steuerbar:
 ANTHROPIC_API_KEY=sk-ant-... claude
 CLAUDE_CODE_USE_BEDROCK=1 claude
+CLAUDE_CODE_USE_VERTEX=1 claude
 </CommandBox>
+
+Wenn `ANTHROPIC_API_KEY` gesetzt ist, hat er Vorrang vor Subscription-Login. Bei merkwürdigen Auth-Fehlern: `unset ANTHROPIC_API_KEY`, dann `/status` prüfen.
 
 ## Token-Tracking
 
 <CommandBox lang="bash">
 /cost                      # in laufender Session: was hat dieser Run gekostet?
 /usage                     # Übersicht über Session-Verbräuche
+/status                    # aktiver Account, Modell, Provider
 </CommandBox>
 
 <NoteCard variant="warning">
@@ -42,30 +51,37 @@ CLAUDE_CODE_USE_BEDROCK=1 claude
 </De>
 
 <En>
-## Three auth paths
+## Auth paths
 
 | Path | Who | Pro | Con |
 |---|---|---|---|
 | **Claude Pro / Max** | Solo devs | Flat rate, no cost shock | Personal account, no multi-user |
-| **Anthropic API key** | Teams, CI/CD | Pay-per-use, shareable | Cost monitoring required |
+| **Claude Team / Enterprise** | Teams | Central billing, admin, policies | Plan/org setup required |
+| **Claude Console / API key** | Teams, CI/CD | Pay-per-use, roles, SSO possible | Cost monitoring required |
 | **Bedrock / Vertex** | Enterprise | Compliance, own region, SSO | Setup effort, slower new-model rollout |
+| **Microsoft Foundry** | Azure-centric enterprise setups | Azure Auth + governance | Provider setup required |
 
 ## Switching between accounts
 
 <CommandBox lang="bash">
-claude --logout            # end current session
+/logout                    # log out inside the session
+claude auth logout         # log out from the CLI
 claude                     # new login flow
 
 # Use multiple providers in parallel — controlled via env vars:
 ANTHROPIC_API_KEY=sk-ant-... claude
 CLAUDE_CODE_USE_BEDROCK=1 claude
+CLAUDE_CODE_USE_VERTEX=1 claude
 </CommandBox>
+
+If `ANTHROPIC_API_KEY` is set, it takes precedence over subscription login. For strange auth failures: `unset ANTHROPIC_API_KEY`, then check `/status`.
 
 ## Token tracking
 
 <CommandBox lang="bash">
 /cost                      # in a running session: what did this run cost?
 /usage                     # overview of session usage
+/status                    # active account, model, provider
 </CommandBox>
 
 <NoteCard variant="warning">
@@ -75,7 +91,7 @@ CLAUDE_CODE_USE_BEDROCK=1 claude
 
 <SpeakerNotes>
 <I18n
-  de="Wichtig: bei Enterprise-Kunden Compliance-Story sauber spielen — Bedrock/Vertex erlaubt eigene Region, eigene Logging-Pipeline, kein Anthropic-Default-Logging. Claude Pro/Max für Workshop-TN ist meistens die einfachste Wahl. CIO-Konversation: Cost-Cap pro User über Anthropic Console + Slack-Alert empfehlen."
-  en="Important: with enterprise clients, play the compliance story straight — Bedrock/Vertex allows own region, own logging pipeline, no Anthropic-default logging. Claude Pro/Max is usually easiest for workshop participants. CIO conversation: recommend cost cap per user via Anthropic Console + Slack alert."
+  de="Wichtig: bei Enterprise-Kunden Compliance-Story sauber spielen — Bedrock/Vertex/Foundry haben Provider-Auth und andere Telemetrie-Defaults, aber Region/Logging muss konkret konfiguriert und geprüft werden. Claude Pro/Max für Workshop-TN ist meistens die einfachste Wahl. CIO-Konversation: Cost-Cap pro User über Console/Provider + Alerting empfehlen."
+  en="Important: with enterprise clients, play the compliance story straight — Bedrock/Vertex/Foundry have provider auth and different telemetry defaults, but region/logging must be configured and verified. Claude Pro/Max is usually easiest for workshop participants. CIO conversation: recommend per-user cost caps via Console/provider + alerting."
 />
 </SpeakerNotes>

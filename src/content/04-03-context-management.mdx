@@ -2,10 +2,11 @@
 title:
   de: "Kontext-Management"
   en: "Context Management"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
-  - https://code.claude.com/docs/en/best-practices
-  - https://www.augmentcode.com/guides/claude-code-spec-driven-development
+  - https://code.claude.com/docs/en/memory
+  - https://code.claude.com/docs/en/slash-commands
+  - https://code.claude.com/docs/en/sub-agents
 ---
 
 # <I18n de="Kontext kuratieren" en="Curate Your Context" />
@@ -19,7 +20,7 @@ sources:
 
 | Schicht | Quelle | Wann geladen | Überlebt `/clear`? |
 |---|---|---|---|
-| **System-Prompt** | `~/.claude/CLAUDE.md` + `./CLAUDE.md` | Session-Start, nach jeder Compaction | ja |
+| **Instructions** | `~/.claude/CLAUDE.md` + `./CLAUDE.md` + `.claude/rules/` | Session-Start, teils lazy bei Pfad-Regeln, nach Compaction | ja |
 | **Auto Memory** *(v2.1.59+)* | `~/.claude/projects/<project>/memory/MEMORY.md` | Session-Start (200 Zeilen / 25 KB) | ja |
 | **Working Memory** | `Read`-Calls, vorherige Tool-Outputs | im Verlauf der Session | nein |
 | **On-Demand** | Subagent-Calls, MCP-Reads, Skill-Loads | bei Bedarf, eigener Context | n/a |
@@ -66,7 +67,7 @@ Claude: [liest exakt was es braucht, schreibt, testet]
 
 | Layer | Source | When loaded | Survives `/clear`? |
 |---|---|---|---|
-| **System prompt** | `~/.claude/CLAUDE.md` + `./CLAUDE.md` | Session start, after every compaction | yes |
+| **Instructions** | `~/.claude/CLAUDE.md` + `./CLAUDE.md` + `.claude/rules/` | Session start, partly lazy for path rules, after compaction | yes |
 | **Auto memory** *(v2.1.59+)* | `~/.claude/projects/<project>/memory/MEMORY.md` | Session start (200 lines / 25 KB) | yes |
 | **Working memory** | `Read` calls, previous tool outputs | During the session | no |
 | **On-demand** | Subagent calls, MCP reads, skill loads | As needed, separate context | n/a |

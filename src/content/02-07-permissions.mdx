@@ -2,10 +2,11 @@
 title:
   de: "Permissions & sichere Defaults"
   en: "Permissions & Safe Defaults"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
-  - https://code.claude.com/docs/en/best-practices
-  - https://blakecrosley.com/guides/claude-code
+  - https://code.claude.com/docs/en/permissions
+  - https://code.claude.com/docs/en/permission-modes
+  - https://code.claude.com/docs/en/settings
 ---
 
 # <I18n de="Permissions" en="Permissions" />
@@ -47,20 +48,35 @@ Claude Code fragt **bei jedem ungewohnten Tool-Call** nach Freigabe. Die wichtig
 
 ## Modi
 
-- **Default** — fragt bei kritischen Operationen
-- **Auto-edit** (`--auto-edit`) — Edits ohne Rückfrage, Shell weiterhin bestätigt
-- **YOLO** (`--dangerously-skip-permissions`) — alles ohne Rückfrage; **nur in Sandbox/Container**
+| Modus | Was läuft ohne Nachfrage | Wann sinnvoll |
+|---|---|---|
+| **default** | Lesen | Start, sensible Repos |
+| **acceptEdits** | Lesen, Edits, einfache Filesystem-Commands | Iteration an Code, den ihr live reviewt |
+| **plan** | Lesen + read-only Shell | Analyse vor Änderungen |
+| **auto** | Vieles, mit Safety-Checks | Lange Tasks, weniger Prompt-Fatigue |
+| **dontAsk** | Nur vorab erlaubte Tools | CI / locked-down Umgebungen |
+| **bypassPermissions** | Fast alles | Nur isolierte Container/VMs |
+
+<CommandBox lang="bash">
+claude --permission-mode plan
+claude --permission-mode acceptEdits
+claude --permission-mode bypassPermissions
+
+# alter Alias für bypassPermissions:
+claude --dangerously-skip-permissions
+</CommandBox>
 
 <NoteCard variant="warning" title="Sicherheits-Faustregel">
-YOLO-Mode **niemals** auf produktiven Repos oder mit persönlichen Secrets. Wenn ihr ihn nutzt: in Container/Devcontainer mit klar abgegrenztem Volume.
+Bypass/YOLO-Mode **niemals** auf produktiven Repos oder mit persönlichen Secrets. Wenn ihr ihn nutzt: in Container/Devcontainer mit klar abgegrenztem Volume.
 </NoteCard>
 
 ## Empfohlene Team-Settings
 
 - **Lese-Tools** auto-allow im Repo
-- **Tests / Linter** auto-allow (ungefährlich, hoher Frequenz)
+- **Tests / Linter** auto-allow (geringes Risiko, hohe Frequenz)
 - **Git-Commands** auto-allow für `status`, `diff`, `log`; **immer bestätigen** für `push`, `reset --hard`
-- **Curl / Wget / sudo** explizit deny
+- **Curl / Wget / sudo** explizit deny oder ask
+- **Sensitive Files** explizit deny: `Read(./.env)`, `Read(./.env.*)`, `Read(./secrets/**)`
 </De>
 
 <En>
@@ -100,12 +116,26 @@ Claude Code asks for approval on **every unfamiliar tool call**. Key tools:
 
 ## Modes
 
-- **Default** — asks on critical ops
-- **Auto-edit** (`--auto-edit`) — edits without prompt, shell still confirmed
-- **YOLO** (`--dangerously-skip-permissions`) — no prompts; **only in sandbox/container**
+| Mode | What runs without asking | Best for |
+|---|---|---|
+| **default** | Reads | Starting out, sensitive repos |
+| **acceptEdits** | Reads, edits, simple filesystem commands | Iterating on code you review live |
+| **plan** | Reads + read-only shell | Analysis before changes |
+| **auto** | Many actions, with safety checks | Long tasks, less prompt fatigue |
+| **dontAsk** | Only pre-approved tools | CI / locked-down environments |
+| **bypassPermissions** | Almost everything | Isolated containers/VMs only |
+
+<CommandBox lang="bash">
+claude --permission-mode plan
+claude --permission-mode acceptEdits
+claude --permission-mode bypassPermissions
+
+# old alias for bypassPermissions:
+claude --dangerously-skip-permissions
+</CommandBox>
 
 <NoteCard variant="warning" title="Safety rule of thumb">
-**Never** use YOLO mode on production repos or with personal secrets. If you do: container/devcontainer with a clearly bounded volume.
+**Never** use bypass/YOLO mode on production repos or with personal secrets. If you do: container/devcontainer with a clearly bounded volume.
 </NoteCard>
 
 ## Recommended team settings
@@ -113,7 +143,8 @@ Claude Code asks for approval on **every unfamiliar tool call**. Key tools:
 - **Read tools** auto-allow in repo
 - **Tests / linters** auto-allow (low risk, high frequency)
 - **Git commands** auto-allow for `status`, `diff`, `log`; **always confirm** for `push`, `reset --hard`
-- **Curl / wget / sudo** explicitly deny
+- **Curl / wget / sudo** explicitly deny or ask
+- **Sensitive files** explicitly deny: `Read(./.env)`, `Read(./.env.*)`, `Read(./secrets/**)`
 </En>
 
 <SpeakerNotes>

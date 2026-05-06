@@ -2,10 +2,11 @@
 title:
   de: "MCP-Server"
   en: "MCP Servers"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
-  - https://alexop.dev/posts/understanding-claude-code-full-stack/
-  - https://dev.to/lizechengnet/how-to-structure-claude-code-for-production-mcp-servers-subagents-and-claudemd-2026-guide-4gjn
+  - https://code.claude.com/docs/en/mcp
+  - https://modelcontextprotocol.io
+  - https://github.com/modelcontextprotocol/servers
 ---
 
 # <I18n de="MCP — Model Context Protocol" en="MCP — Model Context Protocol" />
@@ -32,36 +33,31 @@ sources:
 
 ## Konfiguration
 
-`.claude/settings.json`:
+Empfohlen: `claude mcp add`. Team-geteilte Server landen in `.mcp.json`, persönliche/local-scoped Server in `~/.claude.json`.
 
-<CommandBox lang="json">
-{`{
-  "mcpServers": {
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": { "GITHUB_TOKEN": "$\{GITHUB_TOKEN\}" }
-    },
-    "postgres": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres",
-               "postgres://localhost/myapp"]
-    }
-  }
-}`}
+<CommandBox lang="bash">
+{`# Remote HTTP ist für Cloud-Tools der bevorzugte Transport
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \\
+  --header "Authorization: Bearer $GITHUB_TOKEN"
+
+# Lokaler stdio-Server für direkten Systemzugriff
+claude mcp add --transport stdio postgres --scope project -- \\
+  npx -y @modelcontextprotocol/server-postgres "$DATABASE_READONLY_URL"`}
 </CommandBox>
 
 ## Status prüfen
 
 <CommandBox lang="bash">
 {`/mcp                       # angeschlossene Server + verfügbare Tools
+claude mcp list            # konfigurierte Server
+claude mcp get github      # Details zu einem Server
 
-# Im CLI starten:
-claude --mcp-debug          # zeigt jeden MCP-Call live`}
+# Debug:
+claude --debug "mcp"`}
 </CommandBox>
 
 <NoteCard variant="warning">
-MCP-Server haben oft **breiten Zugriff** (DB, GitHub-Token, Slack). `allowed-tools` pro Skill/Subagent sauber konfigurieren — nicht alles erben lassen.
+MCP-Server haben oft **breiten Zugriff** (DB, GitHub-Token, Slack). Projekt-Server aus `.mcp.json` brauchen Approval; für Enterprise `managed-mcp.json` oder Allow-/Denylisten nutzen.
 </NoteCard>
 </De>
 
@@ -87,42 +83,37 @@ MCP-Server haben oft **breiten Zugriff** (DB, GitHub-Token, Slack). `allowed-too
 
 ## Configuration
 
-`.claude/settings.json`:
+Recommended: `claude mcp add`. Team-shared servers go into `.mcp.json`, personal/local-scoped servers into `~/.claude.json`.
 
-<CommandBox lang="json">
-{`{
-  "mcpServers": {
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": { "GITHUB_TOKEN": "$\{GITHUB_TOKEN\}" }
-    },
-    "postgres": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres",
-               "postgres://localhost/myapp"]
-    }
-  }
-}`}
+<CommandBox lang="bash">
+{`# Remote HTTP is preferred for cloud tools
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \\
+  --header "Authorization: Bearer $GITHUB_TOKEN"
+
+# Local stdio server for direct system access
+claude mcp add --transport stdio postgres --scope project -- \\
+  npx -y @modelcontextprotocol/server-postgres "$DATABASE_READONLY_URL"`}
 </CommandBox>
 
 ## Inspect status
 
 <CommandBox lang="bash">
 {`/mcp                       # connected servers + available tools
+claude mcp list            # configured servers
+claude mcp get github      # details for one server
 
-# In CLI:
-claude --mcp-debug          # shows every MCP call live`}
+# Debug:
+claude --debug "mcp"`}
 </CommandBox>
 
 <NoteCard variant="warning">
-MCP servers often have **broad access** (DB, GitHub token, Slack). Configure `allowed-tools` per skill/subagent — don't inherit everything.
+MCP servers often have **broad access** (DB, GitHub token, Slack). Project servers from `.mcp.json` require approval; for enterprise use `managed-mcp.json` or allow/deny lists.
 </NoteCard>
 </En>
 
 <SpeakerNotes>
 <I18n
-  de="MCP-Server-Liste explodiert in 2026 — modelcontextprotocol.io hat verzeichnis. Empfehlung: NICHT mehr als 3-4 aktiv haben, sonst Tool-Choice-Overhead. GitHub-MCP ist meist erste Wahl. Postgres-MCP super mächtig, aber Read-Only-Connection-String setzen damit Claude nicht versehentlich DELETE rausfeuert."
-  en="MCP server list is exploding in 2026 — modelcontextprotocol.io has a registry. Tip: don't have more than 3-4 active, else tool-choice overhead. GitHub MCP is usually first pick. Postgres MCP super powerful — set a read-only connection string so Claude can't accidentally fire DELETE."
+  de="MCP-Server-Liste explodiert in 2026 — modelcontextprotocol.io hat ein Verzeichnis. Tool Search lädt MCP-Tools inzwischen deferred/on-demand; trotzdem nicht zu viele Server aktivieren. GitHub-MCP ist meist erste Wahl. Postgres-MCP super mächtig, aber Read-Only-Connection-String setzen damit Claude nicht versehentlich DELETE rausfeuert."
+  en="The MCP server list is exploding in 2026 — modelcontextprotocol.io has a directory. Tool Search now loads MCP tools deferred/on-demand; still avoid enabling too many servers. GitHub MCP is usually first pick. Postgres MCP is powerful, but set a read-only connection string so Claude can't accidentally fire DELETE."
 />
 </SpeakerNotes>

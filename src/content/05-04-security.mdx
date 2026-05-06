@@ -5,6 +5,9 @@ title:
 researchedOn: 2026-05-06
 sources:
   - https://code.claude.com/docs/en/memory
+  - https://code.claude.com/docs/en/settings
+  - https://code.claude.com/docs/en/data-usage
+  - https://code.claude.com/docs/en/permission-modes
 ---
 
 # <I18n de="Security" en="Security" />
@@ -26,6 +29,7 @@ sources:
 `.claude/settings.json`:
 - **Allow** häufige sichere Commands (`git status`, `npm test`)
 - **Deny** zerstörerische Patterns (`rm -rf`, `git push --force`, `curl | sh`)
+- **Deny** sensible Reads (`Read(./.env)`, `Read(./.env.*)`, `Read(./secrets/**)`)
 - Nichts auto-allow, was Internet-Zugriff oder Production-State berührt
 
 ### 3. MCP-Server mit minimalen Privilegien
@@ -36,15 +40,16 @@ sources:
 
 ### 4. Sandbox für „YOLO"-Workflows
 
-Wenn ihr `--dangerously-skip-permissions` braucht:
+Wenn ihr `bypassPermissions` / `--dangerously-skip-permissions` braucht:
 - **Devcontainer** mit klar abgegrenztem Volume
 - **Keine** Mount des Host-`~/.ssh` oder `~/.aws`
 - Network-Policy: ausgehend nur whitelisted Domains
 
 ### 5. Audit-Logging
 
-- Bei Enterprise-Setup: Bedrock/Vertex Logging einschalten — alle Prompts + Responses landen in eurem Log-Stream
-- DSGVO: Personenbezogene Daten **nicht** an Hosted-LLMs schicken (oder DPA + Region prüfen)
+- Bei Enterprise-Setup: Provider-Logging/Monitoring bewusst konfigurieren — nicht annehmen, dass es automatisch passend aktiv ist
+- Bedrock/Vertex/Foundry haben Error Reporting/Telemetry standardmäßig anders konfiguriert als die Claude API; Surveys separat deaktivieren falls nötig
+- DSGVO: Personenbezogene Daten **nicht** an Hosted-LLMs schicken (oder DPA + Region/ZDR prüfen)
 
 ### 6. Auto-Memory-Privacy
 
@@ -54,6 +59,12 @@ Wenn ihr `--dangerously-skip-permissions` braucht:
 - **Disable** via `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` oder `autoMemoryEnabled: false` in Settings
 - **Periodisch auditieren:** `/memory` öffnen, durchschauen, irrelevante Notizen löschen
 - **Backup-Strategie:** wer Auto Memory zwischen Maschinen sync'en will, braucht eigenen Mechanismus (Stow, Syncthing) — vorsichtig mit Multi-User-Maschinen
+
+### 7. Lokale Transkripte
+
+- Claude Code speichert lokale Session-Daten für Resume unter `~/.claude/projects/`
+- Diese Daten sind praktisch, aber ebenfalls lokal lesbar
+- Auf Shared Machines: Cleanup-Policy (`cleanupPeriodDays`) und Disk-Verschlüsselung klären
 
 <NoteCard variant="warning" title="Praxis-Inzident">
 Real-Story: Dev hat AWS-Credentials in CLAUDE.md geschrieben „nur kurz zum Testen". CLAUDE.md committed, Push, Public Repo. 8 Stunden später: $4k Bitcoin-Mining-Bill. Lesson: Secrets gehören NICHT in Files.
@@ -77,6 +88,7 @@ Real-Story: Dev hat AWS-Credentials in CLAUDE.md geschrieben „nur kurz zum Tes
 `.claude/settings.json`:
 - **Allow** common safe commands (`git status`, `npm test`)
 - **Deny** destructive patterns (`rm -rf`, `git push --force`, `curl | sh`)
+- **Deny** sensitive reads (`Read(./.env)`, `Read(./.env.*)`, `Read(./secrets/**)`)
 - Nothing auto-allow that touches internet or production state
 
 ### 3. MCP servers with minimal privileges
@@ -87,15 +99,16 @@ Real-Story: Dev hat AWS-Credentials in CLAUDE.md geschrieben „nur kurz zum Tes
 
 ### 4. Sandbox for YOLO workflows
 
-If you need `--dangerously-skip-permissions`:
+If you need `bypassPermissions` / `--dangerously-skip-permissions`:
 - **Devcontainer** with a bounded volume
 - **No** mount of host `~/.ssh` or `~/.aws`
 - Network policy: outbound only to whitelisted domains
 
 ### 5. Audit logging
 
-- Enterprise: enable Bedrock/Vertex logging — all prompts + responses in your log stream
-- GDPR: do **not** send personal data to hosted LLMs (or check DPA + region)
+- Enterprise: configure provider logging/monitoring deliberately — do not assume it is automatically right
+- Bedrock/Vertex/Foundry have different default error-reporting/telemetry behavior than the Claude API; disable surveys separately if needed
+- GDPR: do **not** send personal data to hosted LLMs (or check DPA + region/ZDR)
 
 ### 6. Auto-memory privacy
 
@@ -106,6 +119,12 @@ If you need `--dangerously-skip-permissions`:
 - **Audit periodically:** open `/memory`, browse, delete irrelevant notes
 - **Backup strategy:** want auto memory synced across machines? roll your own (Stow, Syncthing) — careful on multi-user boxes
 
+### 7. Local transcripts
+
+- Claude Code stores local session data for resume under `~/.claude/projects/`
+- This is useful, but also locally readable
+- On shared machines: clarify cleanup policy (`cleanupPeriodDays`) and disk encryption
+
 <NoteCard variant="warning" title="Real incident">
 True story: dev wrote AWS credentials into CLAUDE.md "just to test". CLAUDE.md committed, push, public repo. 8 hours later: $4k bitcoin mining bill. Lesson: secrets do NOT go in files.
 </NoteCard>
@@ -113,7 +132,7 @@ True story: dev wrote AWS credentials into CLAUDE.md "just to test". CLAUDE.md c
 
 <SpeakerNotes>
 <I18n
-  de="Bei Enterprise-Kunden Compliance ausführlicher behandeln — Bedrock-Logging + DPA-Status der Anthropic-API in EU-Region. EU-AI-Act-Stand 2026: KI-Coding-Tools sind aktuell als 'limited risk' eingestuft, das kann sich ändern."
-  en="With enterprise clients, treat compliance in more depth — Bedrock logging + DPA status of Anthropic API in EU region. EU AI Act status 2026: AI coding tools currently classified as 'limited risk', which may change."
+  de="Bei Enterprise-Kunden Compliance ausführlicher behandeln — Provider-Logging, DPA/ZDR-Status, Region und lokale Transkripte getrennt prüfen. EU-AI-Act nicht pauschal als 'limited risk' verkaufen; Einsatzkontext entscheidet."
+  en="With enterprise clients, treat compliance in more depth — check provider logging, DPA/ZDR status, region, and local transcripts separately. Don't sell EU AI Act status as generically 'limited risk'; deployment context decides."
 />
 </SpeakerNotes>

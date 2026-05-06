@@ -2,10 +2,10 @@
 title:
   de: "Was sind Skills?"
   en: "What Are Skills?"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
-  - https://alexop.dev/posts/understanding-claude-code-full-stack/
-  - https://blakecrosley.com/guides/claude-code
+  - https://code.claude.com/docs/en/slash-commands
+  - https://agentskills.io
 ---
 
 # <I18n de="Skills" en="Skills" />
@@ -16,7 +16,7 @@ sources:
 Ein **Skill** ist ein wiederverwendbares Stück „Wissen + Werkzeug" für Claude Code:
 
 - Ein **Verzeichnis** mit einer `SKILL.md` + optionalen Helper-Files
-- Frontmatter beschreibt **wann** der Skill greift (Trigger-Keywords)
+- Frontmatter beschreibt **wann** der Skill greift (`description`) und wer ihn auslösen darf
 - Body beschreibt **wie** Claude vorgehen soll
 - Optional: Scripts, Templates, Beispiele
 
@@ -33,6 +33,7 @@ Ein **Skill** ist ein wiederverwendbares Stück „Wissen + Werkzeug" für Claud
 - **Auto-Invoke:** Frontmatter `description` matcht User-Anfrage → Claude lädt Skill automatisch
 - **Manuell:** `/<skill-name>` als Slash Command
 - **Über andere Skill:** ein Skill kann andere referenzieren
+- **Manual only:** `disable-model-invocation: true` für Workflows mit Side Effects
 
 ## Beispiel — `daily-standup`
 
@@ -54,7 +55,7 @@ description: Generate a daily standup summary from recent git activity.
 </CommandBox>
 
 <NoteCard variant="tip">
-**2026-Update:** Skills haben Slash Commands ersetzt als empfohlene Mechanik. Beides funktioniert noch, aber neu starten: Skills.
+**2026-Update:** Custom Slash Commands wurden in Skills integriert. `.claude/commands/` funktioniert weiter; für neue Routinen `.claude/skills/` verwenden.
 </NoteCard>
 </De>
 
@@ -64,7 +65,7 @@ description: Generate a daily standup summary from recent git activity.
 A **skill** is a reusable piece of "knowledge + tooling" for Claude Code:
 
 - A **folder** with a `SKILL.md` + optional helper files
-- Frontmatter describes **when** the skill triggers (keywords)
+- Frontmatter describes **when** the skill triggers (`description`) and who may invoke it
 - Body describes **how** Claude should proceed
 - Optional: scripts, templates, examples
 
@@ -81,6 +82,7 @@ A **skill** is a reusable piece of "knowledge + tooling" for Claude Code:
 - **Auto-invoke:** frontmatter `description` matches user query → Claude loads skill automatically
 - **Manual:** `/<skill-name>` as slash command
 - **From other skills:** a skill can reference others
+- **Manual only:** `disable-model-invocation: true` for workflows with side effects
 
 ## Example — `daily-standup`
 
@@ -102,7 +104,7 @@ description: Generate a daily standup summary from recent git activity.
 </CommandBox>
 
 <NoteCard variant="tip">
-**2026 update:** Skills replaced slash commands as the recommended mechanic. Both still work, but go forward with skills.
+**2026 update:** Custom slash commands were merged into skills. `.claude/commands/` still works; use `.claude/skills/` for new routines.
 </NoteCard>
 </En>
 

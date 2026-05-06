@@ -4,9 +4,8 @@ title:
   en: "How LLMs Think"
 researchedOn: 2026-05-06
 sources:
-  - https://code.claude.com/docs/en/best-practices
   - https://code.claude.com/docs/en/memory
-  - https://addyosmani.com/blog/good-spec/
+  - https://code.claude.com/docs/en/model-config
 ---
 
 # <I18n de="Mentalmodell: Wie Claude Code denkt" en="Mental Model: How Claude Code Thinks" />
@@ -17,7 +16,7 @@ sources:
 ### 1. Token & Kontextfenster
 
 - LLMs „lesen" und „schreiben" in **Tokens** (≈ ¾ Wort)
-- Claude 4.6 Opus hat **bis zu 1 Mio Tokens** Kontext, Sonnet 4.6 200k
+- Opus 4.7, Opus 4.6 und Sonnet 4.6 können **bis zu 1 Mio Tokens** Kontext unterstützen — abhängig von Plan und Provider
 - **Alles, was im Kontext liegt, kostet Geld + Zeit + Aufmerksamkeit**
 - → „Mehr Kontext rein" ist nicht automatisch besser
 
@@ -28,7 +27,7 @@ sources:
 
 | Schicht | Wer schreibt | Wann geladen |
 |---|---|---|
-| **System-Prompt + CLAUDE.md** | Du | Jeder Session-Start, voll |
+| **CLAUDE.md + Rules** | Du | Jeder Session-Start bzw. lazy bei Pfad-Regeln |
 | **Auto Memory** *(NEU ab v2.1.59)* | **Claude selbst** | Jeder Session-Start, erste 200 Zeilen / 25 KB |
 | **Working Memory** | Tool-Outputs, `Read`-Calls | Im Verlauf der Session |
 | **On-Demand** | Subagents, MCP-Reads, Skills | Bei Bedarf, eigener Context |
@@ -66,7 +65,7 @@ Auto Memory ist standardmäßig **on ab Claude Code v2.1.59**. `claude --version
 ### 1. Tokens & context window
 
 - LLMs "read" and "write" in **tokens** (≈ ¾ of a word)
-- Claude 4.6 Opus has **up to 1M tokens** of context, Sonnet 4.6 200k
+- Opus 4.7, Opus 4.6, and Sonnet 4.6 can support **up to 1M tokens** of context — depending on plan and provider
 - **Everything in the context costs money + time + attention**
 - → "More context in" is not automatically better
 
@@ -77,7 +76,7 @@ Auto Memory ist standardmäßig **on ab Claude Code v2.1.59**. `claude --version
 
 | Layer | Who writes | When loaded |
 |---|---|---|
-| **System prompt + CLAUDE.md** | You | Every session start, full |
+| **CLAUDE.md + Rules** | You | Every session start or lazily for path rules |
 | **Auto Memory** *(NEW since v2.1.59)* | **Claude itself** | Every session start, first 200 lines / 25 KB |
 | **Working memory** | Tool outputs, `Read` calls | During the session |
 | **On-demand** | Subagents, MCP reads, skills | As needed, separate context |

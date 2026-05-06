@@ -2,9 +2,10 @@
 title:
   de: "SKILL.md & Trigger"
   en: "SKILL.md & Triggers"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
-  - https://blakecrosley.com/guides/claude-code
+  - https://code.claude.com/docs/en/slash-commands
+  - https://code.claude.com/docs/en/agent-sdk/skills
 ---
 
 # <I18n de="Anatomie eines Skills" en="Anatomy of a Skill" />
@@ -33,7 +34,7 @@ allowed-tools:
   - Bash(gh pr view *)
   - Bash(gh pr diff *)
   - Read
-  - Write
+disable-model-invocation: true
 ---
 
 # PR Review Skill
@@ -56,11 +57,13 @@ Post structured review via \`gh pr review\`.`}
 |---|---|---|
 | `name` | ✓ | Skill-ID, auch Slash-Command-Name |
 | `description` | ✓ | Trigger-Text — sollte typische User-Anfragen enthalten |
-| `allowed-tools` | optional | Whitelist Tools, sonst geerbt |
-| `model` | optional | erzwingt z.B. `opus-4-7` für diesen Skill |
+| `allowed-tools` | optional | Erlaubt diese Tools ohne per-use Approval, wenn Skill aktiv ist |
+| `disable-model-invocation` | optional | verhindert Auto-Invoke; nur User kann `/<skill>` starten |
+| `user-invocable` | optional | `false` = nur Claude kann den Skill nutzen |
+| `model` | optional | Modell-Hinweis für diesen Skill, wenn unterstützt |
 
 <NoteCard variant="tip" title="Goldene Regel für Trigger">
-Im `description` nicht nur sagen WAS der Skill tut, sondern auch HOW USERS ASK. Beispiele in Anführungszeichen, mehrere Sprachen wenn ihr DE+EN unterstützt.
+Im `description` nicht nur sagen WAS der Skill tut, sondern auch HOW USERS ASK. Für Deploy/Commit/Slack-Post: `disable-model-invocation: true`.
 </NoteCard>
 </De>
 
@@ -88,7 +91,7 @@ allowed-tools:
   - Bash(gh pr view *)
   - Bash(gh pr diff *)
   - Read
-  - Write
+disable-model-invocation: true
 ---
 
 # PR Review Skill
@@ -111,17 +114,19 @@ Post a structured review via \`gh pr review\`.`}
 |---|---|---|
 | `name` | ✓ | Skill ID, also slash-command name |
 | `description` | ✓ | Trigger text — should contain typical user phrasings |
-| `allowed-tools` | optional | Tool whitelist, else inherited |
-| `model` | optional | Force a model, e.g. `opus-4-7` |
+| `allowed-tools` | optional | Grants these tools without per-use approval while the skill is active |
+| `disable-model-invocation` | optional | prevents auto-invoke; only the user can run `/<skill>` |
+| `user-invocable` | optional | `false` = only Claude can use the skill |
+| `model` | optional | model hint for this skill, when supported |
 
 <NoteCard variant="tip" title="Golden rule for triggers">
-In `description` don't just say WHAT the skill does, also HOW USERS ASK. Quote examples, multiple languages if you support DE+EN.
+In `description` don't just say WHAT the skill does, also HOW USERS ASK. For deploy/commit/Slack-post workflows: `disable-model-invocation: true`.
 </NoteCard>
 </En>
 
 <SpeakerNotes>
 <I18n
-  de="$ARGUMENTS hervorheben — das ist die User-Eingabe nach `/pr-review 42`. allowed-tools ist Sicherheits-Hebel: nur die nötigen Tools, nicht alles erben. Live: Skill installieren via cp ins .claude/skills, dann /skills aufrufen, Trigger sollte sichtbar sein."
-  en="Highlight $ARGUMENTS — that's the user input after `/pr-review 42`. allowed-tools is a security lever: only needed tools, not inherit everything. Live: install skill via cp into .claude/skills, then run /skills, trigger should be visible."
+  de="$ARGUMENTS hervorheben — das ist die User-Eingabe nach `/pr-review 42`. allowed-tools ist Convenience + Risiko: es reduziert Prompts für genau diese Tools, ersetzt aber kein Permission-Design. Live: Skill installieren via cp ins .claude/skills, dann /skills aufrufen, Trigger sollte sichtbar sein."
+  en="Highlight $ARGUMENTS — that's the user input after `/pr-review 42`. allowed-tools is convenience + risk: it reduces prompts for exactly these tools, but it is not a replacement for permission design. Live: install skill via cp into .claude/skills, then run /skills, trigger should be visible."
 />
 </SpeakerNotes>

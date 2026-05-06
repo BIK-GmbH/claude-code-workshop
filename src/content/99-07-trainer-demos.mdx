@@ -50,11 +50,13 @@ git add . && git commit -q -m "add demo code"`}
 
 <DemoBox step={1} title="Install + Doctor" lang="bash">
 {`# Install
-npm install -g @anthropic-ai/claude-code
+curl -fsSL https://claude.ai/install.sh | bash
 
 # Sanity-Check
 claude --version
-claude doctor`}
+claude
+# In der Session:
+# > /doctor`}
 </DemoBox>
 
 <DemoBox step={2} title="Erste Session + /init" lang="bash" context="Im ~/demo-repo starten.">
@@ -102,7 +104,10 @@ git add CLAUDE.md && git commit -m "docs: add CLAUDE.md"`}
     "deny": [
       "Bash(rm -rf *)",
       "Bash(git push --force *)",
-      "Bash(curl * | sh)"
+      "Bash(curl * | sh)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)"
     ]
   }
 }`}
@@ -210,30 +215,20 @@ git add .claude/agents/ && git commit -m "feat(agents): add code-reviewer"`}
 
 ## <I18n de="Modul 3 — MCP-Server" en="Module 3 — MCP servers" />
 
-<DemoBox step={9} title="GitHub-MCP konfigurieren" lang="json" context=".claude/settings.json (mcpServers-Block hinzufügen).">
-{`{
-  "mcpServers": {
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": { "GITHUB_TOKEN": "$GITHUB_TOKEN" }
-    },
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y", "@modelcontextprotocol/server-filesystem",
-        "/Users/chris/demo-repo"
-      ]
-    }
-  }
-}`}
+<DemoBox step={9} title="GitHub-MCP konfigurieren" lang="bash" context="Per CLI konfigurieren; project-scope schreibt .mcp.json.">
+{`claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \\
+  --header "Authorization: Bearer $GITHUB_TOKEN" \\
+  --scope project
+
+claude mcp list`}
 </DemoBox>
 
 <DemoBox step={10} title="MCP-Status prüfen" lang="text" context="In Claude-Session.">
 {`/mcp                       # angeschlossene Server + Tool-Liste
+claude mcp get github
 
 # Falls debug nötig:
-# claude --mcp-debug starten`}
+# claude --debug "mcp" starten`}
 </DemoBox>
 
 ---
@@ -285,7 +280,7 @@ git add docs/specs/ && git commit -m "docs: add email-login spec"`}
 </DemoBox>
 
 <DemoBox step={12} title="Plan generieren" lang="text" context="Plan-Mode (Shift+Tab) + Spec referenzieren.">
-{`claude --plan
+{`claude --permission-mode plan
 
 > Lies docs/specs/email-login.md.
 > Erstelle einen Implementierungsplan mit nummerierten Schritten,
@@ -357,7 +352,7 @@ chmod +x .git/hooks/pre-commit`}
 ## <I18n de="Modul 6 — Workflow" en="Module 6 — Workflow" />
 
 <DemoBox step={16} title="Vollständiger Spec → Plan → Code Cycle" lang="text" context="In einer Session, ohne Unterbrechung.">
-{`claude --plan
+{`claude --permission-mode plan
 
 > Aufgabe: Füge der get_user_by_id-Funktion in src/users.py einen
 > Cache-Decorator hinzu. Cache-Größe 100, LRU.

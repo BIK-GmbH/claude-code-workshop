@@ -2,7 +2,11 @@
 title:
   de: "Cheat-Sheet: CLI"
   en: "Cheat Sheet: CLI"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
+sources:
+  - https://code.claude.com/docs/en/cli-reference
+  - https://code.claude.com/docs/en/commands
+  - https://code.claude.com/docs/en/permission-modes
 ---
 
 # <I18n de="CLI Cheat-Sheet" en="CLI Cheat Sheet" />
@@ -12,11 +16,11 @@ researchedOn: 2026-05-04
 
 <CommandBox lang="bash">
 {`claude                       # interaktive Session starten
-claude --plan                # direkt im Plan Mode starten
-claude --auto-edit           # Edits ohne Rückfrage
-claude --continue            # vorherige Session fortsetzen
+claude --permission-mode plan        # direkt im Plan Mode starten
+claude --permission-mode acceptEdits # Edits ohne Rückfrage
+claude --continue            # vorherige Session fortsetzen (-c)
 claude --resume <session-id> # spezifische Session laden
-claude --logout              # Auth zurücksetzen`}
+claude auth logout           # Auth zurücksetzen`}
 </CommandBox>
 
 ## In der Session
@@ -33,7 +37,7 @@ claude --logout              # Auth zurücksetzen`}
 /agents                      # verfügbare Subagents
 /mcp                         # MCP-Server-Status
 /init                        # CLAUDE.md generieren
-/review                      # Pull Request reviewen
+/ultrareview                 # tiefer Multi-Agent-Review
 /<skill-name>                # eigenen Skill starten`}
 </CommandBox>
 
@@ -62,11 +66,11 @@ NO_COLOR=1                             # für CI/Logs`}
 
 <CommandBox lang="bash">
 {`# Einmaliger Lauf, kein interaktives Prompt
-claude -p "review the diff and fix critical bugs only" --output-format=text
+claude -p "review the diff and fix critical bugs only" --output-format text
 
 # In GitHub Actions:
 - name: Code review
-  run: claude -p "review PR #$\{\{ github.event.number \}\}" --no-stream`}
+  run: claude -p "review PR #$\{\{ github.event.number \}\}" --output-format text`}
 </CommandBox>
 </De>
 
@@ -75,11 +79,11 @@ claude -p "review the diff and fix critical bugs only" --output-format=text
 
 <CommandBox lang="bash">
 {`claude                       # start interactive session
-claude --plan                # start directly in plan mode
-claude --auto-edit           # edits without prompt
-claude --continue            # resume last session
+claude --permission-mode plan        # start directly in plan mode
+claude --permission-mode acceptEdits # edits without prompt
+claude --continue            # resume last session (-c)
 claude --resume <session-id> # load specific session
-claude --logout              # reset auth`}
+claude auth logout           # reset auth`}
 </CommandBox>
 
 ## Inside the session
@@ -96,7 +100,7 @@ claude --logout              # reset auth`}
 /agents                      # available subagents
 /mcp                         # MCP server status
 /init                        # generate CLAUDE.md
-/review                      # review pull request
+/ultrareview                 # deep multi-agent review
 /<skill-name>                # run a skill`}
 </CommandBox>
 
@@ -129,6 +133,6 @@ claude -p "review the diff and fix critical bugs only" --output-format=text
 
 # In GitHub Actions:
 - name: Code review
-  run: claude -p "review PR #$\{\{ github.event.number \}\}" --no-stream`}
+  run: claude -p "review PR #$\{\{ github.event.number \}\}" --output-format text`}
 </CommandBox>
 </En>

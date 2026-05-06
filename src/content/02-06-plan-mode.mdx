@@ -2,10 +2,11 @@
 title:
   de: "Plan Mode"
   en: "Plan Mode"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
-  - https://code.claude.com/docs/en/best-practices
-  - https://www.datacamp.com/tutorial/claude-code-best-practices
+  - https://code.claude.com/docs/en/permission-modes
+  - https://code.claude.com/docs/en/commands
+  - https://code.claude.com/docs/en/cli-reference
 ---
 
 # <I18n de="Plan Mode" en="Plan Mode" />
@@ -14,7 +15,7 @@ sources:
 ## Was ist Plan Mode?
 
 - **Read-only-Modus** — Claude analysiert, plant, aber **schreibt nichts**
-- Toggle: **Shift+Tab** in der Session, oder Start mit `claude --plan`
+- Toggle: **Shift+Tab** in der Session, `/plan <task>` oder Start mit `claude --permission-mode plan`
 - Output: ein vollständiger Implementierungsplan, den ihr **freigebt** bevor Code entsteht
 
 ## Wann nutzen?
@@ -29,11 +30,7 @@ sources:
 
 ## Wie es kostentechnisch hilft
 
-> Plan Mode halves token consumption by reducing back-and-forth generation.
-
-— Anthropic Best Practices, 2026
-
-Statt 10 Edits + 10 Reverts → 1 sauberer Plan + 1 atomare Implementierung.
+Plan Mode spart nicht automatisch in jedem Run Tokens. Er reduziert aber teure Fehlversuche: statt 10 Edits + 10 Reverts → 1 sauberer Plan + 1 atomare Implementierung.
 
 ## Workflow-Beispiel
 
@@ -61,7 +58,7 @@ Statt 10 Edits + 10 Reverts → 1 sauberer Plan + 1 atomare Implementierung.
 ## What is plan mode?
 
 - **Read-only mode** — Claude analyses, plans, but **writes nothing**
-- Toggle: **Shift+Tab** in session, or start with `claude --plan`
+- Toggle: **Shift+Tab** in session, `/plan <task>`, or start with `claude --permission-mode plan`
 - Output: a full implementation plan that you **approve** before code happens
 
 ## When to use
@@ -76,11 +73,7 @@ Statt 10 Edits + 10 Reverts → 1 sauberer Plan + 1 atomare Implementierung.
 
 ## How it helps cost-wise
 
-> Plan mode halves token consumption by reducing back-and-forth generation.
-
-— Anthropic Best Practices, 2026
-
-Instead of 10 edits + 10 reverts → 1 clean plan + 1 atomic implementation.
+Plan mode does not automatically reduce tokens in every run. It reduces expensive false starts: instead of 10 edits + 10 reverts → 1 clean plan + 1 atomic implementation.
 
 ## Workflow example
 

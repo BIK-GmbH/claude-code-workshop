@@ -4,8 +4,9 @@ title:
   en: "Installation"
 researchedOn: 2026-05-04
 sources:
-  - https://code.claude.com/docs/en/best-practices
-  - https://petronellatech.com/blog/claude-code-cli-guide/
+  - https://code.claude.com/docs/en/setup
+  - https://code.claude.com/docs/en/overview
+  - https://code.claude.com/docs/en/authentication
 ---
 
 # <I18n de="Claude Code installieren" en="Install Claude Code" />
@@ -13,15 +14,24 @@ sources:
 <De>
 ## Voraussetzungen
 
-- **Node.js 20+** (LTS empfohlen) — `node -v`
-- **Git** und Terminal-Zugang
-- macOS / Linux nativ; Windows via **WSL2**
+- **macOS 13+**, **Windows 10 1809+**, **Ubuntu 20.04+**, **Debian 10+** oder **Alpine 3.19+**
+- **Terminal-Zugang** mit Bash, Zsh, PowerShell oder CMD
+- **Git** empfohlen; auf nativem Windows **Git for Windows**, damit Claude das Bash-Tool nutzen kann
+- **Node.js nur noch für npm-Fallbacks** nötig, nicht für den empfohlenen Native Installer
 
 ## Installation
 
 <CommandBox lang="bash">
+curl -fsSL https://claude.ai/install.sh | bash
+
+# macOS Alternative:
+brew install --cask claude-code
+
+# npm nur falls ihr bewusst den Legacy/Fallback-Pfad nutzt:
 npm install -g @anthropic-ai/claude-code
 </CommandBox>
+
+Auf Windows: PowerShell `irm https://claude.ai/install.ps1 | iex`, CMD `curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd`, oder `winget install Anthropic.ClaudeCode`.
 
 ## Erstes Login
 
@@ -39,26 +49,37 @@ Beim ersten Start öffnet sich der Auth-Flow im Browser. Login wahlweise via:
 
 <CommandBox lang="bash">
 claude --version
-claude doctor          # prüft Node, Git, MCP-Server, Auth
+claude
+# in der Session:
+/doctor                # prüft Installation, Settings, MCP, Auth
 </CommandBox>
 
 <NoteCard variant="hint">
-Auf Windows ohne WSL2 habt ihr in 2026 noch viele Edge-Cases. Investiert die 30 Min und setzt WSL2 + Ubuntu auf — spart später Stunden.
+Windows wird nativ unterstützt. WSL2 bleibt sinnvoll, wenn eure Projekte Linux-Toolchains oder Sandbox-Isolation brauchen; für Windows-native Projekte reicht Git for Windows meist aus.
 </NoteCard>
 </De>
 
 <En>
 ## Prerequisites
 
-- **Node.js 20+** (LTS recommended) — `node -v`
-- **Git** and terminal access
-- macOS / Linux native; Windows via **WSL2**
+- **macOS 13+**, **Windows 10 1809+**, **Ubuntu 20.04+**, **Debian 10+**, or **Alpine 3.19+**
+- **Terminal access** with Bash, Zsh, PowerShell, or CMD
+- **Git** recommended; on native Windows use **Git for Windows** so Claude can use the Bash tool
+- **Node.js is only needed for npm fallbacks**, not for the recommended native installer
 
 ## Install
 
 <CommandBox lang="bash">
+curl -fsSL https://claude.ai/install.sh | bash
+
+# macOS alternative:
+brew install --cask claude-code
+
+# npm only if you intentionally use the legacy/fallback path:
 npm install -g @anthropic-ai/claude-code
 </CommandBox>
+
+On Windows: PowerShell `irm https://claude.ai/install.ps1 | iex`, CMD `curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd`, or `winget install Anthropic.ClaudeCode`.
 
 ## First login
 
@@ -76,11 +97,13 @@ The first launch opens the auth flow in your browser. Sign in with:
 
 <CommandBox lang="bash">
 claude --version
-claude doctor          # checks Node, Git, MCP servers, auth
+claude
+# inside the session:
+/doctor                # checks install, settings, MCP, auth
 </CommandBox>
 
 <NoteCard variant="hint">
-On Windows without WSL2 you still hit many edge cases in 2026. Spend the 30 min and set up WSL2 + Ubuntu — saves hours later.
+Windows is supported natively. WSL2 is still useful for Linux toolchains or sandbox isolation; for Windows-native projects, Git for Windows is usually enough.
 </NoteCard>
 </En>
 

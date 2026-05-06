@@ -2,10 +2,11 @@
 title:
   de: "Slash Commands"
   en: "Slash Commands"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
-  - https://computingforgeeks.com/claude-code-cheat-sheet/
-  - https://blakecrosley.com/guides/claude-code
+  - https://code.claude.com/docs/en/commands
+  - https://code.claude.com/docs/en/slash-commands
+  - https://code.claude.com/docs/en/memory
 ---
 
 # <I18n de="Slash Commands" en="Slash Commands" />
@@ -22,7 +23,7 @@ sources:
 | `/model` | Modell wechseln |
 | `/init` | Initiale `CLAUDE.md` für ein Repo generieren |
 | `/memory` | **Auto-Memory** browsen + on/off togglen + CLAUDE.md-Files öffnen *(v2.1.59+)* |
-| `/review` | KI prüft euren ausstehenden Pull Request |
+| `/ultrareview` | tiefer Multi-Agent-Code-Review in Cloud-Sandbox |
 | `/permissions` | Berechtigungs-Übersicht & -Einstellungen |
 | `/skills` | installierte Skills auflisten |
 | `/agents` | verfügbare Subagents |
@@ -33,13 +34,15 @@ sources:
 Seit v2.1.59 schreibt Claude **selbständig** Notizen unter `~/.claude/projects/<project>/memory/`. `/memory` öffnet diese Folder zum Inspizieren oder Editieren. Wer aktiv prüfen will was Claude gespeichert hat: einfach `/memory` aufrufen.
 </NoteCard>
 
-## Eigene Commands (Custom Slash Commands)
+## Eigene Commands = Skills
 
-In `.claude/commands/<name>.md` Markdown-Datei mit YAML-Frontmatter:
+Neue Empfehlung: `.claude/skills/<name>/SKILL.md`. Legacy-Dateien unter `.claude/commands/<name>.md` funktionieren weiter und erzeugen denselben `/name`-Aufruf.
 
 <CommandBox lang="markdown">
 {`---
+name: find-todo
 description: Ungelöste TODOs im Code finden und in Issues umwandeln
+disable-model-invocation: true
 ---
 
 Suche im Repo nach TODO/FIXME-Kommentaren.
@@ -52,7 +55,7 @@ Pro Treffer: erstelle ein GitHub-Issue mit
 Aufruf: `/skill-name` (z.B. `/find-todo`).
 
 <NoteCard variant="hint">
-**2026-Update:** Slash Commands und Skills sind unifiziert. Neue Empfehlung: `.claude/skills/` statt `.claude/commands/` — jeder Skill bekommt automatisch ein Slash-Interface.
+**2026-Update:** Custom Commands wurden in Skills integriert. Skills sind vorzuziehen, weil sie Helper-Files, Invocation-Control und automatische Relevanz-Erkennung besser unterstützen.
 </NoteCard>
 </De>
 
@@ -68,7 +71,7 @@ Aufruf: `/skill-name` (z.B. `/find-todo`).
 | `/model` | Switch model |
 | `/init` | Generate an initial `CLAUDE.md` for a repo |
 | `/memory` | Browse **auto memory** + toggle on/off + open CLAUDE.md files *(v2.1.59+)* |
-| `/review` | AI reviews your pending pull request |
+| `/ultrareview` | deep multi-agent code review in a cloud sandbox |
 | `/permissions` | Permissions overview & settings |
 | `/skills` | List installed skills |
 | `/agents` | Available subagents |
@@ -79,13 +82,15 @@ Aufruf: `/skill-name` (z.B. `/find-todo`).
 Since v2.1.59 Claude **autonomously** writes notes under `~/.claude/projects/<project>/memory/`. `/memory` opens that folder to inspect or edit. To audit what Claude has saved: just run `/memory`.
 </NoteCard>
 
-## Custom commands
+## Custom commands = skills
 
-Markdown file in `.claude/commands/<name>.md` with YAML frontmatter:
+New recommendation: `.claude/skills/<name>/SKILL.md`. Legacy files under `.claude/commands/<name>.md` still work and create the same `/name` invocation.
 
 <CommandBox lang="markdown">
 {`---
+name: find-todo
 description: Find unresolved TODOs and turn them into issues
+disable-model-invocation: true
 ---
 
 Scan the repo for TODO/FIXME comments.
@@ -98,7 +103,7 @@ For each hit: create a GitHub issue with
 Invoke: `/skill-name` (e.g. `/find-todo`).
 
 <NoteCard variant="hint">
-**2026 update:** Slash commands and skills are now unified. New recommendation: `.claude/skills/` instead of `.claude/commands/` — every skill automatically gets a slash interface.
+**2026 update:** Custom commands were merged into skills. Prefer skills because they better support helper files, invocation control, and automatic relevance detection.
 </NoteCard>
 </En>
 

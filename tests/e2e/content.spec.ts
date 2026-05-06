@@ -83,7 +83,7 @@ test.describe("Bilingual coverage", () => {
 test.describe("Sources surface", () => {
   test("slides expose researchedOn date in footer", async ({ page }) => {
     await page.goto("/#/s/01.03");
-    await expect(page.locator("[data-workshop-footer]")).toContainText("2026-05-04");
+    await expect(page.locator("[data-workshop-footer]")).toContainText("2026-05-06");
   });
 
   test("source URLs render as external links", async ({ page }) => {

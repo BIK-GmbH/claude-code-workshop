@@ -2,10 +2,10 @@
 title:
   de: "Subagents"
   en: "Subagents"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-06
 sources:
   - https://code.claude.com/docs/en/sub-agents
-  - https://alexop.dev/posts/understanding-claude-code-full-stack/
+  - https://code.claude.com/docs/en/cli-reference
 ---
 
 # <I18n de="Subagents" en="Subagents" />
@@ -15,8 +15,8 @@ sources:
 
 - **Eigenständige AI-Worker**, die Claude für spezifische Tasks **parallel** spawnen kann
 - Eigenes **Context-Fenster**, eigener **System-Prompt**, eigene **Tool-Whitelist**
-- Bis zu **10 parallele Subagents** (Stand 2026)
-- Returns ein einzelnes Ergebnis-Statement an die Hauptsession
+- Können im Vordergrund blockieren oder im Hintergrund weiterlaufen
+- Rückgabe: komprimiertes Ergebnis an die Hauptsession
 
 ## Wann nutzen?
 
@@ -24,7 +24,8 @@ sources:
 |---|---|
 | Recherche zu einem unbekannten Sub-System | **ja** — `code-explorer`-Agent |
 | Code-Review eines fertigen Features | **ja** — `code-reviewer`-Agent |
-| 5 unabhängige Datei-Edits parallel | **ja** — pro Datei ein Agent |
+| 5 unabhängige Recherchen parallel | **ja** — je Subsystem ein Agent |
+| 5 unabhängige Datei-Edits parallel | **nur mit klaren Ownership-Grenzen** |
 | Eine schnelle 2-Zeilen-Änderung | nein |
 | Linearer Multi-Step-Plan | nein, Plan Mode reicht |
 
@@ -37,7 +38,9 @@ description: |
   Reviews code for bugs, logic errors, security, code quality.
   Use after implementing a feature or before merging.
 tools: [Read, Bash(git diff *), Bash(git log *)]
-model: opus-4-7
+model: opus
+background: true
+memory: project
 ---
 
 You are an expert code reviewer. Read the diff and report:
@@ -53,10 +56,10 @@ verdict: SHIP IT / FIX REQUIRED / NEEDS DISCUSSION.`}
 
 ## Aufruf
 
-In der Session: **„use the code-reviewer agent to review the diff"** — Claude spawnt den Agent.
+In der Session: **„use the code-reviewer agent to review the diff"** — Claude entscheidet über Delegation. Mit `@agent-code-reviewer` erzwingt ihr den konkreten Agent, mit `claude --agent code-reviewer` startet ihr die ganze Session in diesem Agent-Profil.
 
 <NoteCard variant="tip" title="Killer-Pattern">
-**Plan-First + Subagent-Fan-Out:** Hauptsession plant → spawnt 5 Subagents für Recherche → konsolidiert Ergebnisse → schreibt Code. Spart 60–80 % Wall-Clock-Zeit auf großen Tasks.
+**Plan-First + Subagent-Fan-Out:** Hauptsession plant → spawnt mehrere Subagents für unabhängige Recherche → konsolidiert Ergebnisse → schreibt Code. Stark für große Codebasen, solange die Teilaufgaben wirklich unabhängig sind.
 </NoteCard>
 </De>
 
@@ -65,8 +68,8 @@ In der Session: **„use the code-reviewer agent to review the diff"** — Claud
 
 - **Independent AI workers** Claude can spawn for specific tasks **in parallel**
 - Own **context window**, own **system prompt**, own **tool whitelist**
-- Up to **10 parallel subagents** (as of 2026)
-- Returns a single result statement to the main session
+- Can block in the foreground or continue in the background
+- Return a compressed result to the main session
 
 ## When to use
 
@@ -74,7 +77,8 @@ In der Session: **„use the code-reviewer agent to review the diff"** — Claud
 |---|---|
 | Research into an unknown sub-system | **yes** — `code-explorer` agent |
 | Code review of a finished feature | **yes** — `code-reviewer` agent |
-| 5 independent file edits in parallel | **yes** — one agent per file |
+| 5 independent research paths | **yes** — one agent per subsystem |
+| 5 independent file edits in parallel | **only with clear ownership boundaries** |
 | A quick 2-line change | no |
 | Linear multi-step plan | no, plan mode is enough |
 
@@ -87,7 +91,9 @@ description: |
   Reviews code for bugs, logic errors, security, code quality.
   Use after implementing a feature or before merging.
 tools: [Read, Bash(git diff *), Bash(git log *)]
-model: opus-4-7
+model: opus
+background: true
+memory: project
 ---
 
 You are an expert code reviewer. Read the diff and report:
@@ -103,10 +109,10 @@ verdict: SHIP IT / FIX REQUIRED / NEEDS DISCUSSION.`}
 
 ## Invocation
 
-In the session: **"use the code-reviewer agent to review the diff"** — Claude spawns the agent.
+In the session: **"use the code-reviewer agent to review the diff"** — Claude decides whether to delegate. Use `@agent-code-reviewer` to force a specific agent, or `claude --agent code-reviewer` to start the whole session in that agent profile.
 
 <NoteCard variant="tip" title="Killer pattern">
-**Plan-first + subagent fan-out:** main session plans → spawns 5 subagents for research → consolidates results → writes code. Saves 60–80 % wall-clock time on large tasks.
+**Plan-first + subagent fan-out:** main session plans → spawns several subagents for independent research → consolidates results → writes code. Strong for large codebases when the subtasks are genuinely independent.
 </NoteCard>
 </En>
 
