@@ -11,6 +11,7 @@ import {
   NoteCard,
   SkillCard,
   SpeakerNotes,
+  YouTubeEmbed,
 } from "./slide-blocks";
 import { getSlideComponent, findSlide } from "@/lib/slides";
 import type { Lang as L } from "@/types/slide";
@@ -31,6 +32,7 @@ const mdxComponents = {
   NoteCard,
   SkillCard,
   SpeakerNotes,
+  YouTubeEmbed,
   h1: (props: ChildrenProps) => (
     <h1
       className="text-4xl font-semibold leading-tight mb-6"

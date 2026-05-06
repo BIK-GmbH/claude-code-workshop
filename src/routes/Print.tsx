@@ -12,11 +12,12 @@ import {
   NoteCard,
   SkillCard,
   SpeakerNotes,
+  YouTubeEmbed,
 } from "@/components/slide-blocks";
 import type { ComponentType } from "react";
 
 const printMdxComponents = {
-  I18n, Lang, De, En, CommandBox, DemoBox, ExerciseCard, NoteCard, SkillCard, SpeakerNotes,
+  I18n, Lang, De, En, CommandBox, DemoBox, ExerciseCard, NoteCard, SkillCard, SpeakerNotes, YouTubeEmbed,
 } as Record<string, ComponentType<unknown>>;
 
 /** Linear print view — all slides, no chrome, used by browser print + Playwright PDF export. */

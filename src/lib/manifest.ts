@@ -11,6 +11,7 @@ export const MANIFEST: ModuleMeta[] = [
       { id: "00.02", module: 0, slide: 2, title: { de: "Begrüßung", en: "Welcome" } },
       { id: "00.03", module: 0, slide: 3, title: { de: "Lernziele", en: "Learning goals" } },
       { id: "00.04", module: 0, slide: 4, title: { de: "Agenda", en: "Agenda" } },
+      { id: "00.05", module: 0, slide: 5, title: { de: "Die größere Vision: AI als Operating System", en: "The Bigger Vision: AI as Operating System" } },
     ],
   },
   {
@@ -84,6 +85,7 @@ export const MANIFEST: ModuleMeta[] = [
       { id: "06.03", module: 6, slide: 3, title: { de: "Q&A", en: "Q&A" } },
       { id: "06.04", module: 6, slide: 4, title: { de: "Retrospektive", en: "Retrospective" } },
       { id: "06.05", module: 6, slide: 5, title: { de: "Plan für 2 Wochen danach", en: "Plan for the next 2 weeks" } },
+      { id: "06.06", module: 6, slide: 6, title: { de: "Ausblick: Vom Skill zum Business Brain", en: "Outlook: From Skill to Business Brain" } },
     ],
   },
   {
