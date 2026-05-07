@@ -2,7 +2,7 @@
 title:
   de: "Was sind Skills?"
   en: "What Are Skills?"
-researchedOn: 2026-05-06
+researchedOn: 2026-05-07
 sources:
   - https://code.claude.com/docs/en/features-overview
   - https://code.claude.com/docs/en/skills
@@ -32,6 +32,7 @@ Ein **Skill** ist ein wiederverwendbares Stück „Wissen + Werkzeug" für Claud
 
 ## Wann greift ein Skill?
 
+- **Bundled (out-of-the-box):** `/simplify`, `/batch`, `/debug`, `/loop`, `/claude-api` — ab Werk dabei
 - **Auto-Invoke:** Frontmatter `description` matcht User-Anfrage → Claude lädt Skill automatisch
 - **Manuell:** `/<skill-name>` als Slash Command
 - **Über andere Skill:** ein Skill kann andere referenzieren
@@ -112,6 +113,7 @@ A **skill** is a reusable piece of "knowledge + tooling" for Claude Code:
 
 ## When does a skill trigger?
 
+- **Bundled (out-of-the-box):** `/simplify`, `/batch`, `/debug`, `/loop`, `/claude-api` — shipped by default
 - **Auto-invoke:** frontmatter `description` matches user query → Claude loads skill automatically
 - **Manual:** `/<skill-name>` as slash command
 - **From other skills:** a skill can reference others

@@ -2,9 +2,10 @@
 title:
   de: "Authentifizierung & Provider"
   en: "Authentication & Providers"
-researchedOn: 2026-05-06
+researchedOn: 2026-05-07
 sources:
   - https://code.claude.com/docs/en/authentication
+  - https://code.claude.com/docs/en/commands
   - https://code.claude.com/docs/en/amazon-bedrock
   - https://code.claude.com/docs/en/data-usage
 ---
@@ -40,8 +41,7 @@ Wenn `ANTHROPIC_API_KEY` gesetzt ist, hat er Vorrang vor Subscription-Login. Bei
 ## Token-Tracking
 
 <CommandBox lang="bash">
-/cost                      # in laufender Session: was hat dieser Run gekostet?
-/usage                     # Übersicht über Session-Verbräuche
+/usage                     # Session-Kosten + Plan-Limits + Stats (`/cost` und `/stats` sind Aliase)
 /status                    # aktiver Account, Modell, Provider
 </CommandBox>
 
@@ -79,8 +79,7 @@ If `ANTHROPIC_API_KEY` is set, it takes precedence over subscription login. For 
 ## Token tracking
 
 <CommandBox lang="bash">
-/cost                      # in a running session: what did this run cost?
-/usage                     # overview of session usage
+/usage                     # session cost + plan limits + stats (`/cost` and `/stats` are aliases)
 /status                    # active account, model, provider
 </CommandBox>
 

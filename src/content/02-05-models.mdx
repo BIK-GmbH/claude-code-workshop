@@ -2,7 +2,7 @@
 title:
   de: "Modellauswahl"
   en: "Model Selection"
-researchedOn: 2026-05-06
+researchedOn: 2026-05-07
 sources:
   - https://code.claude.com/docs/en/model-config
   - https://code.claude.com/docs/en/cli-reference
@@ -37,7 +37,7 @@ claude --model opus[1m]
 
 ## Faustregeln
 
-- **Default für viele Teams/API-Setups:** Sonnet 4.6 — starkes Preis-Leistungs-Verhältnis
+- **Default je Plan:** Max/Team-Premium → Opus 4.7 · Pro/Team-Standard → Sonnet 4.6 · Bedrock/Vertex/Foundry → Sonnet 4.5 · *(seit 2026-04-23 Enterprise-PAYG + Anthropic-API ebenfalls auf Opus 4.7 umgestellt)*
 - **Komplexe Architektur, mehrere Files, lange Plans:** Opus
 - **Routine (Tests schreiben, Boilerplate, Doku-Updates):** Haiku
 - **Kostendruck im Team:** mit Sonnet starten, **bei Bedarf** auf Opus eskalieren
@@ -75,7 +75,7 @@ claude --model opus[1m]
 
 ## Rules of thumb
 
-- **Default for many team/API setups:** Sonnet 4.6 — strong price/performance
+- **Default per plan:** Max/Team-Premium → Opus 4.7 · Pro/Team-Standard → Sonnet 4.6 · Bedrock/Vertex/Foundry → Sonnet 4.5 · *(since 2026-04-23 Enterprise-PAYG + Anthropic API also default to Opus 4.7)*
 - **Complex architecture, multi-file, long plans:** Opus
 - **Routine (writing tests, boilerplate, doc updates):** Haiku
 - **Team cost pressure:** start with Sonnet, **escalate to Opus** as needed

@@ -2,10 +2,11 @@
 title:
   de: "Slash Commands"
   en: "Slash Commands"
-researchedOn: 2026-05-06
+researchedOn: 2026-05-07
 sources:
   - https://code.claude.com/docs/en/commands
   - https://code.claude.com/docs/en/slash-commands
+  - https://code.claude.com/docs/en/skills
   - https://code.claude.com/docs/en/memory
 ---
 
@@ -19,7 +20,7 @@ sources:
 | `/help` | Hilfe anzeigen |
 | `/clear` | Session-Kontext leeren — Frischstart |
 | `/compact` | Verlauf komprimieren statt löschen |
-| `/cost` | Kosten dieser Session |
+| `/usage` | Session-Kosten + Plan-Limits + Stats *(Aliase: `/cost`, `/stats`)* |
 | `/model` | Modell wechseln |
 | `/init` | Initiale `CLAUDE.md` für ein Repo generieren |
 | `/loop` | Prompt im Intervall wieder feuern *(v2.1.72+, siehe Slide 2.08)* |
@@ -33,6 +34,10 @@ sources:
 
 <NoteCard variant="tip" title="`/memory` ist neuer als ihr denkt">
 Seit v2.1.59 schreibt Claude **selbständig** Notizen unter `~/.claude/projects/<project>/memory/`. `/memory` öffnet diese Folder zum Inspizieren oder Editieren. Wer aktiv prüfen will was Claude gespeichert hat: einfach `/memory` aufrufen.
+</NoteCard>
+
+<NoteCard variant="hint" title="Bundled Skills">
+Ab Werk dabei (keine Installation nötig): `/simplify`, `/batch`, `/debug`, `/loop`, `/claude-api`. Sie sind **prompt-basiert** (geben Claude detaillierte Anweisungen), nicht hartcodierte Logik wie `/help` oder `/clear`. Anzeige aller verfügbaren Skills: `/help` oder `/skills`.
 </NoteCard>
 
 ## Eigene Commands = Skills
@@ -68,7 +73,7 @@ Aufruf: `/skill-name` (z.B. `/find-todo`).
 | `/help` | Show help |
 | `/clear` | Clear session context — fresh start |
 | `/compact` | Compress history instead of clearing |
-| `/cost` | Cost of this session |
+| `/usage` | Session cost + plan limits + stats *(aliases: `/cost`, `/stats`)* |
 | `/model` | Switch model |
 | `/init` | Generate an initial `CLAUDE.md` for a repo |
 | `/loop` | Re-fire a prompt on an interval *(v2.1.72+, see slide 2.08)* |
@@ -82,6 +87,10 @@ Aufruf: `/skill-name` (z.B. `/find-todo`).
 
 <NoteCard variant="tip" title="`/memory` is newer than you think">
 Since v2.1.59 Claude **autonomously** writes notes under `~/.claude/projects/<project>/memory/`. `/memory` opens that folder to inspect or edit. To audit what Claude has saved: just run `/memory`.
+</NoteCard>
+
+<NoteCard variant="hint" title="Bundled Skills">
+Shipped by default (no install needed): `/simplify`, `/batch`, `/debug`, `/loop`, `/claude-api`. These are **prompt-based** (they give Claude detailed instructions), not hard-coded logic like `/help` or `/clear`. List all available skills with `/help` or `/skills`.
 </NoteCard>
 
 ## Custom commands = skills
