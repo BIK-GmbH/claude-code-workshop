@@ -52,10 +52,23 @@ For each URL in `sources[]` (max 6 — audit the first 6 and note skipped):
 2. For canonical URLs of this slide's module (see table below — max 3): same procedure.
 3. For each Claim from Phase A:
    - Compare against the fetched content semantically (NOT string-equal).
-   - Classify: `✅ aligned`, `⚠ unklar`, `🔴 widersprochen`.
+   - Classify per-finding:
+     - `🔴 widersprochen` — Quelle widerspricht der Slide-Aussage explizit (verbatim quote vorhanden, der das Gegenteil sagt)
+     - `⚠ unklar` — Slide-Aussage nicht klar bestätigt, Quelle ist mehrdeutig, oder es geht um strukturelle Drift (Source-Redirect, EN/DE-Inkonsistenz, fehlende Erwähnung)
+     - `✅ aligned` — Slide-Aussage durch Quelle bestätigt
    - **Mandatory:** every `⚠`/`🔴` finding requires a verbatim quote + the source URL. No finding without a quote.
 
-### Phase D — Output
+### Phase D — Slide-Header-Status (Aggregation)
+
+The slide-block header status emoji is the WORST status across all findings on that slide:
+- Any `🔴` finding → header is `🔴 outdated`
+- Any `⚠` finding (but no `🔴`) → header is `⚠ minor drift`
+- No findings at all → header is `✅ current`
+- WebFetch fail blocked the check → header is `⏳ pending`
+
+The Module-Zusammenfassung counts SLIDES by header status (not individual findings).
+
+### Phase E — Output
 
 Emit one Markdown block per slide using the format below. After all slides, emit a module summary.
 
@@ -67,20 +80,21 @@ Use these IN ADDITION to per-slide `sources[]` for module-wide drift checks:
 module_0: []                                  # Intro — skip drift check
 module_1:
   - https://www.anthropic.com/news/claude-code
-  - https://docs.claude.com/en/docs/claude-code/overview
+  - https://code.claude.com/docs/en/overview
 module_2:
-  - https://docs.claude.com/en/docs/claude-code/cli-reference
-  - https://docs.claude.com/en/docs/claude-code/memory
-  - https://docs.claude.com/en/docs/claude-code/settings
-  - https://docs.claude.com/en/docs/claude-code/slash-commands
+  - https://code.claude.com/docs/en/cli-reference
+  - https://code.claude.com/docs/en/memory
+  - https://code.claude.com/docs/en/settings
+  - https://code.claude.com/docs/en/slash-commands
+  - https://code.claude.com/docs/en/model-config
 module_3:
-  - https://docs.claude.com/en/docs/claude-code/skills
-  - https://docs.claude.com/en/docs/claude-code/sub-agents
+  - https://code.claude.com/docs/en/skills
+  - https://code.claude.com/docs/en/sub-agents
   - https://modelcontextprotocol.io/specification
 module_4:
-  - https://docs.claude.com/en/docs/claude-code/best-practices
+  - https://code.claude.com/docs/en/best-practices
 module_5:
-  - https://docs.claude.com/en/docs/claude-code/security
+  - https://code.claude.com/docs/en/security
 module_6: []                                  # Hands-on — skip
 module_99: []                                 # Annex — per-slide individual sources only
 ```
