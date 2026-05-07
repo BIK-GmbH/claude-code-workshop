@@ -16,3 +16,6 @@ test-results
 # Workshop-specific: kundenspezifische Materialien, Angebots-PDFs etc.
 # bleiben lokal, nicht im public Repo
 assets/
+
+# Claude Code session-local state (cron locks etc.)
+.claude/scheduled_tasks.lock

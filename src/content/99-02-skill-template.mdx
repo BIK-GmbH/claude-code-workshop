@@ -2,7 +2,9 @@
 title:
   de: "Skill-Vorlage"
   en: "Skill Template"
-researchedOn: 2026-05-04
+researchedOn: 2026-05-07
+sources:
+  - https://github.com/BIK-GmbH/cdb-skills/tree/main/skills/youtube-knowledge-extractor
 ---
 
 # <I18n de="Skill-Vorlage" en="Skill Template" />
@@ -91,6 +93,27 @@ allowed-tools:
 - def456 — fix: handle null email
 \`\`\``}
 </CommandBox>
+
+## Produktions-Beispiel zum Download
+
+<NoteCard variant="hint" title="youtube-knowledge-extractor">
+Echter Skill aus dem CDB-Skill-Katalog der BIK GmbH. Greift YouTube-Transcripte ab, analysiert sie und produziert strukturiertes Markdown.
+
+**Inhalt der ZIP:**
+- `SKILL.md` — vollständiges Frontmatter + Vorgehen + Ausgabe-Format
+- `tools/transcript.py`, `tools/analyze.py`, `tools/list_languages.py`
+- `tests/test_youtube.py` + `requirements.txt`
+
+<a
+  href={`${import.meta.env.BASE_URL}skills/youtube-knowledge-extractor.zip`}
+  download
+  style={{ display: "inline-block", marginTop: "0.5rem", fontWeight: 600 }}
+>
+  ⬇ youtube-knowledge-extractor.zip (6.7 KB)
+</a>
+
+Entpacken nach `~/.claude/skills/youtube-knowledge-extractor/`, dann Claude Code neu starten — taucht sofort als verfügbarer Skill auf.
+</NoteCard>
 </De>
 
 <En>
@@ -175,4 +198,25 @@ allowed-tools:
 - def456 — fix: handle null email
 \`\`\``}
 </CommandBox>
+
+## Production example to download
+
+<NoteCard variant="hint" title="youtube-knowledge-extractor">
+A real skill from BIK's CDB skill catalog. Pulls YouTube transcripts, analyzes them, and produces structured Markdown.
+
+**Inside the ZIP:**
+- `SKILL.md` — full frontmatter + procedure + output format
+- `tools/transcript.py`, `tools/analyze.py`, `tools/list_languages.py`
+- `tests/test_youtube.py` + `requirements.txt`
+
+<a
+  href={`${import.meta.env.BASE_URL}skills/youtube-knowledge-extractor.zip`}
+  download
+  style={{ display: "inline-block", marginTop: "0.5rem", fontWeight: 600 }}
+>
+  ⬇ youtube-knowledge-extractor.zip (6.7 KB)
+</a>
+
+Unzip into `~/.claude/skills/youtube-knowledge-extractor/`, then restart Claude Code — it shows up as an available skill immediately.
+</NoteCard>
 </En>
